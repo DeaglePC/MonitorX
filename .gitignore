@@ -1,0 +1,17 @@
+# SwiftPM / Xcode
+.build/
+.build-appstore/
+.swiftpm/
+*.xcodeproj/xcuserdata/
+DerivedData/
+
+# Build and release output (ship installers via GitHub Releases, not git)
+build/
+dist/
+*.dSYM/
+
+# Landing page: release binaries are dropped here at deploy time
+website/downloads/*
+!website/downloads/.gitkeep
+
+.DS_Store
