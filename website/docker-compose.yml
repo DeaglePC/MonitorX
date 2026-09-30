@@ -1,0 +1,11 @@
+services:
+  monitorx-site:
+    build: .
+    image: monitorx-site:latest
+    container_name: monitorx-site
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8080}:80"
+    # Publish new releases without rebuilding the image: put MonitorX.dmg in ./downloads
+    volumes:
+      - ./downloads:/usr/share/nginx/html/downloads:ro

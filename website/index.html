@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MonitorX：菜单栏系统监视器</title>
+  <meta name="description" content="MonitorX 把 CPU、内存、网络、磁盘按应用排好队，一眼看出谁在占用你的 Mac。macOS 26 菜单栏应用。">
+  <meta name="color-scheme" content="light dark">
+  <meta property="og:title" content="MonitorX：谁在占用你的 Mac，一眼就知道">
+  <meta property="og:image" content="images/hero.png">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    // Apply the saved theme before first paint to avoid a flash.
+    try { var t = localStorage.getItem('mx-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+</head>
+<body>
+  <header class="bar">
+    <a class="mark" href="#top" aria-label="MonitorX 首页"><img src="favicon.svg" alt="" width="24" height="24">MonitorX</a>
+    <nav aria-label="页面导航">
+      <a href="#cpu">CPU</a>
+      <a href="#memory">内存</a>
+      <a href="#network">网络</a>
+      <a href="#disk">磁盘</a>
+      <a href="#sensors">传感器</a>
+      <a href="#screens">界面</a>
+      <a href="#download" class="dl-link">下载</a>
+      <button id="theme" type="button" aria-label="切换浅色或深色">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </nav>
+  </header>
+
+  <main id="top">
+    <!-- Hero: the ranking race is the product -->
+    <section class="hero wrap">
+      <h1>谁在占用你的 Mac，<br>一眼就知道。</h1>
+      <p class="lede">MonitorX 常驻菜单栏，把 CPU、内存、网络、磁盘按应用排好队。Chrome 的几十个 Helper 进程合成一行，点开再看每个进程。</p>
+      <div class="actions">
+        <a class="btn solid" href="#download">下载 MonitorX</a>
+        <a class="btn" href="#screens">看真实界面</a>
+      </div>
+
+      <figure class="race" aria-labelledby="race-cap">
+        <div class="race-head">
+          <figcaption id="race-cap">各应用 CPU 占用，实时排序</figcaption>
+          <div class="seg" role="group" aria-label="显示方式">
+            <button type="button" data-view="chart" aria-pressed="true">图表</button>
+            <button type="button" data-view="table" aria-pressed="false">表格</button>
+          </div>
+        </div>
+        <div id="race" class="race-body" role="img" aria-label="各应用 CPU 占用排行的演示动画，数据为演示用"></div>
+        <table id="race-table" class="sr-table" hidden>
+          <thead><tr><th>应用</th><th>进程数</th><th>CPU 占用</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div class="race-foot">
+          <div class="scale-wrap">
+            <div class="scale" aria-hidden="true"></div>
+            <div class="scale-l"><span>轻松</span><span>占满一个核心</span></div>
+          </div>
+          <p class="note">演示数据，仅用于展示排序与着色。真实界面见下方截图。</p>
+        </div>
+      </figure>
+    </section>
+
+    <!-- CPU -->
+    <section id="cpu" class="story wrap">
+      <div class="say">
+        <h2>CPU：总量看趋势，核心看分布</h2>
+        <p>用户、系统、空闲拆开显示，1、5、15 分钟负载一并给出。某个核心被单线程任务顶满，一眼就能从柱图里看到。</p>
+      </div>
+      <div class="viz">
+        <div class="chart-head"><span class="chart-title">CPU 总占用</span><span class="readout" id="cpu-now" aria-live="off"></span></div>
+        <div class="canvas-wrap tall"><canvas id="cpu-chart" aria-label="CPU 总占用实时折线图，演示数据"></canvas><div class="tip" id="cpu-tip" hidden></div></div>
+        <div class="chart-head sub"><span class="chart-title">各核心</span><span class="readout dim">12 个逻辑核心</span></div>
+        <div class="canvas-wrap short"><canvas id="core-chart" aria-label="各核心占用柱图，演示数据"></canvas><div class="tip" id="core-tip" hidden></div></div>
+      </div>
+    </section>
+
+    <!-- Memory -->
+    <section id="memory" class="story wrap">
+      <div class="say">
+        <h2>内存：先看压力，再看构成</h2>
+        <p>口径与活动监视器一致：App、联动、压缩、缓存、空闲。压力变黄变红才需要动手，缓存占满不是问题。</p>
+      </div>
+      <div class="viz">
+        <div class="chart-head"><span class="chart-title">16 GB 内存的去向</span><span class="readout" id="mem-now"></span></div>
+        <div id="mem-stack" class="stack" aria-label="内存构成堆叠条，演示数据"></div>
+        <ul id="mem-legend" class="legend"></ul>
+        <div class="pressure">
+          <span class="chart-title">内存压力</span>
+          <div class="pbar">
+            <div class="track" id="pressure" role="img" aria-label="内存压力：正常"><i></i></div>
+            <div class="p-labels"><span>正常</span><span>警告</span><span>严重</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Network -->
+    <section id="network" class="story wrap">
+      <div class="say">
+        <h2>网络：谁在下载，谁在上传</h2>
+        <p>按应用汇总上下行速度。本机回环流量不计入，所以经本机代理转发的流量只算在代理软件上，不会被算两遍。</p>
+      </div>
+      <div class="viz">
+        <div class="chart-head"><span class="chart-title">上下行速度</span><span class="readout" id="net-now"></span></div>
+        <ul class="legend inline" id="net-legend"></ul>
+        <div class="canvas-wrap tall"><canvas id="net-chart" aria-label="上下行速度实时面积图，演示数据"></canvas><div class="tip" id="net-tip" hidden></div></div>
+      </div>
+    </section>
+
+    <!-- Disk -->
+    <section id="disk" class="story wrap">
+      <div class="say">
+        <h2>磁盘：快满了会变红</h2>
+        <p>每个卷一条容量，读写吞吐另画曲线。剩余空间不足时条会先变黄再变红，提醒你在系统开始卡顿之前清理。</p>
+      </div>
+      <div class="viz">
+        <div class="chart-head"><span class="chart-title">Macintosh HD</span><span class="readout" id="disk-now"></span></div>
+        <div class="meter" id="disk-meter" role="img" aria-label="磁盘已使用 87%"><i></i></div>
+        <div class="meter-ticks"><span>0</span><span>50%</span><span>100%</span></div>
+        <div class="chart-head sub"><span class="chart-title">读写吞吐</span><ul class="legend inline" id="io-legend"></ul></div>
+        <div class="canvas-wrap short"><canvas id="io-chart" aria-label="磁盘读写吞吐柱图，演示数据"></canvas><div class="tip" id="io-tip" hidden></div></div>
+      </div>
+    </section>
+
+    <!-- Sensors -->
+    <section id="sensors" class="story wrap">
+      <div class="say">
+        <h2>传感器：全部温度点，一张热力图</h2>
+        <p>枚举 SMC 里所有温度传感器，按处理器、显卡、电池、存储等分组，风扇转速与范围一并显示。此页仅官网版提供，沙盒不允许访问 SMC。</p>
+      </div>
+      <div class="viz">
+        <div class="chart-head"><span class="chart-title">温度传感器</span><span class="readout" id="sen-now"></span></div>
+        <div id="heat" class="heat" aria-label="温度传感器热力图，演示数据"></div>
+        <div class="heat-scale"><span>30°C</span><i aria-hidden="true"></i><span>80°C</span></div>
+        <div class="fans" id="fans"></div>
+      </div>
+    </section>
+
+    <!-- Screens: real panels on a "wallpaper", in Liquid Glass frames -->
+    <section id="screens" class="screens" aria-labelledby="screens-h">
+      <div class="wallpaper" id="wallpaper" aria-hidden="true"><i class="w1"></i><i class="w2"></i><i class="w3"></i><i class="w4"></i></div>
+      <div class="wrap screens-head">
+        <h2 id="screens-h">真实界面</h2>
+        <p class="lede sm">以下截图来自真实运行的 App。面板背景是 Liquid Glass，会随桌面壁纸透出，这里放在一张壁纸上，更接近它在你桌面上的样子。</p>
+      </div>
+
+      <div class="deck" id="deck" tabindex="0" role="group" aria-roledescription="轮播" aria-label="界面截图，左右方向键切换">
+        <figure class="pane" data-name="概览" data-desc="四张资源卡片加电池、温度、风扇，每张卡片带趋势图，并直接写出当前占用最高的应用。">
+          <div class="frame"><img src="images/overview.png" alt="概览页" width="640" height="1006" draggable="false"></div>
+        </figure>
+        <figure class="pane" data-name="CPU" data-desc="环形仪表、用户与系统占比、1/5/15 分钟负载、趋势图和各核心柱图，底部是 CPU 占用排行。">
+          <div class="frame"><img src="images/cpu.png" alt="CPU 页" width="640" height="1006" loading="lazy" draggable="false"></div>
+        </figure>
+        <figure class="pane" data-name="内存" data-desc="内存构成堆叠条、内存压力、交换空间，以及按应用合并的内存占用排行。">
+          <div class="frame"><img src="images/memory.png" alt="内存页" width="640" height="1006" loading="lazy" draggable="false"></div>
+        </figure>
+        <figure class="pane" data-name="网络" data-desc="上传下载速度与实时曲线，以及每个应用的上下行流量排行，本机回环流量不计入。">
+          <div class="frame"><img src="images/network.png" alt="网络页" width="640" height="1006" loading="lazy" draggable="false"></div>
+        </figure>
+        <figure class="pane" data-name="磁盘" data-desc="各卷使用率、读写吞吐曲线，以及磁盘读写最多的应用。快满时会变红。">
+          <div class="frame"><img src="images/disk.png" alt="磁盘页" width="640" height="1006" loading="lazy" draggable="false"></div>
+        </figure>
+        <figure class="pane" data-name="传感器" data-desc="最高与平均温度、风扇转速与范围，全部温度传感器按处理器、显卡、电池、存储等分组。仅官网版。">
+          <div class="frame"><img src="images/sensors.png" alt="传感器页" width="640" height="1006" loading="lazy" draggable="false"></div>
+        </figure>
+        <figure class="pane" data-name="硬件" data-desc="机型、序列号（点击复制）、芯片、核心、GPU、显示器、电池健康度与散热信息。">
+          <div class="frame"><img src="images/hardware.png" alt="硬件页" width="640" height="1006" loading="lazy" draggable="false"></div>
+        </figure>
+      </div>
+
+      <div class="dock glass" id="dock">
+        <button class="step" id="prev" type="button" aria-label="上一张"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="tabs" id="dock-tabs" role="tablist" aria-label="选择页面"><i class="lens" id="lens" aria-hidden="true"></i></div>
+        <button class="step" id="next" type="button" aria-label="下一张"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+      <p class="deck-desc" id="deck-desc" aria-live="polite"></p>
+    </section>
+
+    <!-- Editions -->
+    <section id="editions" class="wrap plain">
+      <h2>两个版本</h2>
+      <p class="lede sm">App Store 强制沙盒，沙盒禁止读取其他进程和访问 SMC，所以能力不同。</p>
+      <table class="cmp">
+        <thead><tr><th scope="col">功能</th><th scope="col">官网版</th><th scope="col">App Store 版</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">CPU、内存、网络、磁盘</th><td>有</td><td>有</td></tr>
+          <tr><th scope="row">电池与硬件信息</th><td>有</td><td>有</td></tr>
+          <tr><th scope="row">按应用与进程的占用排行</th><td>有</td><td class="no">无</td></tr>
+          <tr><th scope="row">传感器页（温度、风扇）</th><td>有</td><td class="no">无</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Download -->
+    <section id="download" class="wrap plain dl">
+      <h2>下载 MonitorX</h2>
+      <p class="lede sm">需要 macOS 26 或更高版本，Intel 与 Apple Silicon 通用。面板关闭时约占 1% 单核、27 MB 内存。</p>
+      <div class="actions"><a class="btn solid big" href="downloads/MonitorX.dmg" download>下载 MonitorX.dmg</a></div>
+      <ol class="steps">
+        <li>打开 dmg，把 MonitorX 拖进「应用程序」。</li>
+        <li>首次打开若提示无法验证开发者，在终端执行下面的命令，或右键选择「打开」。
+          <div class="code"><code id="cmd">xattr -cr /Applications/MonitorX.app</code><button id="copy" type="button">复制</button></div>
+        </li>
+        <li>菜单栏出现 CPU、内存和网速。左键展开面板，右键退出。</li>
+      </ol>
+    </section>
+
+    <section class="wrap plain faq">
+      <h2>常见问题</h2>
+      <details><summary>为什么提示无法验证开发者？</summary><p>当前安装包没有经过 Apple 公证。执行上面的 <code>xattr -cr</code> 命令或右键打开即可。</p></details>
+      <details><summary>它会联网或上传数据吗？</summary><p>不会。所有数据都在本机采集，应用不发起任何网络请求。</p></details>
+      <details><summary>需要哪些权限？</summary><p>不需要辅助功能、屏幕录制或完全磁盘访问。读取温度与风扇走系统的 SMC 接口，读取进程信息用系统自带的接口和命令行工具。</p></details>
+      <details><summary>支持 Apple Silicon 吗？</summary><p>支持，安装包是 x86_64 加 arm64 的通用二进制。Apple Silicon 的温度传感器键名与 Intel 不同，部分机型可能读不全，目前只在 Intel MacBook Pro 上实测过。</p></details>
+    </section>
+  </main>
+
+  <footer class="wrap foot">
+    <span>MonitorX</span>
+    <span>为 macOS 26 而做，用 SwiftUI 与 Liquid Glass 构建。</span>
+  </footer>
+
+  <svg id="lg-defs" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"></svg>
+  <script src="charts.js"></script>
+  <script src="glass.js"></script>
+</body>
+</html>
