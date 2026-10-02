@@ -37,13 +37,13 @@ enum Fmt {
     static func uptime(since date: Date) -> String {
         let s = Int(Date().timeIntervalSince(date))
         let d = s / 86400, h = s % 86400 / 3600, m = s % 3600 / 60
-        if d > 0 { return "\(d) 天 \(h) 小时" }
-        if h > 0 { return "\(h) 小时 \(m) 分钟" }
-        return "\(m) 分钟"
+        if d > 0 { return L("%1$@ d %2$@ h", "\(d)", "\(h)") }
+        if h > 0 { return L("%1$@ h %2$@ min", "\(h)", "\(m)") }
+        return L("%@ min", "\(m)")
     }
 
     static func minutes(_ m: Int) -> String {
-        m >= 60 ? "\(m / 60) 小时 \(m % 60) 分钟" : "\(m) 分钟"
+        m >= 60 ? L("%1$@ h %2$@ min", "\(m / 60)", "\(m % 60)") : L("%@ min", "\(m)")
     }
 
     static func temp(_ c: Double) -> String { String(format: "%.0f°C", c) }

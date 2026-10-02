@@ -126,10 +126,9 @@ final class SMCReader {
             if temperatureKeys == nil { temperatureKeys = enumerateTemperatureKeys() }
             for key in temperatureKeys ?? [] {
                 guard let v = value(key), v > 5, v < 125 else { continue }   // -127 / ~0 mean "no sensor"
-                let d = SensorNames.describe(key)
-                s.all.append(SensorReading(key: key, name: d.name, category: d.category, value: v))
+                s.all.append(SensorReading(key: key, category: SensorNames.category(for: key), value: v))
             }
-            s.all.sort { ($0.category.rawValue, $0.name) < ($1.category.rawValue, $1.name) }
+            s.all.sort { ($0.category.rawValue, $0.key) < ($1.category.rawValue, $1.key) }
         }
 
         let byKey = Dictionary(uniqueKeysWithValues: s.all.map { ($0.key, $0.value) })
@@ -148,46 +147,10 @@ final class SMCReader {
                 guard let rpm = value("F\(i)Ac") else { continue }
                 let lo = value("F\(i)Mn") ?? 0
                 let hi = value("F\(i)Mx") ?? max(lo, rpm)
-                s.fans.append(FanReading(id: i, name: n == 2 ? (i == 0 ? "左侧风扇" : "右侧风扇") : "风扇 \(i + 1)", rpm: rpm, min: lo, max: hi))
+                s.fans.append(FanReading(id: i, count: Int(n), rpm: rpm, min: lo, max: hi))
             }
         }
         return s
-    }
-}
-
-/// Human-readable names for well-known SMC temperature keys.
-enum SensorNames {
-    private static let known: [String: (String, SensorCategory)] = [
-        "TC0D": ("CPU 二极管", .cpu), "TC0E": ("CPU 二极管（虚拟）", .cpu), "TC0F": ("CPU 二极管（滤波）", .cpu),
-        "TC0H": ("CPU 散热片", .cpu), "TC0P": ("CPU 邻近", .cpu), "TCAD": ("CPU 封装", .cpu),
-        "TCXC": ("CPU PECI", .cpu), "TCMX": ("CPU 最高核心", .cpu), "TCSA": ("CPU 系统代理", .cpu),
-        "TCGC": ("GPU 核显", .gpu),
-        "TG0D": ("GPU 二极管", .gpu), "TG0H": ("GPU 散热片", .gpu), "TG0P": ("GPU 邻近", .gpu), "TG1P": ("GPU 邻近 2", .gpu),
-        "TGDD": ("GPU（独显）", .gpu), "TGDE": ("GPU（独显）核心", .gpu), "TGDF": ("GPU（独显）显存", .gpu),
-        "TGVF": ("GPU 电压调节 F", .gpu), "TGVP": ("GPU 电压调节 P", .gpu),
-        "TB0T": ("电池 1", .battery), "TB1T": ("电池 2", .battery), "TB2T": ("电池 3", .battery), "TB3T": ("电池 4", .battery),
-        "TH0F": ("SSD 控制器 F", .storage), "TH0X": ("SSD X", .storage), "TH0a": ("SSD A", .storage), "TH0b": ("SSD B", .storage),
-        "TH1a": ("SSD 2 A", .storage), "TH1b": ("SSD 2 B", .storage), "TH0P": ("硬盘邻近", .storage), "TH0A": ("SSD A", .storage),
-        "TM0P": ("内存邻近", .memory), "TM0S": ("内存插槽 1", .memory), "TM1S": ("内存插槽 2", .memory),
-        "Tm0P": ("主板邻近", .board), "TPCD": ("平台控制器（PCH）", .board), "TN0P": ("北桥邻近", .board),
-        "TW0P": ("Airport 邻近", .board), "TA0P": ("环境温度", .board), "TA0V": ("环境温度（进风）", .board),
-        "TaLC": ("左侧进风", .board), "TaRC": ("右侧进风", .board),
-        "Ts0P": ("掌托左", .board), "Ts1P": ("掌托右", .board),
-        "Ts0S": ("掌托 S0", .board), "Ts1S": ("掌托 S1", .board), "Ts2S": ("掌托 S2", .board),
-        "Th1H": ("热管 1", .board), "Th2H": ("热管 2", .board),
-        "TTLD": ("雷雳左", .board), "TTRD": ("雷雳右", .board), "TL0P": ("屏幕邻近", .board),
-    ]
-
-    static func describe(_ key: String) -> (name: String, category: SensorCategory) {
-        if let k = known[key] { return k }
-        // Intel per-core: TC1C … TC9C
-        let c = Array(key)
-        if c.count == 4, key.hasPrefix("TC"), key.hasSuffix("C"), let n = Int(String(c[2])) { return ("CPU 核心 \(n)", .cpu) }
-        // Apple Silicon: Tp* performance cores, Te* efficiency cores, Tg* GPU
-        if key.hasPrefix("Tp") { return ("CPU 性能核心 \(key.dropFirst(2))", .cpu) }
-        if key.hasPrefix("Te") { return ("CPU 能效核心 \(key.dropFirst(2))", .cpu) }
-        if key.hasPrefix("Tg") { return ("GPU \(key.dropFirst(2))", .gpu) }
-        return ("传感器 \(key)", .other)
     }
 }
 #endif

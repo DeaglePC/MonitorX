@@ -33,7 +33,7 @@ struct OverviewView: View {
                 .shadow(color: Theme.cpu.opacity(0.4), radius: 8, y: 3)
             VStack(alignment: .leading, spacing: 2) {
                 Text(m.hardware.modelName).font(.system(size: 20, weight: .bold, design: .rounded))
-                Text("\(m.hardware.shortChip) · 已运行 \(Fmt.uptime(since: m.hardware.bootDate))")
+                Text(m.hardware.shortChip + " · " + L("Up %@", Fmt.uptime(since: m.hardware.bootDate)))
                     .font(.caption).foregroundStyle(.secondary).lineLimit(1)
             }
             Spacer()
@@ -44,7 +44,7 @@ struct OverviewView: View {
     // MARK: cards
 
     private var cpuCard: some View {
-        MetricCard(tab: .cpu, value: Fmt.percent(m.cpu.total), caption: "\(m.cpu.perCore.count) 线程 · 负载 \(String(format: "%.2f", m.cpu.load.0))",
+        MetricCard(tab: .cpu, value: Fmt.percent(m.cpu.total), caption: L("%1$@ threads · Load %2$@", "\(m.cpu.perCore.count)", String(format: "%.2f", m.cpu.load.0)),
                    ring: m.cpu.total, series: [ChartSeries(values: m.cpuHistory, color: Theme.cpu)], maxValue: 1,
                    top: m.topOne(.cpu), topText: { Fmt.cpuPercent($0.cpu) }, onTap: { go(.cpu) })
     }
@@ -56,7 +56,7 @@ struct OverviewView: View {
     }
 
     private var netCard: some View {
-        MetricCard(tab: .network, value: "↓ " + Fmt.rateCompact(m.net.downRate), caption: "↑ " + Fmt.rateCompact(m.net.upRate) + "/s 上传",
+        MetricCard(tab: .network, value: "↓ " + Fmt.rateCompact(m.net.downRate), caption: L("↑ %@/s upload", Fmt.rateCompact(m.net.upRate)),
                    ring: nil,
                    series: [ChartSeries(values: m.netDownHistory, color: Theme.down), ChartSeries(values: m.netUpHistory, color: Theme.up)],
                    maxValue: nil, minCeiling: 100 * 1024,
@@ -64,7 +64,7 @@ struct OverviewView: View {
     }
 
     private var diskCard: some View {
-        MetricCard(tab: .disk, value: Fmt.percent(m.disk.primaryUsed), caption: "读 \(Fmt.rateCompact(m.disk.readRate)) · 写 \(Fmt.rateCompact(m.disk.writeRate))",
+        MetricCard(tab: .disk, value: Fmt.percent(m.disk.primaryUsed), caption: L("R %1$@ · W %2$@", Fmt.rateCompact(m.disk.readRate), Fmt.rateCompact(m.disk.writeRate)),
                    ring: m.disk.primaryUsed,
                    series: [ChartSeries(values: m.diskReadHistory, color: Theme.disk), ChartSeries(values: m.diskWriteHistory, color: Theme.disk2)],
                    maxValue: nil, minCeiling: 1024 * 1024,
@@ -78,14 +78,14 @@ struct OverviewView: View {
             HStack(spacing: 10) {
                 if let b = m.battery {
                     tile(symbol: batterySymbol(b), color: b.percent <= 20 && !b.onAC ? .red : Theme.down,
-                         title: "电池", value: "\(b.percent)%", detail: b.isCharging ? "充电中" : (b.onAC ? "已接电源" : "使用电池"))
+                         title: L("Battery"), value: "\(b.percent)%", detail: b.isCharging ? L("Charging") : (b.onAC ? L("Power Adapter") : L("On Battery")))
                 }
                 if let t = m.sensors.cpuTemp {
                     tile(symbol: "thermometer.medium", color: t > 85 ? .red : (t > 70 ? .orange : Theme.disk2),
-                         title: "CPU 温度", value: Fmt.temp(t), detail: t > 85 ? "偏高" : "正常")
+                         title: L("CPU Temperature"), value: Fmt.temp(t), detail: t > 85 ? L("High") : L("Normal"))
                 }
                 if let rpm = m.sensors.fans.map(\.rpm).max() {
-                    tile(symbol: "fan.fill", color: Theme.cpu2, title: "风扇", value: "\(Int(rpm))", detail: "RPM")
+                    tile(symbol: "fan.fill", color: Theme.cpu2, title: L("Fan"), value: "\(Int(rpm))", detail: "RPM")
                 }
             }
         }
@@ -166,7 +166,7 @@ private struct MetricCard: View {
                         Text(topText(top)).fontWeight(.semibold).monospacedDigit().lineLimit(1).minimumScaleFactor(0.7)
                     } else {
                         Image(systemName: "sparkle.magnifyingglass").foregroundStyle(.tertiary)
-                        Text("采集中…").foregroundStyle(.tertiary)
+                        Text(L("Collecting…")).foregroundStyle(.tertiary)
                         Spacer()
                     }
                 }

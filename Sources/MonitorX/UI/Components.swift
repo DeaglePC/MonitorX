@@ -47,13 +47,13 @@ enum Tab: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .overview: "概览"
-        case .cpu: "CPU"
-        case .memory: "内存"
-        case .network: "网络"
-        case .disk: "磁盘"
-        case .sensors: "传感器"
-        case .hardware: "硬件"
+        case .overview: L("Overview")
+        case .cpu: L("CPU")
+        case .memory: L("Memory")
+        case .network: L("Network")
+        case .disk: L("Disk")
+        case .sensors: L("Sensors")
+        case .hardware: L("Hardware")
         }
     }
 
@@ -235,7 +235,7 @@ struct InfoRow: View {
         HStack(alignment: .firstTextBaseline) {
             Text(key).foregroundStyle(.secondary)
             Spacer(minLength: 12)
-            Text(copied ? "已复制" : value)
+            Text(copied ? L("Copied") : value)
                 .multilineTextAlignment(.trailing)
                 .textSelection(.enabled)
                 .foregroundStyle(copied ? Theme.down : .primary)

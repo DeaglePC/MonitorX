@@ -48,6 +48,13 @@ swiftc -O Scripts/make_icon.swift -o "$(dirname "$ICONSET")/make_icon" 2>/dev/nu
 "$(dirname "$ICONSET")/make_icon" "$ICONSET"
 iconutil -c icns "$ICONSET" -o "$APP/Contents/Resources/AppIcon.icns"
 
+# Localizations (Resources/Localization/<lang>.lproj -> Contents/Resources/<lang>.lproj)
+LOCALIZATIONS=""
+for LPROJ in Resources/Localization/*.lproj; do
+  cp -R "$LPROJ" "$APP/Contents/Resources/"
+  LOCALIZATIONS+="    <string>$(basename "$LPROJ" .lproj)</string>"$'\n'
+done
+
 cat > "$APP/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -58,6 +65,10 @@ cat > "$APP/Contents/Info.plist" <<PLIST
   <key>CFBundleIdentifier</key><string>${BUNDLE_ID}</string>
   <key>CFBundleExecutable</key><string>MonitorX</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>
+  <key>CFBundleDevelopmentRegion</key><string>en</string>
+  <key>CFBundleLocalizations</key>
+  <array>
+${LOCALIZATIONS}  </array>
   <key>CFBundlePackageType</key><string>APPL</string>
   <key>CFBundleShortVersionString</key><string>${VERSION:-1.0}</string>
   <key>CFBundleVersion</key><string>${BUILD_NUMBER:-1}</string>

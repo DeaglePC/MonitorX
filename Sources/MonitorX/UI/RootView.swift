@@ -50,6 +50,8 @@ struct RootView: View {
                 .padding(.top, 16).padding(.trailing, 16)
         }
         .frame(width: PanelController.size.width, height: PanelController.size.height)
+        .environment(\.locale, Localizer.shared.locale)
+        .environment(\.layoutDirection, Localizer.shared.layoutDirection)
     }
 
     private func select(_ t: Tab) {
@@ -93,17 +95,24 @@ struct RootView: View {
 
     private var settingsMenu: some View {
         @Bindable var s = settings
+        @Bindable var loc = Localizer.shared
         return Menu {
-            Section("菜单栏显示") {
-                Toggle("CPU", isOn: $s.showCPU)
-                Toggle("内存", isOn: $s.showMemory)
-                Toggle("网络速度", isOn: $s.showNetwork)
-                Toggle("磁盘读写", isOn: $s.showDisk)
+            Section(L("Show in Menu Bar")) {
+                Toggle(L("CPU"), isOn: $s.showCPU)
+                Toggle(L("Memory"), isOn: $s.showMemory)
+                Toggle(L("Network Speed"), isOn: $s.showNetwork)
+                Toggle(L("Disk Activity"), isOn: $s.showDisk)
             }
             Section {
-                Toggle("开机启动", isOn: Binding(get: { s.launchAtLogin }, set: { s.setLaunchAtLogin($0) }))
+                Picker(selection: $loc.language) {
+                    ForEach(AppLanguage.allCases) { Text($0.nativeName).tag($0) }
+                } label: {
+                    Label(L("Language"), systemImage: "globe")
+                }
+                .pickerStyle(.menu)
+                Toggle(L("Launch at Login"), isOn: Binding(get: { s.launchAtLogin }, set: { s.setLaunchAtLogin($0) }))
             }
-            Button("退出 MonitorX") { NSApp.terminate(nil) }
+            Button(L("Quit MonitorX")) { NSApp.terminate(nil) }
         } label: {
             Image(systemName: "ellipsis")
                 .font(.system(size: 13, weight: .bold))

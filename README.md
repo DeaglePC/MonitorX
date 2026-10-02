@@ -20,6 +20,7 @@ macOS 26 菜单栏系统监视器 · Liquid Glass 界面 · CPU / 内存 / 网�
 - **热度着色**：条形图平时是主题色，负载变重依次变黄、橙、红。
 - **很轻**：面板关闭时约 1% 单核、约 27 MB 内存；进程级采样仅在面板打开时进行。
 - **纯本地**：不发起任何网络请求。
+- **23 种语言**：English、简体中文、繁體中文、日本語、한국어、Español、Français、Deutsch、Italiano、Português、Русский、Українська、Polski、Nederlands、Svenska、Türkçe、العربية、עברית、हिन्दी、ไทย、Tiếng Việt、Bahasa Indonesia、Bahasa Melayu；默认跟随系统，也可在面板 `···` → 语言 中随时切换，阿拉伯语 / 希伯来语自动从右到左布局。
 
 <div align="center">
 <img src="docs/images/menubar.png" alt="菜单栏显示" width="420">
@@ -77,6 +78,13 @@ open build/MonitorX.app
 - 概览页点击任意卡片进入对应明细页。
 - 明细页底部的占用排行：默认按应用合并，点击行展开各进程；右上角可切换「应用 / 进程」。
 - 硬件页的序列号点击即可复制。
+
+## 多语言
+
+- 翻译文件在 `Resources/Localization/<语言>.lproj/Localizable.strings`，`Scripts/build.sh` 会把它们拷进 `.app` 并写入 `CFBundleLocalizations`（因此 macOS「系统设置 → 通用 → 语言与地区 → App」里也能单独给 MonitorX 指定语言）。
+- 代码里用 `L("English text")` / `L("Format %@", arg)` 取文案，键就是英文原文；缺翻译时回退为英文。
+- 新增或修改文案后运行 `Scripts/check_localizations.py`，检查每种语言是否缺键、多余键、占位符（`%@` / `%1$@`）是否一致。
+- 新增语言：复制 `en.lproj` 改名并翻译，再在 `Sources/MonitorX/App/Localization.swift` 的 `AppLanguage` 里加一项。
 
 ## 两个版本
 
@@ -153,11 +161,11 @@ docker compose up -d --build      # http://localhost:8080，PORT=3000 可改端�
 
 ```
 Sources/MonitorX/
-  App/        AppDelegate、菜单栏图标、玻璃面板、设置、版本开关（Edition）
+  App/        AppDelegate、菜单栏图标、玻璃面板、设置、版本开关（Edition）、多语言（Localization）
   Sampling/   CPU / 内存 / 网络 / 磁盘 / 进程 / 传感器 / 硬件采样，SystemMonitor 汇总
   UI/         SwiftUI 页面与组件
-Scripts/      build.sh、release.sh、release_appstore.sh、make_icon.swift
-Resources/    AppStore.entitlements
+Scripts/      build.sh、release.sh、release_appstore.sh、make_icon.swift、check_localizations.py
+Resources/    AppStore.entitlements、Localization/（23 种语言的 Localizable.strings）
 website/      落地页 + Dockerfile + nginx 配置
 docs/images/  README 截图
 ```

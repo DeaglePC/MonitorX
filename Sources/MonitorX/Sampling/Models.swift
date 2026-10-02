@@ -66,13 +66,13 @@ enum SensorCategory: Int, CaseIterable {
 
     var title: String {
         switch self {
-        case .cpu: "处理器"
-        case .gpu: "显卡"
-        case .battery: "电池"
-        case .storage: "存储"
-        case .memory: "内存"
-        case .board: "主板与环境"
-        case .other: "其他"
+        case .cpu: L("Processor")
+        case .gpu: L("Graphics")
+        case .battery: L("Battery")
+        case .storage: L("Storage")
+        case .memory: L("Memory")
+        case .board: L("Mainboard & Ambient")
+        case .other: L("Other")
         }
     }
 
@@ -92,14 +92,18 @@ enum SensorCategory: Int, CaseIterable {
 struct SensorReading: Identifiable {
     var id: String { key }
     var key: String
-    var name: String
     var category: SensorCategory
     var value: Double   // °C
+    /// Localized at display time so it follows the UI language.
+    var name: String { SensorNames.name(for: key) }
 }
 
 struct FanReading: Identifiable {
     var id: Int
-    var name: String
+    var count: Int      // number of fans in the machine, used for naming
+    var name: String {
+        count == 2 ? (id == 0 ? L("Left Fan") : L("Right Fan")) : L("Fan %@", "\(id + 1)")
+    }
     var rpm: Double
     var min: Double
     var max: Double
@@ -136,10 +140,27 @@ struct HardwareInfo {
     var memory: UInt64 = 0
     var serial = ""
     var osVersion = ""
-    var gpu = ""
+    var gpus: [GPUInfo] = []
     var displays: [String] = []
     var bootDate = Date()
     var arch = ""
+}
+
+struct GPUInfo {
+    var name: String
+    var cores: String?
+    var vram: String?
+
+    var label: String {
+        var s = name
+        if let cores { s += " · " + L("%@ cores", cores) }
+        if let vram { s += " · " + vram }
+        return s
+    }
+}
+
+extension HardwareInfo {
+    var gpu: String { gpus.map(\.label).joined(separator: "\n") }
 }
 
 struct ProcessEntry: Identifiable {
