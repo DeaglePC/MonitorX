@@ -14,19 +14,19 @@ struct SensorsView: View {
 
         ScrollView {
             VStack(spacing: 14) {
-                PageHeader(title: "传感器", symbol: Tab.sensors.symbol, colors: Tab.sensors.colors,
-                           subtitle: "\(s.all.count) 个温度传感器 · \(s.fans.count) 个风扇")
+                PageHeader(title: L("Sensors"), symbol: Tab.sensors.symbol, colors: Tab.sensors.colors,
+                           subtitle: L("%1$@ temperature sensors · %2$@ fans", "\(s.all.count)", "\(s.fans.count)"))
 
                 if let hottest {
                     HStack(spacing: 10) {
-                        summary(title: "最高温度", value: Fmt.temp(hottest.value), detail: hottest.name, sev: severity(hottest.value))
-                        summary(title: "平均温度", value: Fmt.temp(average), detail: "\(s.all.count) 个传感器", sev: severity(average))
+                        summary(title: L("Hottest"), value: Fmt.temp(hottest.value), detail: hottest.name, sev: severity(hottest.value))
+                        summary(title: L("Average"), value: Fmt.temp(average), detail: L("%@ sensors", "\(s.all.count)"), sev: severity(average))
                     }
                 }
 
                 if !s.fans.isEmpty {
                     VStack(alignment: .leading, spacing: 12) {
-                        sectionTitle("风扇", trailing: nil)
+                        sectionTitle(L("Fans"), trailing: nil)
                         ForEach(s.fans) { fan in
                             VStack(spacing: 6) {
                                 HStack {
@@ -53,7 +53,7 @@ struct SensorsView: View {
                 if s.all.isEmpty {
                     HStack(spacing: 8) {
                         ProgressView().controlSize(.small)
-                        Text("正在读取传感器…").font(.caption).foregroundStyle(.secondary)
+                        Text(L("Reading sensors…")).font(.caption).foregroundStyle(.secondary)
                     }
                     .frame(maxWidth: .infinity, minHeight: 80)
                     .glassCard()
@@ -66,7 +66,7 @@ struct SensorsView: View {
                                 Image(systemName: cat.symbol).foregroundStyle(Theme.temp)
                                 Text(cat.title).font(.system(size: 13, weight: .semibold))
                                 Spacer()
-                                Text("\(items.count) 个").font(.system(size: 10.5)).foregroundStyle(.secondary)
+                                Text("\(items.count)").font(.system(size: 10.5)).foregroundStyle(.secondary)
                             }
                             ForEach(items) { row($0) }
                         }

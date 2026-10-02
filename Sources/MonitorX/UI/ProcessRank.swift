@@ -21,10 +21,10 @@ struct ProcessRankSection: View {
 
     private var title: String {
         switch metric {
-        case .cpu: "CPU 占用排行"
-        case .memory: "内存占用排行"
-        case .network: "网络流量排行"
-        case .disk: "磁盘读写排行"
+        case .cpu: L("Top CPU Usage")
+        case .memory: L("Top Memory Usage")
+        case .network: L("Top Network Traffic")
+        case .disk: L("Top Disk Activity")
         }
     }
 
@@ -38,8 +38,8 @@ struct ProcessRankSection: View {
                 Text(title).font(.system(size: 14, weight: .semibold))
                 Spacer()
                 Picker("", selection: $settings.groupByApp) {
-                    Text("应用").tag(true)
-                    Text("进程").tag(false)
+                    Text(L("Apps")).tag(true)
+                    Text(L("Processes")).tag(false)
                 }
                 .pickerStyle(.segmented)
                 .labelsHidden()
@@ -50,11 +50,11 @@ struct ProcessRankSection: View {
             if !monitor.processesReady {
                 HStack(spacing: 8) {
                     ProgressView().controlSize(.small)
-                    Text("正在采集进程数据…").font(.caption).foregroundStyle(.secondary)
+                    Text(L("Collecting process data…")).font(.caption).foregroundStyle(.secondary)
                 }
                 .frame(maxWidth: .infinity, minHeight: 60)
             } else if rows.isEmpty {
-                Text(metric == .network ? "暂无进程产生网络流量" : "暂无活动")
+                Text(metric == .network ? L("No processes using the network") : L("No activity"))
                     .font(.caption).foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, minHeight: 60)
             } else {
@@ -70,7 +70,7 @@ struct ProcessRankSection: View {
                     }
                 }
                 if monitor.top(metric, grouped: settings.groupByApp, limit: 9).count > 8 {
-                    Button(showAll ? "收起" : "显示更多") { withAnimation(.snappy) { showAll.toggle() } }
+                    Button(showAll ? L("Show Less") : L("Show More")) { withAnimation(.snappy) { showAll.toggle() } }
                         .buttonStyle(.plain)
                         .font(.system(size: 12, weight: .medium))
                         .foregroundStyle(accent)
@@ -144,7 +144,7 @@ private struct ProcessRow: View {
                         .padding(.vertical, 3)
                     }
                     if group.members.count > 10 {
-                        Text("另有 \(group.members.count - 10) 个进程")
+                        Text(L("%@ more processes", "\(group.members.count - 10)"))
                             .font(.system(size: 10.5)).foregroundStyle(.tertiary)
                             .frame(maxWidth: .infinity, alignment: .leading).padding(.vertical, 3)
                     }
@@ -172,8 +172,8 @@ private struct ProcessRow: View {
             .font(.system(size: size - 0.5, weight: .semibold, design: .monospaced))
         case .disk:
             HStack(spacing: 8) {
-                Text("读 " + Fmt.rateCompact(g.diskRead)).foregroundStyle(Theme.disk)
-                Text("写 " + Fmt.rateCompact(g.diskWrite)).foregroundStyle(Theme.disk2)
+                Text(L("R %@", Fmt.rateCompact(g.diskRead))).foregroundStyle(Theme.disk)
+                Text(L("W %@", Fmt.rateCompact(g.diskWrite))).foregroundStyle(Theme.disk2)
             }
             .font(.system(size: size - 0.5, weight: .semibold, design: .monospaced))
         }

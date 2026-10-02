@@ -30,9 +30,9 @@ final class StatusItemController: NSObject {
     @objc private func clicked(_ sender: NSStatusBarButton) {
         if NSApp.currentEvent?.type == .rightMouseUp {
             let menu = NSMenu()
-            menu.addItem(withTitle: "打开 MonitorX", action: #selector(openPanel), keyEquivalent: "").target = self
+            menu.addItem(withTitle: L("Open MonitorX"), action: #selector(openPanel), keyEquivalent: "").target = self
             menu.addItem(.separator())
-            menu.addItem(withTitle: "退出 MonitorX", action: #selector(quit), keyEquivalent: "q").target = self
+            menu.addItem(withTitle: L("Quit MonitorX"), action: #selector(quit), keyEquivalent: "q").target = self
             statusItem.menu = menu
             sender.performClick(nil)
             statusItem.menu = nil
@@ -82,9 +82,9 @@ final class StatusItemController: NSObject {
         } else {
             button.image = Self.render(segs)
         }
-        button.toolTip = String(format: "CPU %.0f%% · 内存 %.0f%% · ↓%@ ↑%@",
-                                monitor.cpu.total * 100, monitor.mem.usedFraction * 100,
-                                Fmt.rate(monitor.net.downRate), Fmt.rate(monitor.net.upRate))
+        button.toolTip = L("CPU %1$@ · Memory %2$@ · ↓%3$@ ↑%4$@",
+                           Fmt.percent(monitor.cpu.total), Fmt.percent(monitor.mem.usedFraction),
+                           Fmt.rate(monitor.net.downRate), Fmt.rate(monitor.net.upRate))
     }
 
     private static func render(_ segs: [Segment]) -> NSImage {

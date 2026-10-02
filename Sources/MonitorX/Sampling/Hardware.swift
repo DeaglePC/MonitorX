@@ -68,19 +68,16 @@ enum HardwareLoader {
             if let chip = hw["chip_type"] as? String { h.chip = chip }
         }
         if let gpus = root["SPDisplaysDataType"] as? [[String: Any]] {
-            var names: [String] = []
             for g in gpus {
-                var n = (g["sppci_model"] as? String) ?? "GPU"
-                if let cores = g["sppci_cores"] as? String { n += " · \(cores) 核" }
-                if let vram = (g["spdisplays_vram"] as? String) ?? (g["spdisplays_vram_shared"] as? String) { n += " · \(vram)" }
-                names.append(n)
+                h.gpus.append(GPUInfo(name: (g["sppci_model"] as? String) ?? "GPU",
+                                      cores: g["sppci_cores"] as? String,
+                                      vram: (g["spdisplays_vram"] as? String) ?? (g["spdisplays_vram_shared"] as? String)))
                 for d in (g["spdisplays_ndrvs"] as? [[String: Any]]) ?? [] {
                     let dn = (d["_name"] as? String) ?? "Display"
                     let res = (d["_spdisplays_resolution"] as? String) ?? (d["spdisplays_resolution"] as? String) ?? ""
                     h.displays.append(res.isEmpty ? dn : "\(dn) · \(res)")
                 }
             }
-            h.gpu = names.joined(separator: "\n")
         }
         return h
     }
@@ -97,8 +94,7 @@ enum HardwareLoader {
                 .takeRetainedValue() as? String { h.serial = serial }
         }
 
-        let gpus = MTLCopyAllDevices().map(\.name)
-        h.gpu = gpus.joined(separator: "\n")
+        h.gpus = MTLCopyAllDevices().map { GPUInfo(name: $0.name) }
 
         DispatchQueue.main.sync {
             h.displays = NSScreen.screens.map { screen in
