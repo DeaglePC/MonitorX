@@ -73,6 +73,17 @@ final class StatusItemController: NSObject {
                                 lines: ["R " + Fmt.rateCompact(monitor.disk.readRate), "W " + Fmt.rateCompact(monitor.disk.writeRate)],
                                 widthSample: "R 999M"))
         }
+        let wantsTemp = Edition.hasSensors && settings.showTemperature
+        let wantsFan = Edition.hasSensors && settings.showFan
+        monitor.setMenuBarSensors(wantsTemp || wantsFan)
+        if wantsTemp {
+            segs.append(Segment(label: "TEMP", lines: [monitor.sensors.cpuTemp.map { "\(Int($0.rounded()))°" } ?? "–"],
+                                widthSample: "100°"))
+        }
+        if wantsFan, !monitor.sensors.fans.isEmpty || monitor.sensors.cpuTemp == nil {
+            segs.append(Segment(label: "FAN", lines: [monitor.sensors.fans.map(\.rpm).max().map { "\(Int($0))" } ?? "–"],
+                                widthSample: "8888"))
+        }
 
         guard let button = statusItem.button else { return }
         if segs.isEmpty {

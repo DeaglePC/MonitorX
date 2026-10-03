@@ -163,3 +163,18 @@
 "%@ sensors" = "Датчиків: %@";
 "Fans" = "Вентилятори";
 "Reading sensors…" = "Зчитування датчиків…";
+
+/* Sharing */
+"Share" = "Поділитися";
+"Image copied to clipboard" = "Зображення скопійовано в буфер обміну";
+"Couldn't create the image" = "Не вдалося створити зображення";
+"This Page" = "Ця сторінка";
+"All Pages" = "Усі сторінки";
+"Copy to Clipboard" = "Скопіювати в буфер обміну";
+"Save as Image…" = "Зберегти як зображення…";
+"Couldn't copy the image" = "Не вдалося скопіювати зображення";
+"Saved “%@”" = "Збережено: «%@»";
+"Couldn't save the image" = "Не вдалося зберегти зображення";
+"Show in Finder" = "Показати у Finder";
+"Creating image…" = "Створення зображення…";
+"Fan Speed" = "Швидкість вентилятора";

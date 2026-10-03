@@ -163,3 +163,18 @@
 "%@ sensors" = "%@ Sensoren";
 "Fans" = "Lüfter";
 "Reading sensors…" = "Sensoren werden gelesen …";
+
+/* Sharing */
+"Share" = "Teilen";
+"Image copied to clipboard" = "Bild in die Zwischenablage kopiert";
+"Couldn't create the image" = "Bild konnte nicht erstellt werden";
+"This Page" = "Diese Seite";
+"All Pages" = "Alle Seiten";
+"Copy to Clipboard" = "In die Zwischenablage kopieren";
+"Save as Image…" = "Als Bild sichern …";
+"Couldn't copy the image" = "Bild konnte nicht kopiert werden";
+"Saved “%@”" = "„%@“ gesichert";
+"Couldn't save the image" = "Bild konnte nicht gesichert werden";
+"Show in Finder" = "Im Finder zeigen";
+"Creating image…" = "Bild wird erstellt …";
+"Fan Speed" = "Lüfterdrehzahl";

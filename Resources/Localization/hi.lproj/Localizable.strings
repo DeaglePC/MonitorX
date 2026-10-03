@@ -163,3 +163,18 @@
 "%@ sensors" = "%@ सेंसर";
 "Fans" = "पंखे";
 "Reading sensors…" = "सेंसर पढ़े जा रहे हैं…";
+
+/* Sharing */
+"Share" = "शेयर करें";
+"Image copied to clipboard" = "इमेज क्लिपबोर्ड पर कॉपी हो गई";
+"Couldn't create the image" = "इमेज नहीं बनाई जा सकी";
+"This Page" = "यह पेज";
+"All Pages" = "सभी पेज";
+"Copy to Clipboard" = "क्लिपबोर्ड पर कॉपी करें";
+"Save as Image…" = "इमेज के रूप में सहेजें…";
+"Couldn't copy the image" = "इमेज कॉपी नहीं की जा सकी";
+"Saved “%@”" = "“%@” सहेजा गया";
+"Couldn't save the image" = "इमेज सहेजी नहीं जा सकी";
+"Show in Finder" = "Finder में दिखाएँ";
+"Creating image…" = "इमेज बनाई जा रही है…";
+"Fan Speed" = "फ़ैन स्पीड";

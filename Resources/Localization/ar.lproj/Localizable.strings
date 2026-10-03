@@ -163,3 +163,18 @@
 "%@ sensors" = "%@ مستشعرات";
 "Fans" = "المراوح";
 "Reading sensors…" = "جارٍ قراءة المستشعرات…";
+
+/* Sharing */
+"Share" = "مشاركة";
+"Image copied to clipboard" = "تم نسخ الصورة إلى الحافظة";
+"Couldn't create the image" = "تعذّر إنشاء الصورة";
+"This Page" = "هذه الصفحة";
+"All Pages" = "كل الصفحات";
+"Copy to Clipboard" = "نسخ إلى الحافظة";
+"Save as Image…" = "حفظ كصورة…";
+"Couldn't copy the image" = "تعذّر نسخ الصورة";
+"Saved “%@”" = "تم حفظ ”%@“";
+"Couldn't save the image" = "تعذّر حفظ الصورة";
+"Show in Finder" = "إظهار في فايندر";
+"Creating image…" = "جارٍ إنشاء الصورة…";
+"Fan Speed" = "سرعة المروحة";

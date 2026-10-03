@@ -163,3 +163,18 @@
 "%@ sensors" = "%@ sensores";
 "Fans" = "Ventoinhas";
 "Reading sensors…" = "Lendo sensores…";
+
+/* Sharing */
+"Share" = "Partilhar";
+"Image copied to clipboard" = "Imagem copiada para a área de transferência";
+"Couldn't create the image" = "Não foi possível criar a imagem";
+"This Page" = "Esta página";
+"All Pages" = "Todas as páginas";
+"Copy to Clipboard" = "Copiar para a área de transferência";
+"Save as Image…" = "Guardar como imagem…";
+"Couldn't copy the image" = "Não foi possível copiar a imagem";
+"Saved “%@”" = "“%@” guardado";
+"Couldn't save the image" = "Não foi possível guardar a imagem";
+"Show in Finder" = "Mostrar no Finder";
+"Creating image…" = "A criar imagem…";
+"Fan Speed" = "Velocidade da ventoinha";

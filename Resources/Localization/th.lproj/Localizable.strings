@@ -163,3 +163,18 @@
 "%@ sensors" = "เซ็นเซอร์ %@ ตัว";
 "Fans" = "พัดลม";
 "Reading sensors…" = "กำลังอ่านเซ็นเซอร์…";
+
+/* Sharing */
+"Share" = "แชร์";
+"Image copied to clipboard" = "คัดลอกภาพไปยังคลิปบอร์ดแล้ว";
+"Couldn't create the image" = "ไม่สามารถสร้างภาพได้";
+"This Page" = "หน้านี้";
+"All Pages" = "ทุกหน้า";
+"Copy to Clipboard" = "คัดลอกไปยังคลิปบอร์ด";
+"Save as Image…" = "บันทึกเป็นภาพ…";
+"Couldn't copy the image" = "ไม่สามารถคัดลอกภาพได้";
+"Saved “%@”" = "บันทึก “%@” แล้ว";
+"Couldn't save the image" = "ไม่สามารถบันทึกภาพได้";
+"Show in Finder" = "แสดงใน Finder";
+"Creating image…" = "กำลังสร้างภาพ…";
+"Fan Speed" = "ความเร็วพัดลม";

@@ -7,6 +7,7 @@ struct ProcessRankSection: View {
 
     @Environment(SystemMonitor.self) private var monitor
     @Environment(Settings.self) private var settings
+    @Environment(\.isSnapshot) private var isSnapshot
     @State private var expanded: Set<String> = []
     @State private var showAll = false
 
@@ -37,19 +38,27 @@ struct ProcessRankSection: View {
             HStack {
                 Text(title).font(.system(size: 14, weight: .semibold))
                 Spacer()
-                Picker("", selection: $settings.groupByApp) {
-                    Text(L("Apps")).tag(true)
-                    Text(L("Processes")).tag(false)
+                if isSnapshot {
+                    Text(settings.groupByApp ? L("Apps") : L("Processes"))
+                        .font(.system(size: 10.5, weight: .medium))
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal, 8).padding(.vertical, 2)
+                        .background(Color.primary.opacity(0.07), in: .capsule)
+                } else {
+                    Picker("", selection: $settings.groupByApp) {
+                        Text(L("Apps")).tag(true)
+                        Text(L("Processes")).tag(false)
+                    }
+                    .pickerStyle(.segmented)
+                    .labelsHidden()
+                    .tint(accent)
+                    .frame(width: 104)
                 }
-                .pickerStyle(.segmented)
-                .labelsHidden()
-                .tint(accent)
-                .frame(width: 104)
             }
 
             if !monitor.processesReady {
                 HStack(spacing: 8) {
-                    ProgressView().controlSize(.small)
+                    if !isSnapshot { ProgressView().controlSize(.small) }
                     Text(L("Collecting process data…")).font(.caption).foregroundStyle(.secondary)
                 }
                 .frame(maxWidth: .infinity, minHeight: 60)
@@ -69,7 +78,7 @@ struct ProcessRankSection: View {
                         }
                     }
                 }
-                if monitor.top(metric, grouped: settings.groupByApp, limit: 9).count > 8 {
+                if !isSnapshot, monitor.top(metric, grouped: settings.groupByApp, limit: 9).count > 8 {
                     Button(showAll ? L("Show Less") : L("Show More")) { withAnimation(.snappy) { showAll.toggle() } }
                         .buttonStyle(.plain)
                         .font(.system(size: 12, weight: .medium))

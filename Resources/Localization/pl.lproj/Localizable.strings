@@ -163,3 +163,18 @@
 "%@ sensors" = "Czujniki: %@";
 "Fans" = "Wentylatory";
 "Reading sensors…" = "Odczyt czujników…";
+
+/* Sharing */
+"Share" = "Udostępnij";
+"Image copied to clipboard" = "Obraz skopiowano do schowka";
+"Couldn't create the image" = "Nie udało się utworzyć obrazu";
+"This Page" = "Ta strona";
+"All Pages" = "Wszystkie strony";
+"Copy to Clipboard" = "Kopiuj do schowka";
+"Save as Image…" = "Zachowaj jako obraz…";
+"Couldn't copy the image" = "Nie udało się skopiować obrazu";
+"Saved “%@”" = "Zachowano „%@”";
+"Couldn't save the image" = "Nie udało się zachować obrazu";
+"Show in Finder" = "Pokaż w Finderze";
+"Creating image…" = "Tworzenie obrazu…";
+"Fan Speed" = "Prędkość wentylatora";

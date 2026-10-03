@@ -84,13 +84,75 @@ enum Tab: String, CaseIterable, Identifiable {
     var accent: Color { colors[1] }
 }
 
+// MARK: - Snapshot mode
+
+/// True while a page is being rendered into a share image (see `Snapshot`). Pages then lay out at full
+/// height, Liquid Glass is replaced by flat surfaces (glass can't be captured offscreen) and interactive
+/// controls are dropped.
+private struct SnapshotKey: EnvironmentKey { static let defaultValue = false }
+
+extension EnvironmentValues {
+    var isSnapshot: Bool {
+        get { self[SnapshotKey.self] }
+        set { self[SnapshotKey.self] = newValue }
+    }
+}
+
+/// Horizontal room the page headers leave for the share and settings buttons.
+let headerTrailingRoom: CGFloat = 84
+
+/// A page's scroll container; in snapshot mode the content is laid out at its full height instead.
+struct PageScroll<Content: View>: View {
+    @Environment(\.isSnapshot) private var isSnapshot
+    @ViewBuilder var content: Content
+
+    var body: some View {
+        if isSnapshot {
+            content.fixedSize(horizontal: false, vertical: true)
+        } else {
+            ScrollView { content }.scrollIndicators(.hidden)
+        }
+    }
+}
+
 // MARK: - Glass helpers
+
+/// Liquid Glass on screen, an equivalent flat card in share images.
+private struct GlassSurface: ViewModifier {
+    let radius: CGFloat
+    let tint: Color?
+    var tintOpacity = 0.14
+    var interactive = false
+    @Environment(\.isSnapshot) private var isSnapshot
+    @Environment(\.colorScheme) private var scheme
+
+    func body(content: Content) -> some View {
+        if isSnapshot {
+            let shape = RoundedRectangle(cornerRadius: radius, style: .continuous)
+            content
+                .background {
+                    shape.fill(scheme == .dark ? Color.white.opacity(0.07) : Color.white.opacity(0.72))
+                    if let tint { shape.fill(tint.opacity(tintOpacity)) }
+                }
+                .overlay(shape.strokeBorder(Color.primary.opacity(scheme == .dark ? 0.10 : 0.06), lineWidth: 0.7))
+        } else {
+            content.glassEffect(glass, in: .rect(cornerRadius: radius))
+        }
+    }
+
+    private var glass: Glass {
+        let g = tint.map { Glass.regular.tint($0.opacity(tintOpacity)) } ?? Glass.regular
+        return interactive ? g.interactive() : g
+    }
+}
 
 extension View {
     func glassCard(radius: CGFloat = 22, padding: CGFloat = 14, tint: Color? = nil) -> some View {
-        self.padding(padding)
-            .glassEffect(tint.map { Glass.regular.tint($0.opacity(0.14)) } ?? Glass.regular,
-                         in: .rect(cornerRadius: radius))
+        self.padding(padding).glassSurface(radius: radius, tint: tint)
+    }
+
+    func glassSurface(radius: CGFloat, tint: Color? = nil, tintOpacity: Double = 0.14, interactive: Bool = false) -> some View {
+        modifier(GlassSurface(radius: radius, tint: tint, tintOpacity: tintOpacity, interactive: interactive))
     }
 }
 
@@ -118,7 +180,7 @@ struct PageHeader: View {
             }
             Spacer()
         }
-        .padding(.trailing, 44)   // room for the settings button
+        .padding(.trailing, headerTrailingRoom)   // room for the share & settings buttons
     }
 }
 

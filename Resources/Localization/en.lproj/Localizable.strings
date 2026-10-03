@@ -163,3 +163,18 @@
 "%@ sensors" = "%@ sensors";
 "Fans" = "Fans";
 "Reading sensors…" = "Reading sensors…";
+
+/* Sharing */
+"Share" = "Share";
+"Image copied to clipboard" = "Image copied to clipboard";
+"Couldn't create the image" = "Couldn't create the image";
+"This Page" = "This Page";
+"All Pages" = "All Pages";
+"Copy to Clipboard" = "Copy to Clipboard";
+"Save as Image…" = "Save as Image…";
+"Couldn't copy the image" = "Couldn't copy the image";
+"Saved “%@”" = "Saved “%@”";
+"Couldn't save the image" = "Couldn't save the image";
+"Show in Finder" = "Show in Finder";
+"Creating image…" = "Creating image…";
+"Fan Speed" = "Fan Speed";

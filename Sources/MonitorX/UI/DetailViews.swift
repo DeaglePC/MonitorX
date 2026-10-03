@@ -8,7 +8,7 @@ struct CPUView: View {
     @Environment(SystemMonitor.self) private var m
 
     var body: some View {
-        ScrollView {
+        PageScroll {
             VStack(spacing: 14) {
                 PageHeader(title: L("CPU"), symbol: Tab.cpu.symbol, colors: Tab.cpu.colors,
                            subtitle: L("%1$@ cores · %2$@ threads", "\(m.hardware.physicalCores)", "\(m.hardware.logicalCores)") + " · " + m.hardware.shortChip)
@@ -69,7 +69,6 @@ struct CPUView: View {
             }
             .padding(pageInsets)
         }
-        .scrollIndicators(.hidden)
     }
 }
 
@@ -88,7 +87,7 @@ struct MemoryView: View {
 
     var body: some View {
         let mem = m.mem
-        ScrollView {
+        PageScroll {
             VStack(spacing: 14) {
                 PageHeader(title: L("Memory"), symbol: Tab.memory.symbol, colors: Tab.memory.colors,
                            subtitle: L("Physical memory %@", Fmt.bytes(mem.total)))
@@ -152,7 +151,6 @@ struct MemoryView: View {
             }
             .padding(pageInsets)
         }
-        .scrollIndicators(.hidden)
     }
 }
 
@@ -163,7 +161,7 @@ struct NetworkView: View {
 
     var body: some View {
         let net = m.net
-        ScrollView {
+        PageScroll {
             VStack(spacing: 14) {
                 PageHeader(title: L("Network"), symbol: Tab.network.symbol, colors: Tab.network.colors,
                            subtitle: net.interface == "—" ? L("Not connected") : "\(net.interface) · \(net.ip)")
@@ -190,7 +188,6 @@ struct NetworkView: View {
             }
             .padding(pageInsets)
         }
-        .scrollIndicators(.hidden)
     }
 
     private func speedBlock(symbol: String, title: String, rate: Double, colors: [Color], total: UInt64) -> some View {
@@ -224,7 +221,7 @@ struct DiskView: View {
 
     var body: some View {
         let disk = m.disk
-        ScrollView {
+        PageScroll {
             VStack(spacing: 14) {
                 PageHeader(title: L("Disk"), symbol: Tab.disk.symbol, colors: Tab.disk.colors,
                            subtitle: L("%@ local volumes", "\(disk.volumes.count)"))
@@ -273,7 +270,6 @@ struct DiskView: View {
             }
             .padding(pageInsets)
         }
-        .scrollIndicators(.hidden)
     }
 }
 
@@ -281,17 +277,18 @@ struct DiskView: View {
 
 struct HardwareView: View {
     @Environment(SystemMonitor.self) private var m
+    @Environment(\.isSnapshot) private var isSnapshot
 
     var body: some View {
         let h = m.hardware
-        ScrollView {
+        PageScroll {
             VStack(spacing: 14) {
                 PageHeader(title: L("Hardware"), symbol: Tab.hardware.symbol, colors: Tab.hardware.colors, subtitle: h.modelID)
 
                 group("Mac", symbol: "desktopcomputer") {
                     InfoRow(key: L("Model"), value: h.modelName)
                     InfoRow(key: L("Model Identifier"), value: h.modelID)
-                    if !h.serial.isEmpty { InfoRow(key: L("Serial Number"), value: h.serial, copyable: true) }
+                    if !h.serial.isEmpty, !isSnapshot { InfoRow(key: L("Serial Number"), value: h.serial, copyable: true) }
                     InfoRow(key: L("Operating System"), value: h.osVersion)
                     InfoRow(key: L("Uptime"), value: Fmt.uptime(since: h.bootDate))
                 }
@@ -332,7 +329,6 @@ struct HardwareView: View {
             }
             .padding(pageInsets)
         }
-        .scrollIndicators(.hidden)
     }
 
     private func group<Content: View>(_ title: String, symbol: String, @ViewBuilder content: () -> Content) -> some View {

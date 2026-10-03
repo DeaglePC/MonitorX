@@ -163,3 +163,18 @@
 "%@ sensors" = "%@ sensorer";
 "Fans" = "Fläktar";
 "Reading sensors…" = "Läser sensorer…";
+
+/* Sharing */
+"Share" = "Dela";
+"Image copied to clipboard" = "Bilden har kopierats till urklipp";
+"Couldn't create the image" = "Det gick inte att skapa bilden";
+"This Page" = "Den här sidan";
+"All Pages" = "Alla sidor";
+"Copy to Clipboard" = "Kopiera till urklipp";
+"Save as Image…" = "Spara som bild …";
+"Couldn't copy the image" = "Det gick inte att kopiera bilden";
+"Saved “%@”" = "Sparade ”%@”";
+"Couldn't save the image" = "Det gick inte att spara bilden";
+"Show in Finder" = "Visa i Finder";
+"Creating image…" = "Skapar bild …";
+"Fan Speed" = "Fläkthastighet";

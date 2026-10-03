@@ -37,6 +37,7 @@ final class SystemMonitor {
     @ObservationIgnored private let diskSampler = DiskSampler()
     @ObservationIgnored private var tickCount = 0
     @ObservationIgnored private var detailActive = false
+    @ObservationIgnored private var menuBarSensors = false
 
     #if !APPSTORE
     @ObservationIgnored private let procSampler = ProcessSampler()
@@ -87,6 +88,11 @@ final class SystemMonitor {
         }
     }
 
+    /// The menu bar shows a temperature or fan speed: read the (few, cheap) overview sensors every tick.
+    func setMenuBarSensors(_ on: Bool) {
+        queue.async { [self] in menuBarSensors = on }
+    }
+
     func shutdown() {}
 
     // MARK: sampling
@@ -100,12 +106,15 @@ final class SystemMonitor {
         var battery: BatteryInfo?? = nil
         var sensors: SensorInfo? = nil
         // Battery / sensors change slowly, except while the panel is open.
-        if detailActive || tickCount % 3 == 1 {
+        let slowTick = detailActive || tickCount % 3 == 1
+        if slowTick {
             battery = .some(BatteryReader.read())
-            #if !APPSTORE
-            sensors = smc?.readSensors(all: detailActive)
-            #endif
         }
+        #if !APPSTORE
+        if slowTick || menuBarSensors {
+            sensors = smc?.readSensors(all: detailActive)
+        }
+        #endif
 
         DispatchQueue.main.async { [self] in
             self.cpu = cpu; self.mem = mem; self.net = net; self.disk = disk

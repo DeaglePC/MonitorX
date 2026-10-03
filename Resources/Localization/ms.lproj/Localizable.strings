@@ -163,3 +163,18 @@
 "%@ sensors" = "%@ penderia";
 "Fans" = "Kipas";
 "Reading sensors…" = "Membaca penderia…";
+
+/* Sharing */
+"Share" = "Kongsi";
+"Image copied to clipboard" = "Imej disalin ke papan keratan";
+"Couldn't create the image" = "Tidak dapat mencipta imej";
+"This Page" = "Halaman Ini";
+"All Pages" = "Semua Halaman";
+"Copy to Clipboard" = "Salin ke Papan Keratan";
+"Save as Image…" = "Simpan sebagai Imej…";
+"Couldn't copy the image" = "Tidak dapat menyalin imej";
+"Saved “%@”" = "“%@” disimpan";
+"Couldn't save the image" = "Tidak dapat menyimpan imej";
+"Show in Finder" = "Tunjukkan dalam Finder";
+"Creating image…" = "Mencipta imej…";
+"Fan Speed" = "Kelajuan Kipas";

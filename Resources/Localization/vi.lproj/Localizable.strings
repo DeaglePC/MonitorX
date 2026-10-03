@@ -163,3 +163,18 @@
 "%@ sensors" = "%@ cảm biến";
 "Fans" = "Quạt";
 "Reading sensors…" = "Đang đọc cảm biến…";
+
+/* Sharing */
+"Share" = "Chia sẻ";
+"Image copied to clipboard" = "Đã sao chép ảnh vào bảng nhớ tạm";
+"Couldn't create the image" = "Không thể tạo ảnh";
+"This Page" = "Trang này";
+"All Pages" = "Tất cả các trang";
+"Copy to Clipboard" = "Sao chép vào bảng nhớ tạm";
+"Save as Image…" = "Lưu dưới dạng ảnh…";
+"Couldn't copy the image" = "Không thể sao chép ảnh";
+"Saved “%@”" = "Đã lưu “%@”";
+"Couldn't save the image" = "Không thể lưu ảnh";
+"Show in Finder" = "Hiển thị trong Finder";
+"Creating image…" = "Đang tạo ảnh…";
+"Fan Speed" = "Tốc độ quạt";
