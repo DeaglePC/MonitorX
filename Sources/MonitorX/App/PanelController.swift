@@ -15,6 +15,10 @@ final class PanelController: NSObject {
     private let state = PanelState()
     private var globalMonitor: Any?
     private var localMonitor: Any?
+    /// The user dragged the panel away from the menu bar: it then stays open when clicking elsewhere
+    /// (close it with Esc or the menu-bar item) and is re-anchored under the menu bar the next time it opens.
+    private var detached = false
+    private var positioning = false
 
     init(monitor: SystemMonitor, settings: Settings) {
         self.monitor = monitor
@@ -40,11 +44,28 @@ final class PanelController: NSObject {
         host.safeAreaRegions = []
 
         let glass = NSGlassEffectView(frame: NSRect(origin: .zero, size: Self.size))
-        glass.cornerRadius = 30
+        glass.cornerRadius = Self.cornerRadius
         glass.contentView = host
         glass.autoresizingMask = [.width, .height]
-        panel.contentView = glass
+
+        // Clip the whole window content to the rounded shape: anything drawn into the square corners would
+        // otherwise make the window server's shadow / edge follow the rectangle instead of the rounded glass.
+        let container = NSView(frame: NSRect(origin: .zero, size: Self.size))
+        container.wantsLayer = true
+        container.layer?.cornerRadius = Self.cornerRadius
+        container.layer?.cornerCurve = .continuous
+        container.layer?.masksToBounds = true
+        container.addSubview(glass)
+        panel.contentView = container
+
+        NotificationCenter.default.addObserver(forName: NSWindow.didMoveNotification, object: panel, queue: .main) { [weak self] _ in
+            guard let self, !self.positioning, self.panel.isVisible, !self.detached else { return }
+            self.detached = true
+            self.panel.level = .floating   // an ordinary floating window now, below menus and pop-ups
+        }
     }
+
+    private static let cornerRadius: CGFloat = 30
 
     var isVisible: Bool { panel.isVisible }
 
@@ -61,11 +82,17 @@ final class PanelController: NSObject {
         var x = buttonFrame.midX - Self.size.width / 2
         x = min(max(x, visible.minX + 8), visible.maxX - Self.size.width - 8)
         let y = max(visible.minY + 8, buttonFrame.minY - Self.size.height - 6)
+        positioning = true
         panel.setFrame(NSRect(x: x, y: y, width: Self.size.width, height: Self.size.height), display: true)
+        positioning = false
+        detached = false
+        panel.level = .popUpMenu
 
         state.isOpen = true
         panel.alphaValue = 0
         panel.makeKeyAndOrderFront(nil)
+        // The shadow is computed from the window's pixels; recompute it once the rounded content has drawn.
+        DispatchQueue.main.async { [panel] in panel.invalidateShadow() }
         NSAnimationContext.runAnimationGroup { ctx in
             ctx.duration = 0.16
             panel.animator().alphaValue = 1
@@ -73,10 +100,11 @@ final class PanelController: NSObject {
         monitor.setDetailActive(true)
 
         globalMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown, .otherMouseDown]) { [weak self] _ in
-            self?.hide()
+            guard let self, !self.state.isPresentingDialog, !self.detached else { return }
+            self.hide()
         }
         localMonitor = NSEvent.addLocalMonitorForEvents(matching: [.keyDown]) { [weak self] event in
-            if event.keyCode == 53 { self?.hide(); return nil }   // esc
+            if event.keyCode == 53, self?.state.isPresentingDialog == false { self?.hide(); return nil }   // esc
             return event
         }
     }
@@ -95,6 +123,4 @@ final class PanelController: NSObject {
         })
         monitor.setDetailActive(false)
     }
-
-
 }

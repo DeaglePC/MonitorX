@@ -163,3 +163,18 @@
 "%@ sensors" = "%@ 个传感器";
 "Fans" = "风扇";
 "Reading sensors…" = "正在读取传感器…";
+
+/* Sharing */
+"Share" = "分享";
+"Image copied to clipboard" = "图片已复制到剪贴板";
+"Couldn't create the image" = "无法生成图片";
+"This Page" = "当前页面";
+"All Pages" = "全部页面";
+"Copy to Clipboard" = "复制到剪贴板";
+"Save as Image…" = "保存为图片…";
+"Couldn't copy the image" = "无法复制图片";
+"Saved “%@”" = "已保存“%@”";
+"Couldn't save the image" = "无法保存图片";
+"Show in Finder" = "在访达中显示";
+"Creating image…" = "正在生成图片…";
+"Fan Speed" = "风扇转速";

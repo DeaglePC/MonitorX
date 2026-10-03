@@ -163,3 +163,18 @@
 "%@ sensors" = "센서 %@개";
 "Fans" = "팬";
 "Reading sensors…" = "센서 읽는 중…";
+
+/* Sharing */
+"Share" = "공유";
+"Image copied to clipboard" = "이미지를 클립보드에 복사했습니다";
+"Couldn't create the image" = "이미지를 만들 수 없습니다";
+"This Page" = "이 페이지";
+"All Pages" = "모든 페이지";
+"Copy to Clipboard" = "클립보드에 복사";
+"Save as Image…" = "이미지로 저장…";
+"Couldn't copy the image" = "이미지를 복사할 수 없습니다";
+"Saved “%@”" = "‘%@’ 저장됨";
+"Couldn't save the image" = "이미지를 저장할 수 없습니다";
+"Show in Finder" = "Finder에서 보기";
+"Creating image…" = "이미지 생성 중…";
+"Fan Speed" = "팬 속도";

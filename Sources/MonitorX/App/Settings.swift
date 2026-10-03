@@ -8,17 +8,22 @@ final class Settings {
     var showMemory: Bool { didSet { save("showMemory", showMemory) } }
     var showNetwork: Bool { didSet { save("showNetwork", showNetwork) } }
     var showDisk: Bool { didSet { save("showDisk", showDisk) } }
+    var showTemperature: Bool { didSet { save("showTemperature", showTemperature) } }
+    var showFan: Bool { didSet { save("showFan", showFan) } }
     var groupByApp: Bool { didSet { save("groupByApp", groupByApp) } }
 
     var launchAtLogin: Bool = SMAppService.mainApp.status == .enabled
 
     init() {
         let d = UserDefaults.standard
-        d.register(defaults: ["showCPU": true, "showMemory": true, "showNetwork": true, "showDisk": false, "groupByApp": true])
+        d.register(defaults: ["showCPU": true, "showMemory": true, "showNetwork": true, "showDisk": false,
+                               "showTemperature": false, "showFan": false, "groupByApp": true])
         showCPU = d.bool(forKey: "showCPU")
         showMemory = d.bool(forKey: "showMemory")
         showNetwork = d.bool(forKey: "showNetwork")
         showDisk = d.bool(forKey: "showDisk")
+        showTemperature = d.bool(forKey: "showTemperature")
+        showFan = d.bool(forKey: "showFan")
         groupByApp = d.bool(forKey: "groupByApp")
     }
 

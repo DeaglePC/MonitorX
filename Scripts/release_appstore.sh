@@ -62,6 +62,7 @@ cat > "$ENT" <<PLIST
 <plist version="1.0">
 <dict>
   <key>com.apple.security.app-sandbox</key><true/>
+  <key>com.apple.security.files.user-selected.read-write</key><true/>
   <key>com.apple.application-identifier</key><string>${TEAM_ID}.${BUNDLE_ID}</string>
   <key>com.apple.developer.team-identifier</key><string>${TEAM_ID}</string>
 </dict>

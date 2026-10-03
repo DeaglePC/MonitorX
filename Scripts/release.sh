@@ -7,6 +7,9 @@
 # One-time notarytool setup (stores credentials in the keychain):
 #   xcrun notarytool store-credentials notary --apple-id you@example.com --team-id TEAMID --password <app-specific-password>
 #
+# Or notarize with an App Store Connect API key instead of a keychain profile (what CI does):
+#   NOTARY_KEY_PATH=AuthKey_XXXX.p8 NOTARY_KEY_ID=XXXX NOTARY_ISSUER=<issuer uuid>
+#
 # Without SIGN_IDENTITY the script makes an ad-hoc signed, NOT notarized package (fine for friends:
 # they must run `xattr -cr /Applications/MonitorX.app` once). Without NOTARY_PROFILE it signs but skips notarization.
 set -euo pipefail
@@ -16,6 +19,14 @@ VERSION="${VERSION:-1.0.0}"
 BUILD_NUMBER="${BUILD_NUMBER:-$(date +%Y%m%d%H%M)}"
 SIGN_IDENTITY="${SIGN_IDENTITY:-}"
 NOTARY_PROFILE="${NOTARY_PROFILE:-}"
+NOTARY_KEY_PATH="${NOTARY_KEY_PATH:-}"
+
+NOTARY_AUTH=()
+if [[ -n "$NOTARY_KEY_PATH" ]]; then
+  NOTARY_AUTH=(--key "$NOTARY_KEY_PATH" --key-id "${NOTARY_KEY_ID:?NOTARY_KEY_ID required}" --issuer "${NOTARY_ISSUER:?NOTARY_ISSUER required}")
+elif [[ -n "$NOTARY_PROFILE" ]]; then
+  NOTARY_AUTH=(--keychain-profile "$NOTARY_PROFILE")
+fi
 
 APP="build/MonitorX.app"
 DIST="dist"
@@ -46,15 +57,15 @@ hdiutil create -volname "MonitorX" -srcfolder "$STAGE" -ov -format UDZO "$DMG" >
 rm -rf "${STAGE:?}"
 [[ -n "$SIGN_IDENTITY" ]] && codesign --force --timestamp --sign "$SIGN_IDENTITY" "$DMG"
 
-if [[ -n "$SIGN_IDENTITY" && -n "$NOTARY_PROFILE" ]]; then
+if [[ -n "$SIGN_IDENTITY" && ${#NOTARY_AUTH[@]} -gt 0 ]]; then
   step "Notarizing (this usually takes 1-5 minutes)"
-  xcrun notarytool submit "$DMG" --keychain-profile "$NOTARY_PROFILE" --wait
+  xcrun notarytool submit "$DMG" "${NOTARY_AUTH[@]}" --wait
   step "Stapling"
   xcrun stapler staple "$DMG"
   xcrun stapler staple "$APP"
   spctl --assess --type execute --verbose=2 "$APP" || true
 elif [[ -n "$SIGN_IDENTITY" ]]; then
-  step "NOTARY_PROFILE not set: skipping notarization (users will still see a Gatekeeper warning)"
+  step "No notarization credentials: skipping notarization (users will still see a Gatekeeper warning)"
 fi
 
 step "Creating $ZIP"

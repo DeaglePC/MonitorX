@@ -163,3 +163,18 @@
 "%@ sensors" = "%@ sensor";
 "Fans" = "Kipas";
 "Reading sensors…" = "Membaca sensor…";
+
+/* Sharing */
+"Share" = "Bagikan";
+"Image copied to clipboard" = "Gambar disalin ke papan klip";
+"Couldn't create the image" = "Tidak dapat membuat gambar";
+"This Page" = "Halaman Ini";
+"All Pages" = "Semua Halaman";
+"Copy to Clipboard" = "Salin ke Papan Klip";
+"Save as Image…" = "Simpan sebagai Gambar…";
+"Couldn't copy the image" = "Tidak dapat menyalin gambar";
+"Saved “%@”" = "“%@” disimpan";
+"Couldn't save the image" = "Tidak dapat menyimpan gambar";
+"Show in Finder" = "Tampilkan di Finder";
+"Creating image…" = "Membuat gambar…";
+"Fan Speed" = "Kecepatan Kipas";

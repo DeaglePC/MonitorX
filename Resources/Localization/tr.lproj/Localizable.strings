@@ -163,3 +163,18 @@
 "%@ sensors" = "%@ sensör";
 "Fans" = "Fanlar";
 "Reading sensors…" = "Sensörler okunuyor…";
+
+/* Sharing */
+"Share" = "Paylaş";
+"Image copied to clipboard" = "Görüntü panoya kopyalandı";
+"Couldn't create the image" = "Görüntü oluşturulamadı";
+"This Page" = "Bu Sayfa";
+"All Pages" = "Tüm Sayfalar";
+"Copy to Clipboard" = "Panoya Kopyala";
+"Save as Image…" = "Görüntü Olarak Kaydet…";
+"Couldn't copy the image" = "Görüntü kopyalanamadı";
+"Saved “%@”" = "“%@” kaydedildi";
+"Couldn't save the image" = "Görüntü kaydedilemedi";
+"Show in Finder" = "Finder’da Göster";
+"Creating image…" = "Görüntü oluşturuluyor…";
+"Fan Speed" = "Fan Hızı";

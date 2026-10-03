@@ -5,12 +5,25 @@ import SwiftUI
 final class PanelState {
     var isOpen = false
     var tab: Tab = .overview
+    /// Set while a dialog of ours (e.g. the save panel) is up, so clicks in it don't close the panel.
+    var isPresentingDialog = false
 }
 
 struct RootView: View {
     @Environment(Settings.self) private var settings
+    @Environment(SystemMonitor.self) private var monitor
     @Environment(PanelState.self) private var state
     @Namespace private var tabNS
+    @State private var toast: Toast?
+
+    private struct Toast: Equatable {
+        let text: String
+        let ok: Bool
+        var busy = false
+        /// File to reveal in Finder when the toast is clicked.
+        var file: URL?
+        let id = UUID()
+    }
 
     private var tab: Tab { state.tab }
 
@@ -30,24 +43,22 @@ struct RootView: View {
                 .ignoresSafeArea()
                 .animation(.smooth(duration: 0.5), value: tab)
 
-            Group {
-                switch tab {
-                case .overview: OverviewView(go: select)
-                case .cpu: CPUView()
-                case .memory: MemoryView()
-                case .network: NetworkView()
-                case .disk: DiskView()
-                case .sensors: SensorsView()
-                case .hardware: HardwareView()
-                }
-            }
+            tab.page(go: select)
             .id(tab)
+            // Drag anywhere that isn't a control to move the panel.
+            .gesture(WindowDragGesture())
             .transition(.opacity)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .safeAreaInset(edge: .bottom, spacing: 0) { tabBar }
+            .overlay(alignment: .bottom) {
+                if let toast { toastView(toast) }
+            }
 
-            settingsMenu
-                .padding(.top, 16).padding(.trailing, 16)
+            HStack(spacing: 8) {
+                shareMenu
+                settingsMenu
+            }
+            .padding(.top, 16).padding(.trailing, 16)
         }
         .frame(width: PanelController.size.width, height: PanelController.size.height)
         .environment(\.locale, Localizer.shared.locale)
@@ -91,6 +102,96 @@ struct RootView: View {
         .padding(.top, 6)
     }
 
+    // MARK: share
+
+    private var shareMenu: some View {
+        Menu {
+            Section(L("This Page")) {
+                Button { share(all: false, save: false) } label: { Label(L("Copy to Clipboard"), systemImage: "doc.on.doc") }
+                Button { share(all: false, save: true) } label: { Label(L("Save as Image…"), systemImage: "square.and.arrow.down") }
+            }
+            Section(L("All Pages")) {
+                Button { share(all: true, save: false) } label: { Label(L("Copy to Clipboard"), systemImage: "doc.on.doc") }
+                Button { share(all: true, save: true) } label: { Label(L("Save as Image…"), systemImage: "square.and.arrow.down") }
+            }
+        } label: {
+            Image(systemName: "square.and.arrow.up")
+                .font(.system(size: 13, weight: .bold))
+                .offset(y: -1)
+                .frame(width: 30, height: 30)
+                .contentShape(Circle())
+        }
+        .menuStyle(.button)
+        .buttonStyle(.plain)
+        .menuIndicator(.hidden)
+        .glassEffect(.regular.interactive(), in: .circle)
+        .fixedSize()
+        .help(L("Share"))
+    }
+
+    /// Renders the current page (or every page as one collage), then copies it or saves it as a PNG.
+    private func share(all: Bool, save: Bool) {
+        // Rendering takes a moment (seconds for all pages on Intel), so say so first and render on the next pass.
+        // No animation: the main thread is busy while rendering, so a transition would freeze half-way.
+        var t = Transaction()
+        t.disablesAnimations = true
+        withTransaction(t) { toast = Toast(text: L("Creating image…"), ok: true, busy: true) }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.08) { render(all: all, save: save) }
+    }
+
+    private func render(all: Bool, save: Bool) {
+        let ctx = Snapshot.Context(monitor: monitor, settings: settings)
+        guard let image = all ? Snapshot.allPages(ctx) : Snapshot.page(tab, ctx) else {
+            return show(Toast(text: L("Couldn't create the image"), ok: false))
+        }
+        guard save else {
+            let ok = Snapshot.copy(image)
+            return show(Toast(text: ok ? L("Image copied to clipboard") : L("Couldn't copy the image"), ok: ok))
+        }
+        withAnimation(.smooth) { toast = nil }
+        state.isPresentingDialog = true
+        Snapshot.save(image, name: all ? L("All Pages") : tab.title, date: ctx.date) { result in
+            state.isPresentingDialog = false
+            switch result {
+            case .saved(let url): show(Toast(text: L("Saved “%@”", url.lastPathComponent), ok: true, file: url))
+            case .failed: show(Toast(text: L("Couldn't save the image"), ok: false))
+            case .cancelled: break
+            }
+        }
+    }
+
+    private func show(_ t: Toast) {
+        withAnimation(.snappy) { toast = t }
+        DispatchQueue.main.asyncAfter(deadline: .now() + (t.file == nil ? 2 : 3.5)) {
+            if toast == t { withAnimation(.smooth) { toast = nil } }
+        }
+    }
+
+    private func toastView(_ t: Toast) -> some View {
+        HStack(spacing: 7) {
+            if t.busy {
+                ProgressView().controlSize(.mini)
+            } else {
+                Image(systemName: t.ok ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
+                    .foregroundStyle(t.ok ? Theme.down : .orange)
+            }
+            Text(t.text).lineLimit(1).truncationMode(.middle)
+            if t.file != nil {
+                Text(L("Show in Finder")).foregroundStyle(Theme.cpu)
+            }
+        }
+        .font(.system(size: 12, weight: .semibold))
+        .padding(.horizontal, 14).padding(.vertical, 9)
+        .glassEffect(.regular, in: .capsule)
+        .contentShape(.capsule)
+        .onTapGesture {
+            if let file = t.file { NSWorkspace.shared.activateFileViewerSelecting([file]) }
+        }
+        .padding(.horizontal, 20)
+        .padding(.bottom, 84)
+        .transition(.move(edge: .bottom).combined(with: .opacity))
+    }
+
     // MARK: settings
 
     private var settingsMenu: some View {
@@ -102,6 +203,12 @@ struct RootView: View {
                 Toggle(L("Memory"), isOn: $s.showMemory)
                 Toggle(L("Network Speed"), isOn: $s.showNetwork)
                 Toggle(L("Disk Activity"), isOn: $s.showDisk)
+                if Edition.hasSensors {
+                    Toggle(L("CPU Temperature"), isOn: $s.showTemperature)
+                    if !monitor.sensors.fans.isEmpty || s.showFan {   // fanless Macs have nothing to show
+                        Toggle(L("Fan Speed"), isOn: $s.showFan)
+                    }
+                }
             }
             Section {
                 Picker(selection: $loc.language) {
@@ -124,5 +231,21 @@ struct RootView: View {
         .menuIndicator(.hidden)
         .glassEffect(.regular.interactive(), in: .circle)
         .fixedSize()
+    }
+}
+
+extension Tab {
+    /// The page shown for this tab (also used to render share images).
+    @MainActor @ViewBuilder
+    func page(go: @escaping (Tab) -> Void) -> some View {
+        switch self {
+        case .overview: OverviewView(go: go)
+        case .cpu: CPUView()
+        case .memory: MemoryView()
+        case .network: NetworkView()
+        case .disk: DiskView()
+        case .sensors: SensorsView()
+        case .hardware: HardwareView()
+        }
     }
 }

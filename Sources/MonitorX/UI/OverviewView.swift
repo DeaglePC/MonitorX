@@ -5,7 +5,7 @@ struct OverviewView: View {
     @Environment(SystemMonitor.self) private var m
 
     var body: some View {
-        ScrollView {
+        PageScroll {
             VStack(spacing: 14) {
                 header
                 LazyVGrid(columns: [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)], spacing: 12) {
@@ -20,7 +20,6 @@ struct OverviewView: View {
             .padding(.top, 18)
             .padding(.bottom, 12)
         }
-        .scrollIndicators(.hidden)
     }
 
     private var header: some View {
@@ -38,7 +37,7 @@ struct OverviewView: View {
             }
             Spacer()
         }
-        .padding(.trailing, 44)
+        .padding(.trailing, headerTrailingRoom)
     }
 
     // MARK: cards
@@ -104,7 +103,7 @@ struct OverviewView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(12)
-        .glassEffect(.regular, in: .rect(cornerRadius: 18))
+        .glassSurface(radius: 18)
     }
 
     private func batterySymbol(_ b: BatteryInfo) -> String {
@@ -175,7 +174,7 @@ private struct MetricCard: View {
             }
             .padding(13)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .glassEffect(.regular.tint(tab.accent.opacity(0.10)).interactive(), in: .rect(cornerRadius: 22))
+            .glassSurface(radius: 22, tint: tab.accent, tintOpacity: 0.10, interactive: true)
         }
         .buttonStyle(.plain)
     }

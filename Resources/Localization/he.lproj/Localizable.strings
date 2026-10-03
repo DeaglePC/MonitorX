@@ -163,3 +163,18 @@
 "%@ sensors" = "%@ חיישנים";
 "Fans" = "מאווררים";
 "Reading sensors…" = "קורא חיישנים…";
+
+/* Sharing */
+"Share" = "שיתוף";
+"Image copied to clipboard" = "התמונה הועתקה ללוח";
+"Couldn't create the image" = "לא ניתן ליצור את התמונה";
+"This Page" = "דף זה";
+"All Pages" = "כל הדפים";
+"Copy to Clipboard" = "העתק ללוח";
+"Save as Image…" = "שמור כתמונה…";
+"Couldn't copy the image" = "לא ניתן להעתיק את התמונה";
+"Saved “%@”" = "‏”%@“ נשמר";
+"Couldn't save the image" = "לא ניתן לשמור את התמונה";
+"Show in Finder" = "הצג ב-Finder";
+"Creating image…" = "יוצר תמונה…";
+"Fan Speed" = "מהירות מאוורר";

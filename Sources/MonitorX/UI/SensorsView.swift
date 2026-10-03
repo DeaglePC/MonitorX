@@ -3,6 +3,7 @@ import SwiftUI
 /// Every temperature sensor the SMC exposes, grouped by component, plus fan speeds.
 struct SensorsView: View {
     @Environment(SystemMonitor.self) private var m
+    @Environment(\.isSnapshot) private var isSnapshot
 
     private func severity(_ t: Double) -> Double { (t - 30) / 60 }
 
@@ -12,7 +13,7 @@ struct SensorsView: View {
         let hottest = s.all.max { $0.value < $1.value }
         let average = s.all.isEmpty ? 0 : s.all.map(\.value).reduce(0, +) / Double(s.all.count)
 
-        ScrollView {
+        PageScroll {
             VStack(spacing: 14) {
                 PageHeader(title: L("Sensors"), symbol: Tab.sensors.symbol, colors: Tab.sensors.colors,
                            subtitle: L("%1$@ temperature sensors · %2$@ fans", "\(s.all.count)", "\(s.fans.count)"))
@@ -52,7 +53,7 @@ struct SensorsView: View {
 
                 if s.all.isEmpty {
                     HStack(spacing: 8) {
-                        ProgressView().controlSize(.small)
+                        if !isSnapshot { ProgressView().controlSize(.small) }
                         Text(L("Reading sensors…")).font(.caption).foregroundStyle(.secondary)
                     }
                     .frame(maxWidth: .infinity, minHeight: 80)
@@ -77,7 +78,6 @@ struct SensorsView: View {
             }
             .padding(EdgeInsets(top: 18, leading: 16, bottom: 12, trailing: 16))
         }
-        .scrollIndicators(.hidden)
     }
 
     private func row(_ r: SensorReading) -> some View {

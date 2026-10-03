@@ -163,3 +163,18 @@
 "%@ sensors" = "Датчиков: %@";
 "Fans" = "Вентиляторы";
 "Reading sensors…" = "Чтение датчиков…";
+
+/* Sharing */
+"Share" = "Поделиться";
+"Image copied to clipboard" = "Изображение скопировано в буфер обмена";
+"Couldn't create the image" = "Не удалось создать изображение";
+"This Page" = "Эта страница";
+"All Pages" = "Все страницы";
+"Copy to Clipboard" = "Скопировать в буфер обмена";
+"Save as Image…" = "Сохранить как изображение…";
+"Couldn't copy the image" = "Не удалось скопировать изображение";
+"Saved “%@”" = "Сохранено: «%@»";
+"Couldn't save the image" = "Не удалось сохранить изображение";
+"Show in Finder" = "Показать в Finder";
+"Creating image…" = "Создание изображения…";
+"Fan Speed" = "Скорость вентилятора";

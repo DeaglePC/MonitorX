@@ -163,3 +163,18 @@
 "%@ sensors" = "%@ sensoren";
 "Fans" = "Ventilatoren";
 "Reading sensors…" = "Sensoren uitlezen…";
+
+/* Sharing */
+"Share" = "Deel";
+"Image copied to clipboard" = "Afbeelding gekopieerd naar klembord";
+"Couldn't create the image" = "Kan afbeelding niet aanmaken";
+"This Page" = "Deze pagina";
+"All Pages" = "Alle pagina’s";
+"Copy to Clipboard" = "Kopieer naar klembord";
+"Save as Image…" = "Bewaar als afbeelding…";
+"Couldn't copy the image" = "Kan afbeelding niet kopiëren";
+"Saved “%@”" = "‘%@’ bewaard";
+"Couldn't save the image" = "Kan afbeelding niet bewaren";
+"Show in Finder" = "Toon in Finder";
+"Creating image…" = "Afbeelding aanmaken…";
+"Fan Speed" = "Ventilatorsnelheid";
