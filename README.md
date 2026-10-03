@@ -120,6 +120,22 @@ Scripts/release_appstore.sh
 
 两个脚本的头部注释里有一次性准备步骤（证书、公证凭据、描述文件）。产物在 `dist/`。
 
+**自动发布（GitHub Actions）**：推送 `v*` 标签即触发 [`.github/workflows/release.yml`](.github/workflows/release.yml)，在 macOS 26 runner 上构建官网版，并把 `.dmg`、`.zip`、`SHA256SUMS.txt` 上传到对应的 GitHub Release（`v1.2.0-beta.1` 这类带 `-` 的标签发布为预发布版）。
+
+```bash
+git tag v1.2.0 && git push origin v1.2.0
+```
+
+在仓库 Settings → Secrets and variables → Actions 中配置以下密钥后，CI 会签名并公证；未配置时发布 ad-hoc 签名包。
+
+| Secret | 内容 |
+| --- | --- |
+| `MACOS_CERT_P12` | 「Developer ID Application」证书（含私钥）导出的 .p12，base64 编码 |
+| `MACOS_CERT_PASSWORD` | 导出 .p12 时设置的密码 |
+| `NOTARY_KEY` | App Store Connect API 密钥文件 `AuthKey_XXXX.p8` 的内容 |
+| `NOTARY_KEY_ID` | 该密钥的 Key ID |
+| `NOTARY_ISSUER` | App Store Connect 密钥列表上方的 Issuer ID |
+
 ## 落地页（Docker 部署）
 
 [`website/`](website/) 是一个纯静态落地页（无构建步骤），用 nginx 提供服务：
