@@ -81,7 +81,10 @@ final class PanelController: NSObject {
 
         var x = buttonFrame.midX - Self.size.width / 2
         x = min(max(x, visible.minX + 8), visible.maxX - Self.size.width - 8)
-        let y = max(visible.minY + 8, buttonFrame.minY - Self.size.height - 6)
+        // Keep the top on screen: while the menu bar is hidden (full-screen app, auto-hide, or `--show` at launch)
+        // the status item's window sits above the screen, which would push the panel's header off the top.
+        var y = min(buttonFrame.minY, visible.maxY) - Self.size.height - 6
+        y = max(visible.minY + 8, y)
         positioning = true
         panel.setFrame(NSRect(x: x, y: y, width: Self.size.width, height: Self.size.height), display: true)
         positioning = false
