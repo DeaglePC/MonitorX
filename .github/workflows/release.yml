@@ -30,11 +30,11 @@ concurrency:
 jobs:
   release:
     runs-on: macos-26   # the app needs the macOS 26 SDK (Liquid Glass)
-    timeout-minutes: 45
+    timeout-minutes: 120   # a team's first notarizations can take Apple well over 30 minutes
     env:
       TAG: ${{ github.event.inputs.tag || github.ref_name }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: ${{ env.TAG }}
 
@@ -81,6 +81,7 @@ jobs:
         run: |
           export VERSION="${TAG#v}"
           export BUILD_NUMBER="${{ github.run_number }}"
+          export NOTARY_TIMEOUT=50m   # per submission (app, then dmg); keeps both within the job timeout
           if [[ -n "$SIGN_IDENTITY" && -n "$NOTARY_KEY" ]]; then
             export NOTARY_KEY_PATH="$RUNNER_TEMP/AuthKey.p8"
             printf '%s' "$NOTARY_KEY" > "$NOTARY_KEY_PATH"
