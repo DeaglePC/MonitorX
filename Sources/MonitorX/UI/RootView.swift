@@ -195,6 +195,16 @@ struct RootView: View {
     // MARK: settings
 
     private var settingsMenu: some View {
+        SettingsMenu(hasFans: !monitor.sensors.fans.isEmpty)
+    }
+}
+
+/// Kept as its own view so the open menu is not rebuilt (and its submenu closed/flickering) on every sampling tick.
+private struct SettingsMenu: View {
+    @Environment(Settings.self) private var settings
+    let hasFans: Bool
+
+    var body: some View {
         @Bindable var s = settings
         @Bindable var loc = Localizer.shared
         return Menu {
@@ -205,7 +215,7 @@ struct RootView: View {
                 Toggle(L("Disk Activity"), isOn: $s.showDisk)
                 if Edition.hasSensors {
                     Toggle(L("CPU Temperature"), isOn: $s.showTemperature)
-                    if !monitor.sensors.fans.isEmpty || s.showFan {   // fanless Macs have nothing to show
+                    if hasFans || s.showFan {   // fanless Macs have nothing to show
                         Toggle(L("Fan Speed"), isOn: $s.showFan)
                     }
                 }
