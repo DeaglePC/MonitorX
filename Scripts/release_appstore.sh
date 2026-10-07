@@ -53,6 +53,8 @@ done
 
 step "Embedding provisioning profile"
 cp "$PROVISION_PROFILE" "$APP/Contents/embedded.provisionprofile"
+# A browser-downloaded profile carries com.apple.quarantine, which App Store Connect rejects (error 91109).
+xattr -cr "$APP"
 
 step "Signing with: $APP_IDENTITY"
 ENT="$(mktemp -d)/entitlements.plist"
