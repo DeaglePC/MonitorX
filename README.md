@@ -82,6 +82,8 @@ open build/MonitorX.app
 ## 多语言
 
 - 翻译文件在 `Resources/Localization/<语言>.lproj/Localizable.strings`，`Scripts/build.sh` 会把它们拷进 `.app` 并写入 `CFBundleLocalizations`（因此 macOS「系统设置 → 通用 → 语言与地区 → App」里也能单独给 MonitorX 指定语言）。
+- `swift run` / 调试构建也会通过 SwiftPM 资源包加载翻译，切换语言无需重启。
+- 运行 `Scripts/check_language_switch.sh` 可验证开发版和 `.app` 资源目录下的语言切换、设置保存及界面刷新通知（只需 Command Line Tools）。
 - 代码里用 `L("English text")` / `L("Format %@", arg)` 取文案，键就是英文原文；缺翻译时回退为英文。
 - 新增或修改文案后运行 `Scripts/check_localizations.py`，检查每种语言是否缺键、多余键、占位符（`%@` / `%1$@`）是否一致。
 - 新增语言：复制 `en.lproj` 改名并翻译，再在 `Sources/MonitorX/App/Localization.swift` 的 `AppLanguage` 里加一项。

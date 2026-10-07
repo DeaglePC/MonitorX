@@ -44,7 +44,7 @@ enum AppLanguage: String, CaseIterable, Identifiable {
 }
 
 /// Resolves UI strings for the chosen language. Keys are the English text, so a missing translation
-/// (or running the bare binary without the .app's Resources) falls back to readable English.
+/// falls back to readable English. SwiftPM builds load the same translations from their resource bundle.
 ///
 /// `language` is observed: SwiftUI views that call `L(...)` re-render as soon as it changes.
 @Observable
@@ -53,7 +53,7 @@ final class Localizer {
 
     var language: AppLanguage {
         didSet {
-            UserDefaults.standard.set(language.rawValue, forKey: Self.defaultsKey)
+            defaults.set(language.rawValue, forKey: Self.defaultsKey)
             resolve()
         }
     }
@@ -62,10 +62,12 @@ final class Localizer {
     private(set) var resolvedCode = "en"
 
     @ObservationIgnored private var bundle: Bundle?
+    @ObservationIgnored private let defaults: UserDefaults
     private static let defaultsKey = "language"
 
-    private init() {
-        language = AppLanguage(rawValue: UserDefaults.standard.string(forKey: Self.defaultsKey) ?? "") ?? .system
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+        language = AppLanguage(rawValue: defaults.string(forKey: Self.defaultsKey) ?? "") ?? .system
         resolve()
     }
 
@@ -90,7 +92,12 @@ final class Localizer {
             code = language.rawValue
         }
         resolvedCode = code
-        bundle = Bundle.main.path(forResource: code, ofType: "lproj").flatMap(Bundle.init(path:))
+        // Packaged apps keep .lproj folders in Contents/Resources. `swift run` / debug builds
+        // keep them in SwiftPM's resource bundle instead. Resolve that bundle only if needed,
+        // since the standalone .app does not need to ship the SwiftPM bundle as well.
+        let path = Bundle.main.path(forResource: code, ofType: "lproj")
+            ?? Bundle.module.path(forResource: code, ofType: "lproj", inDirectory: "Localization")
+        bundle = path.flatMap(Bundle.init(path:))
     }
 }
 
