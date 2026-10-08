@@ -178,3 +178,46 @@
 "Show in Finder" = "Show in Finder";
 "Creating image…" = "Creating image…";
 "Fan Speed" = "Fan Speed";
+
+/* Menu-bar layout */
+"Menu Bar Appearance" = "Menu Bar Appearance";
+"Automatic" = "Automatic";
+"Icon Only" = "Icon Only";
+"Live Metrics" = "Live Metrics";
+
+/* Text sharing */
+"Copy as Text" = "Copy as Text";
+"Save as Text…" = "Save as Text…";
+"Text copied to clipboard" = "Text copied to clipboard";
+"Couldn't copy the text" = "Couldn't copy the text";
+"Couldn't save the text" = "Couldn't save the text";
+
+/* Codex usage */
+"Codex Usage" = "Codex Usage";
+"Show Codex Usage" = "Show Codex Usage";
+"Refresh" = "Refresh";
+"Remaining: %@" = "Remaining: %@";
+"Resets: %@" = "Resets: %@";
+"Updated: %@" = "Updated: %@";
+"Codex CLI not found" = "Codex CLI not found";
+"Couldn't read Codex usage. Sign in to Codex with ChatGPT." = "Couldn't read Codex usage. Sign in to Codex with ChatGPT.";
+"No quota data available" = "No quota data available";
+
+/* Claude integration */
+"Claude Usage" = "Claude Usage";
+"Connect Claude Code" = "Connect Claude Code";
+"Disconnect Claude Code" = "Disconnect Claude Code";
+"Couldn't configure Claude Code" = "Couldn't configure Claude Code";
+"Start a Claude Code conversation to update usage." = "Start a Claude Code conversation to update usage.";
+"Last reading (may be outdated)" = "Last reading (may be outdated)";
+
+/* Claude setup */
+"Install Claude Code" = "Install Claude Code";
+"Sign in to Claude" = "Sign in to Claude";
+"Open Claude Code" = "Open Claude Code";
+"Checking Claude Code…" = "Checking Claude Code…";
+"Claude Code is not installed. Open the official installation guide to get started." = "Claude Code is not installed. Open the official installation guide to get started.";
+"Claude Code is not signed in. Sign in with your Claude Pro or Max account." = "Claude Code is not signed in. Sign in with your Claude Pro or Max account.";
+"This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage.";
+"Couldn't check Claude Code login. Open Claude Code to continue setup." = "Couldn't check Claude Code login. Open Claude Code to continue setup.";
+"Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection.";

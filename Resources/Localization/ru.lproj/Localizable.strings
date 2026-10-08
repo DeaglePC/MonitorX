@@ -178,3 +178,46 @@
 "Show in Finder" = "Показать в Finder";
 "Creating image…" = "Создание изображения…";
 "Fan Speed" = "Скорость вентилятора";
+
+/* Menu-bar layout */
+"Menu Bar Appearance" = "Вид строки меню";
+"Automatic" = "Автоматически";
+"Icon Only" = "Только значок";
+"Live Metrics" = "Показатели в реальном времени";
+
+/* Text sharing */
+"Copy as Text" = "Копировать как текст";
+"Save as Text…" = "Сохранить как текст…";
+"Text copied to clipboard" = "Текст скопирован в буфер обмена";
+"Couldn't copy the text" = "Не удалось скопировать текст";
+"Couldn't save the text" = "Не удалось сохранить текст";
+
+/* Codex usage */
+"Codex Usage" = "Лимиты Codex";
+"Show Codex Usage" = "Показать лимиты Codex";
+"Refresh" = "Обновить";
+"Remaining: %@" = "Осталось: %@";
+"Resets: %@" = "Сброс: %@";
+"Updated: %@" = "Обновлено: %@";
+"Codex CLI not found" = "Codex CLI не найден";
+"Couldn't read Codex usage. Sign in to Codex with ChatGPT." = "Не удалось прочитать лимиты. Войдите в Codex через ChatGPT.";
+"No quota data available" = "Нет данных о лимитах";
+
+/* Claude integration */
+"Claude Usage" = "Лимиты Claude";
+"Connect Claude Code" = "Подключить Claude Code";
+"Disconnect Claude Code" = "Отключить Claude Code";
+"Couldn't configure Claude Code" = "Не удалось настроить Claude Code";
+"Start a Claude Code conversation to update usage." = "Начните разговор в Claude Code, чтобы обновить лимиты.";
+"Last reading (may be outdated)" = "Последние данные (могут устареть)";
+
+/* Claude setup */
+"Install Claude Code" = "Установить Claude Code";
+"Sign in to Claude" = "Войти в Claude";
+"Open Claude Code" = "Открыть Claude Code";
+"Checking Claude Code…" = "Проверка Claude Code…";
+"Claude Code is not installed. Open the official installation guide to get started." = "Claude Code не установлен. Откройте официальную инструкцию по установке.";
+"Claude Code is not signed in. Sign in with your Claude Pro or Max account." = "Вход в Claude Code не выполнен. Войдите с аккаунтом Claude Pro или Max.";
+"This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "Используется оплата API. Войдите с Claude Pro или Max для получения данных подписки.";
+"Couldn't check Claude Code login. Open Claude Code to continue setup." = "Не удалось проверить вход. Откройте Claude Code для продолжения.";
+"Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "Ожидание данных. Отправьте сообщение в Claude Code; данные появятся после ответа. Чаты в браузере и настольном приложении не обновляют это подключение.";

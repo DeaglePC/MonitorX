@@ -178,3 +178,46 @@
 "Show in Finder" = "Tunjukkan dalam Finder";
 "Creating image…" = "Mencipta imej…";
 "Fan Speed" = "Kelajuan Kipas";
+
+/* Menu-bar layout */
+"Menu Bar Appearance" = "Penampilan bar menu";
+"Automatic" = "Automatik";
+"Icon Only" = "Ikon sahaja";
+"Live Metrics" = "Metrik langsung";
+
+/* Text sharing */
+"Copy as Text" = "Salin sebagai teks";
+"Save as Text…" = "Simpan sebagai teks…";
+"Text copied to clipboard" = "Teks disalin ke papan keratan";
+"Couldn't copy the text" = "Tidak dapat menyalin teks";
+"Couldn't save the text" = "Tidak dapat menyimpan teks";
+
+/* Codex usage */
+"Codex Usage" = "Kuota Codex";
+"Show Codex Usage" = "Tunjukkan kuota Codex";
+"Refresh" = "Muat semula";
+"Remaining: %@" = "Baki: %@";
+"Resets: %@" = "Tetapan semula: %@";
+"Updated: %@" = "Dikemas kini: %@";
+"Codex CLI not found" = "Codex CLI tidak ditemui";
+"Couldn't read Codex usage. Sign in to Codex with ChatGPT." = "Tidak dapat membaca kuota. Log masuk ke Codex dengan ChatGPT.";
+"No quota data available" = "Tiada data kuota";
+
+/* Claude integration */
+"Claude Usage" = "Kuota Claude";
+"Connect Claude Code" = "Sambungkan Claude Code";
+"Disconnect Claude Code" = "Putuskan Claude Code";
+"Couldn't configure Claude Code" = "Tidak dapat mengkonfigurasi Claude Code";
+"Start a Claude Code conversation to update usage." = "Mulakan perbualan Claude Code untuk mengemas kini kuota.";
+"Last reading (may be outdated)" = "Bacaan terakhir (mungkin sudah lapuk)";
+
+/* Claude setup */
+"Install Claude Code" = "Pasang Claude Code";
+"Sign in to Claude" = "Log masuk ke Claude";
+"Open Claude Code" = "Buka Claude Code";
+"Checking Claude Code…" = "Memeriksa Claude Code…";
+"Claude Code is not installed. Open the official installation guide to get started." = "Claude Code belum dipasang. Buka panduan pemasangan rasmi.";
+"Claude Code is not signed in. Sign in with your Claude Pro or Max account." = "Claude Code belum log masuk. Log masuk dengan akaun Claude Pro atau Max.";
+"This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "Log masuk ini menggunakan pengebilan API. Log masuk dengan Claude Pro atau Max untuk mendapatkan penggunaan langganan.";
+"Couldn't check Claude Code login. Open Claude Code to continue setup." = "Tidak dapat menyemak log masuk. Buka Claude Code untuk meneruskan persediaan.";
+"Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "Menunggu data. Hantar mesej dalam Claude Code; penggunaan muncul selepas balasan. Sembang web dan desktop tidak mengemas kini sambungan ini.";

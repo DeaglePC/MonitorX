@@ -3,11 +3,16 @@ import SwiftUI
 struct OverviewView: View {
     var go: (Tab) -> Void
     @Environment(SystemMonitor.self) private var m
+    @Environment(Settings.self) private var settings
 
     var body: some View {
         PageScroll {
             VStack(spacing: 14) {
                 header
+                if !Edition.isAppStore && settings.showCodexUsage {
+                    CodexUsageCard(usage: m.codexUsage)
+                }
+                if !Edition.isAppStore { ClaudeUsageCard(usage: m.claudeUsage) }
                 LazyVGrid(columns: [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)], spacing: 12) {
                     cpuCard
                     memCard
@@ -23,7 +28,7 @@ struct OverviewView: View {
     }
 
     private var header: some View {
-        HStack(spacing: 12) {
+        HStack(alignment: .top, spacing: 12) {
             Image(systemName: "gauge.with.dots.needle.67percent")
                 .font(.system(size: 19, weight: .semibold))
                 .foregroundStyle(.white)
@@ -31,9 +36,15 @@ struct OverviewView: View {
                 .background(LinearGradient(colors: Tab.overview.colors, startPoint: .topLeading, endPoint: .bottomTrailing), in: .rect(cornerRadius: 13))
                 .shadow(color: Theme.cpu.opacity(0.4), radius: 8, y: 3)
             VStack(alignment: .leading, spacing: 2) {
-                Text(m.hardware.modelName).font(.system(size: 20, weight: .bold, design: .rounded))
-                Text(m.hardware.shortChip + " · " + L("Up %@", Fmt.uptime(since: m.hardware.bootDate)))
-                    .font(.caption).foregroundStyle(.secondary).lineLimit(1)
+                Text(m.hardware.modelName)
+                    .font(.system(size: 20, weight: .bold, design: .rounded))
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(m.hardware.shortChip)
+                    .font(.caption).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(L("Up %@", Fmt.uptime(since: m.hardware.bootDate)))
+                    .font(.caption).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             Spacer()
         }

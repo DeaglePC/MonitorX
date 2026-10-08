@@ -178,3 +178,46 @@
 "Show in Finder" = "在访达中显示";
 "Creating image…" = "正在生成图片…";
 "Fan Speed" = "风扇转速";
+
+/* Menu-bar layout */
+"Menu Bar Appearance" = "菜单栏外观";
+"Automatic" = "自动（适配刘海屏）";
+"Icon Only" = "仅图标";
+"Live Metrics" = "实时指标";
+
+/* Text sharing */
+"Copy as Text" = "复制文字版";
+"Save as Text…" = "导出为文本文件…";
+"Text copied to clipboard" = "文字已复制到剪贴板";
+"Couldn't copy the text" = "无法复制文字";
+"Couldn't save the text" = "无法保存文字";
+
+/* Codex usage */
+"Codex Usage" = "Codex 额度";
+"Show Codex Usage" = "显示 Codex 额度";
+"Refresh" = "刷新";
+"Remaining: %@" = "剩余：%@";
+"Resets: %@" = "重置时间：%@";
+"Updated: %@" = "更新于：%@";
+"Codex CLI not found" = "未找到 Codex CLI";
+"Couldn't read Codex usage. Sign in to Codex with ChatGPT." = "无法读取 Codex 额度，请使用 ChatGPT 账号登录 Codex。";
+"No quota data available" = "暂无额度数据";
+
+/* Claude integration */
+"Claude Usage" = "Claude 额度";
+"Connect Claude Code" = "连接 Claude Code";
+"Disconnect Claude Code" = "断开 Claude Code";
+"Couldn't configure Claude Code" = "无法配置 Claude Code";
+"Start a Claude Code conversation to update usage." = "连接后，开始一次 Claude Code 对话以更新额度。";
+"Last reading (may be outdated)" = "上次读数（可能已过期）";
+
+/* Claude setup */
+"Install Claude Code" = "安装 Claude Code";
+"Sign in to Claude" = "登录 Claude";
+"Open Claude Code" = "打开 Claude Code";
+"Checking Claude Code…" = "正在检查 Claude Code…";
+"Claude Code is not installed. Open the official installation guide to get started." = "尚未安装 Claude Code，请打开官方安装指南。";
+"Claude Code is not signed in. Sign in with your Claude Pro or Max account." = "Claude Code 尚未登录，请使用 Claude Pro 或 Max 账号登录。";
+"This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "当前 Claude Code 使用 API 计费，请登录 Claude Pro 或 Max 账号以获取订阅额度。";
+"Couldn't check Claude Code login. Open Claude Code to continue setup." = "无法检查 Claude Code 登录状态，请打开 Claude Code 继续设置。";
+"Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "等待额度数据。在 Claude Code 中发送一条消息，回复后额度会自动显示；网页或桌面聊天不会更新此连接。";

@@ -178,3 +178,46 @@
 "Show in Finder" = "إظهار في فايندر";
 "Creating image…" = "جارٍ إنشاء الصورة…";
 "Fan Speed" = "سرعة المروحة";
+
+/* Menu-bar layout */
+"Menu Bar Appearance" = "مظهر شريط القوائم";
+"Automatic" = "تلقائي";
+"Icon Only" = "الأيقونة فقط";
+"Live Metrics" = "المؤشرات المباشرة";
+
+/* Text sharing */
+"Copy as Text" = "نسخ كنص";
+"Save as Text…" = "حفظ كنص…";
+"Text copied to clipboard" = "تم نسخ النص إلى الحافظة";
+"Couldn't copy the text" = "تعذر نسخ النص";
+"Couldn't save the text" = "تعذر حفظ النص";
+
+/* Codex usage */
+"Codex Usage" = "حصة Codex";
+"Show Codex Usage" = "عرض حصة Codex";
+"Refresh" = "تحديث";
+"Remaining: %@" = "المتبقي: %@";
+"Resets: %@" = "إعادة التعيين: %@";
+"Updated: %@" = "آخر تحديث: %@";
+"Codex CLI not found" = "لم يتم العثور على Codex CLI";
+"Couldn't read Codex usage. Sign in to Codex with ChatGPT." = "تعذرت قراءة الحصة. سجل الدخول إلى Codex باستخدام ChatGPT.";
+"No quota data available" = "لا توجد بيانات للحصة";
+
+/* Claude integration */
+"Claude Usage" = "حصة Claude";
+"Connect Claude Code" = "ربط Claude Code";
+"Disconnect Claude Code" = "فصل Claude Code";
+"Couldn't configure Claude Code" = "تعذر إعداد Claude Code";
+"Start a Claude Code conversation to update usage." = "ابدأ محادثة Claude Code لتحديث الحصة.";
+"Last reading (may be outdated)" = "آخر قراءة (قد تكون قديمة)";
+
+/* Claude setup */
+"Install Claude Code" = "تثبيت Claude Code";
+"Sign in to Claude" = "تسجيل الدخول إلى Claude";
+"Open Claude Code" = "فتح Claude Code";
+"Checking Claude Code…" = "جارٍ فحص Claude Code…";
+"Claude Code is not installed. Open the official installation guide to get started." = "Claude Code غير مثبت. افتح دليل التثبيت الرسمي.";
+"Claude Code is not signed in. Sign in with your Claude Pro or Max account." = "لم يتم تسجيل الدخول إلى Claude Code. سجل الدخول بحساب Claude Pro أو Max.";
+"This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "يستخدم هذا الدخول فوترة API. سجل الدخول عبر Claude Pro أو Max لعرض استخدام الاشتراك.";
+"Couldn't check Claude Code login. Open Claude Code to continue setup." = "تعذر فحص تسجيل الدخول. افتح Claude Code لمتابعة الإعداد.";
+"Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "بانتظار البيانات. أرسل رسالة في Claude Code وسيظهر الاستخدام بعد الرد. محادثات الويب وسطح المكتب لا تحدث هذا الاتصال.";

@@ -178,3 +178,46 @@
 "Show in Finder" = "Finder’da Göster";
 "Creating image…" = "Görüntü oluşturuluyor…";
 "Fan Speed" = "Fan Hızı";
+
+/* Menu-bar layout */
+"Menu Bar Appearance" = "Menü çubuğu görünümü";
+"Automatic" = "Otomatik";
+"Icon Only" = "Yalnızca simge";
+"Live Metrics" = "Canlı ölçümler";
+
+/* Text sharing */
+"Copy as Text" = "Metin olarak kopyala";
+"Save as Text…" = "Metin olarak kaydet…";
+"Text copied to clipboard" = "Metin panoya kopyalandı";
+"Couldn't copy the text" = "Metin kopyalanamadı";
+"Couldn't save the text" = "Metin kaydedilemedi";
+
+/* Codex usage */
+"Codex Usage" = "Codex kotası";
+"Show Codex Usage" = "Codex kotasını göster";
+"Refresh" = "Yenile";
+"Remaining: %@" = "Kalan: %@";
+"Resets: %@" = "Sıfırlama: %@";
+"Updated: %@" = "Güncellendi: %@";
+"Codex CLI not found" = "Codex CLI bulunamadı";
+"Couldn't read Codex usage. Sign in to Codex with ChatGPT." = "Kota okunamadı. ChatGPT ile Codex hesabına giriş yapın.";
+"No quota data available" = "Kota verisi yok";
+
+/* Claude integration */
+"Claude Usage" = "Claude kotası";
+"Connect Claude Code" = "Claude Code bağla";
+"Disconnect Claude Code" = "Claude Code bağlantısını kes";
+"Couldn't configure Claude Code" = "Claude Code yapılandırılamadı";
+"Start a Claude Code conversation to update usage." = "Kotayı güncellemek için Claude Code sohbeti başlatın.";
+"Last reading (may be outdated)" = "Son okuma (eski olabilir)";
+
+/* Claude setup */
+"Install Claude Code" = "Claude Code’u yükle";
+"Sign in to Claude" = "Claude’a giriş yap";
+"Open Claude Code" = "Claude Code’u aç";
+"Checking Claude Code…" = "Claude Code kontrol ediliyor…";
+"Claude Code is not installed. Open the official installation guide to get started." = "Claude Code yüklü değil. Resmî kurulum kılavuzunu açın.";
+"Claude Code is not signed in. Sign in with your Claude Pro or Max account." = "Claude Code’da oturum açılmamış. Claude Pro veya Max hesabınızla giriş yapın.";
+"This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "Bu oturum API faturalandırması kullanıyor. Abonelik kullanımını almak için Claude Pro veya Max ile giriş yapın.";
+"Couldn't check Claude Code login. Open Claude Code to continue setup." = "Oturum durumu kontrol edilemedi. Devam etmek için Claude Code’u açın.";
+"Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "Veriler bekleniyor. Claude Code’da mesaj gönderin; yanıt sonrası kullanım otomatik görünür. Web ve masaüstü sohbetleri bu bağlantıyı güncellemez.";

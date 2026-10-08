@@ -109,10 +109,14 @@ struct RootView: View {
             Section(L("This Page")) {
                 Button { share(all: false, save: false) } label: { Label(L("Copy to Clipboard"), systemImage: "doc.on.doc") }
                 Button { share(all: false, save: true) } label: { Label(L("Save as Image…"), systemImage: "square.and.arrow.down") }
+                Button { shareText(all: false, save: false) } label: { Label(L("Copy as Text"), systemImage: "doc.plaintext") }
+                Button { shareText(all: false, save: true) } label: { Label(L("Save as Text…"), systemImage: "document") }
             }
             Section(L("All Pages")) {
                 Button { share(all: true, save: false) } label: { Label(L("Copy to Clipboard"), systemImage: "doc.on.doc") }
                 Button { share(all: true, save: true) } label: { Label(L("Save as Image…"), systemImage: "square.and.arrow.down") }
+                Button { shareText(all: true, save: false) } label: { Label(L("Copy as Text"), systemImage: "doc.plaintext") }
+                Button { shareText(all: true, save: true) } label: { Label(L("Save as Text…"), systemImage: "document") }
             }
         } label: {
             Image(systemName: "square.and.arrow.up")
@@ -127,6 +131,27 @@ struct RootView: View {
         .glassEffect(.regular.interactive(), in: .circle)
         .fixedSize()
         .help(L("Share"))
+    }
+
+    /// Shares a fixed text snapshot of the chosen pages.
+    private func shareText(all: Bool, save: Bool) {
+        let date = Date()
+        // Capture the text now, so sampling while the save dialog is open cannot change the export.
+        let text = TextSnapshot.report(tabs: all ? Tab.available : [tab], monitor: monitor, settings: settings, date: date)
+        guard save else {
+            let ok = TextSnapshot.copy(text)
+            return show(Toast(text: ok ? L("Text copied to clipboard") : L("Couldn't copy the text"), ok: ok))
+        }
+        withAnimation(.smooth) { toast = nil }
+        state.isPresentingDialog = true
+        Snapshot.saveText(text, name: all ? L("All Pages") : tab.title, date: date) { result in
+            state.isPresentingDialog = false
+            switch result {
+            case .saved(let url): show(Toast(text: L("Saved “%@”", url.lastPathComponent), ok: true, file: url))
+            case .failed: show(Toast(text: L("Couldn't save the text"), ok: false))
+            case .cancelled: break
+            }
+        }
     }
 
     /// Renders the current page (or every page as one collage), then copies it or saves it as a PNG.
@@ -209,10 +234,17 @@ private struct SettingsMenu: View {
         @Bindable var loc = Localizer.shared
         return Menu {
             Section(L("Show in Menu Bar")) {
+                Picker(selection: $s.menuBarAppearance) {
+                    Text(L("Automatic")).tag(MenuBarAppearance.automatic)
+                    Text(L("Icon Only")).tag(MenuBarAppearance.compact)
+                    Text(L("Live Metrics")).tag(MenuBarAppearance.detailed)
+                } label: { Text(L("Menu Bar Appearance")) }
                 Toggle(L("CPU"), isOn: $s.showCPU)
                 Toggle(L("Memory"), isOn: $s.showMemory)
                 Toggle(L("Network Speed"), isOn: $s.showNetwork)
                 Toggle(L("Disk Activity"), isOn: $s.showDisk)
+                if !Edition.isAppStore { Toggle(L("Codex Usage"), isOn: $s.showCodexInMenuBar) }
+                if !Edition.isAppStore { Toggle(L("Claude Usage"), isOn: $s.showClaudeInMenuBar) }
                 if Edition.hasSensors {
                     Toggle(L("CPU Temperature"), isOn: $s.showTemperature)
                     if hasFans || s.showFan {   // fanless Macs have nothing to show
@@ -221,6 +253,7 @@ private struct SettingsMenu: View {
                 }
             }
             Section {
+                if !Edition.isAppStore { Toggle(L("Show Codex Usage"), isOn: $s.showCodexUsage) }
                 Picker(selection: $loc.language) {
                     ForEach(AppLanguage.allCases) { Text($0.nativeName).tag($0) }
                 } label: {

@@ -227,7 +227,7 @@
     <section class="wrap plain faq">
       <h2>常见问题</h2>
       <details><summary>为什么提示无法验证开发者？</summary><p>不同版本的签名与公证状态可能不同，请先查看 GitHub Releases 中的版本说明。确认安装包来自本项目后，可按上方安装步骤操作。</p></details>
-      <details><summary>它会联网或上传数据吗？</summary><p>不会。所有数据都在本机采集，应用不发起任何网络请求。</p></details>
+      <details><summary>它会联网或上传数据吗？</summary><p>系统指标在本机采集，不向开发者上传数据。直装版开启 Codex 额度监控时，本机官方 Codex 会使用已有登录状态向 OpenAI 查询额度，可在设置中关闭。</p></details>
       <details><summary>需要哪些权限？</summary><p>不需要辅助功能、屏幕录制或完全磁盘访问。读取温度与风扇走系统的 SMC 接口，读取进程信息用系统自带的接口和命令行工具。</p></details>
       <details><summary>支持 Apple Silicon 吗？</summary><p>支持，安装包是 x86_64 加 arm64 的通用二进制。Apple Silicon 的温度传感器键名与 Intel 不同，部分机型可能读不全，目前只在 Intel MacBook Pro 上实测过。</p></details>
     </section>

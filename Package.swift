@@ -11,7 +11,7 @@ let package = Package(
             exclude: ["Scripts", "build", "dist", "docs", "promo", "website",
                       "README.md", "PRIVACY.md", "Resources/AppStore.entitlements"],
             sources: ["Sources/MonitorX"],
-            resources: [.copy("Resources/Localization")],
+            resources: [.copy("Resources/Localization"), .copy("Resources/BrandIcons")],
             swiftSettings: [.swiftLanguageMode(.v5)]
         )
     ]

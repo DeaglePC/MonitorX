@@ -178,3 +178,46 @@
 "Show in Finder" = "แสดงใน Finder";
 "Creating image…" = "กำลังสร้างภาพ…";
 "Fan Speed" = "ความเร็วพัดลม";
+
+/* Menu-bar layout */
+"Menu Bar Appearance" = "รูปแบบแถบเมนู";
+"Automatic" = "อัตโนมัติ";
+"Icon Only" = "ไอคอนเท่านั้น";
+"Live Metrics" = "ตัวชี้วัดแบบเรียลไทม์";
+
+/* Text sharing */
+"Copy as Text" = "คัดลอกเป็นข้อความ";
+"Save as Text…" = "บันทึกเป็นข้อความ…";
+"Text copied to clipboard" = "คัดลอกข้อความไปยังคลิปบอร์ดแล้ว";
+"Couldn't copy the text" = "ไม่สามารถคัดลอกข้อความได้";
+"Couldn't save the text" = "ไม่สามารถบันทึกข้อความได้";
+
+/* Codex usage */
+"Codex Usage" = "โควตา Codex";
+"Show Codex Usage" = "แสดงโควตา Codex";
+"Refresh" = "รีเฟรช";
+"Remaining: %@" = "คงเหลือ: %@";
+"Resets: %@" = "รีเซ็ต: %@";
+"Updated: %@" = "อัปเดต: %@";
+"Codex CLI not found" = "ไม่พบ Codex CLI";
+"Couldn't read Codex usage. Sign in to Codex with ChatGPT." = "อ่านโควตาไม่ได้ โปรดเข้าสู่ระบบ Codex ด้วย ChatGPT";
+"No quota data available" = "ไม่มีข้อมูลโควตา";
+
+/* Claude integration */
+"Claude Usage" = "โควตา Claude";
+"Connect Claude Code" = "เชื่อมต่อ Claude Code";
+"Disconnect Claude Code" = "ยกเลิกการเชื่อมต่อ Claude Code";
+"Couldn't configure Claude Code" = "ตั้งค่า Claude Code ไม่ได้";
+"Start a Claude Code conversation to update usage." = "เริ่มสนทนาใน Claude Code เพื่ออัปเดตโควตา";
+"Last reading (may be outdated)" = "ข้อมูลล่าสุด (อาจล้าสมัย)";
+
+/* Claude setup */
+"Install Claude Code" = "ติดตั้ง Claude Code";
+"Sign in to Claude" = "เข้าสู่ระบบ Claude";
+"Open Claude Code" = "เปิด Claude Code";
+"Checking Claude Code…" = "กำลังตรวจสอบ Claude Code…";
+"Claude Code is not installed. Open the official installation guide to get started." = "ยังไม่ได้ติดตั้ง Claude Code เปิดคู่มือติดตั้งอย่างเป็นทางการ";
+"Claude Code is not signed in. Sign in with your Claude Pro or Max account." = "Claude Code ยังไม่ได้เข้าสู่ระบบ เข้าสู่ระบบด้วยบัญชี Claude Pro หรือ Max";
+"This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "การเข้าสู่ระบบนี้ใช้การเรียกเก็บเงิน API เข้าสู่ระบบด้วย Claude Pro หรือ Max เพื่อดูการใช้งานสมาชิก";
+"Couldn't check Claude Code login. Open Claude Code to continue setup." = "ตรวจสอบการเข้าสู่ระบบไม่ได้ เปิด Claude Code เพื่อตั้งค่าต่อ";
+"Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "กำลังรอข้อมูล ส่งข้อความใน Claude Code แล้วการใช้งานจะปรากฏหลังได้รับคำตอบ แชตบนเว็บและเดสก์ท็อปไม่อัปเดตการเชื่อมต่อนี้";

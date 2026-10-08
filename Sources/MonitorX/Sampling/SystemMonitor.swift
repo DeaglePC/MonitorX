@@ -3,6 +3,8 @@ import Observation
 
 @Observable
 final class SystemMonitor {
+    let codexUsage = CodexUsageMonitor()
+    let claudeUsage = ClaudeUsageMonitor()
     static let historyCapacity = 60
 
     // Published state (main thread)
@@ -93,7 +95,7 @@ final class SystemMonitor {
         queue.async { [self] in menuBarSensors = on }
     }
 
-    func shutdown() {}
+    func shutdown() { codexUsage.shutdown() }
 
     // MARK: sampling
 

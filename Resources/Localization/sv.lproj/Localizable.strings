@@ -178,3 +178,46 @@
 "Show in Finder" = "Visa i Finder";
 "Creating image…" = "Skapar bild …";
 "Fan Speed" = "Fläkthastighet";
+
+/* Menu-bar layout */
+"Menu Bar Appearance" = "Menyradens utseende";
+"Automatic" = "Automatiskt";
+"Icon Only" = "Endast ikon";
+"Live Metrics" = "Livevärden";
+
+/* Text sharing */
+"Copy as Text" = "Kopiera som text";
+"Save as Text…" = "Spara som text…";
+"Text copied to clipboard" = "Text kopierad till urklipp";
+"Couldn't copy the text" = "Kunde inte kopiera texten";
+"Couldn't save the text" = "Kunde inte spara texten";
+
+/* Codex usage */
+"Codex Usage" = "Codex-kvot";
+"Show Codex Usage" = "Visa Codex-kvot";
+"Refresh" = "Uppdatera";
+"Remaining: %@" = "Återstår: %@";
+"Resets: %@" = "Återställs: %@";
+"Updated: %@" = "Uppdaterad: %@";
+"Codex CLI not found" = "Codex CLI hittades inte";
+"Couldn't read Codex usage. Sign in to Codex with ChatGPT." = "Kunde inte läsa kvoten. Logga in på Codex med ChatGPT.";
+"No quota data available" = "Inga kvotdata";
+
+/* Claude integration */
+"Claude Usage" = "Claude-kvot";
+"Connect Claude Code" = "Anslut Claude Code";
+"Disconnect Claude Code" = "Koppla från Claude Code";
+"Couldn't configure Claude Code" = "Kunde inte konfigurera Claude Code";
+"Start a Claude Code conversation to update usage." = "Starta en Claude Code konversation för att uppdatera kvoten.";
+"Last reading (may be outdated)" = "Senaste värde (kan vara inaktuellt)";
+
+/* Claude setup */
+"Install Claude Code" = "Installera Claude Code";
+"Sign in to Claude" = "Logga in på Claude";
+"Open Claude Code" = "Öppna Claude Code";
+"Checking Claude Code…" = "Kontrollerar Claude Code…";
+"Claude Code is not installed. Open the official installation guide to get started." = "Claude Code är inte installerat. Öppna den officiella installationsguiden.";
+"Claude Code is not signed in. Sign in with your Claude Pro or Max account." = "Claude Code är inte inloggat. Logga in med Claude Pro eller Max.";
+"This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "Denna inloggning använder API-debitering. Logga in med Claude Pro eller Max för prenumerationsanvändning.";
+"Couldn't check Claude Code login. Open Claude Code to continue setup." = "Kunde inte kontrollera inloggningen. Öppna Claude Code för att fortsätta.";
+"Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "Väntar på data. Skicka ett meddelande i Claude Code; användningen visas efter svaret. Webb- och skrivbordschattar uppdaterar inte denna anslutning.";

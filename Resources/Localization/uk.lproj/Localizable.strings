@@ -178,3 +178,46 @@
 "Show in Finder" = "Показати у Finder";
 "Creating image…" = "Створення зображення…";
 "Fan Speed" = "Швидкість вентилятора";
+
+/* Menu-bar layout */
+"Menu Bar Appearance" = "Вигляд рядка меню";
+"Automatic" = "Автоматично";
+"Icon Only" = "Лише значок";
+"Live Metrics" = "Показники в реальному часі";
+
+/* Text sharing */
+"Copy as Text" = "Копіювати як текст";
+"Save as Text…" = "Зберегти як текст…";
+"Text copied to clipboard" = "Текст скопійовано в буфер обміну";
+"Couldn't copy the text" = "Не вдалося скопіювати текст";
+"Couldn't save the text" = "Не вдалося зберегти текст";
+
+/* Codex usage */
+"Codex Usage" = "Ліміти Codex";
+"Show Codex Usage" = "Показувати ліміти Codex";
+"Refresh" = "Оновити";
+"Remaining: %@" = "Залишилося: %@";
+"Resets: %@" = "Скидання: %@";
+"Updated: %@" = "Оновлено: %@";
+"Codex CLI not found" = "Codex CLI не знайдено";
+"Couldn't read Codex usage. Sign in to Codex with ChatGPT." = "Не вдалося прочитати ліміти. Увійдіть у Codex через ChatGPT.";
+"No quota data available" = "Немає даних про ліміти";
+
+/* Claude integration */
+"Claude Usage" = "Ліміти Claude";
+"Connect Claude Code" = "Підключити Claude Code";
+"Disconnect Claude Code" = "Відключити Claude Code";
+"Couldn't configure Claude Code" = "Не вдалося налаштувати Claude Code";
+"Start a Claude Code conversation to update usage." = "Почніть розмову в Claude Code, щоб оновити ліміти.";
+"Last reading (may be outdated)" = "Останні дані (можуть бути застарілими)";
+
+/* Claude setup */
+"Install Claude Code" = "Установити Claude Code";
+"Sign in to Claude" = "Увійти в Claude";
+"Open Claude Code" = "Відкрити Claude Code";
+"Checking Claude Code…" = "Перевірка Claude Code…";
+"Claude Code is not installed. Open the official installation guide to get started." = "Claude Code не встановлено. Відкрийте офіційну інструкцію зі встановлення.";
+"Claude Code is not signed in. Sign in with your Claude Pro or Max account." = "Вхід у Claude Code не виконано. Увійдіть з обліковим записом Claude Pro або Max.";
+"This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "Використовується оплата API. Увійдіть з Claude Pro або Max для отримання даних підписки.";
+"Couldn't check Claude Code login. Open Claude Code to continue setup." = "Не вдалося перевірити вхід. Відкрийте Claude Code для продовження.";
+"Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "Очікування даних. Надішліть повідомлення в Claude Code; дані з’являться після відповіді. Чати в браузері та настільному застосунку не оновлюють це підключення.";
