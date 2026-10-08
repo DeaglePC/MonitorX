@@ -4,3 +4,7 @@ docker-compose.yml
 nginx.conf
 README.md
 downloads/.gitkeep
+
+# Keep local environment settings out of the served files
+.env
+.env.*

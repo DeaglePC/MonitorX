@@ -15,3 +15,8 @@ website/downloads/*
 !website/downloads/.gitkeep
 
 .DS_Store
+
+# Local environment settings
+.env
+.env.*
+!.env.example

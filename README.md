@@ -147,7 +147,7 @@ cd website
 docker compose up -d --build      # http://localhost:8080，PORT=3000 可改端口
 ```
 
-下载按钮指向 `website/downloads/MonitorX.dmg`；发新版本时替换该文件即可（compose 已将目录挂载进容器，无需重建镜像）。
+下载按钮直接指向 GitHub Releases 的 DMG，页面自动读取最新正式版；无需在服务器存放安装包。可在 `website/.env` 中设置 `PORT=3000` 修改端口。
 详见 [website/README.md](website/README.md)。
 
 ## 数据来源
