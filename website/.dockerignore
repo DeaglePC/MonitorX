@@ -1,7 +1,6 @@
 Dockerfile
 docker-compose.yml
 .dockerignore
-nginx.conf
 README.md
 downloads/.gitkeep
 
