@@ -18,16 +18,29 @@ docker run -d --name monitorx-site -p 8080:80 monitorx-site
 
 Health check: `GET /healthz` → `ok`.
 
-## Publishing a new release
+## Port configuration
 
-The download button points at `downloads/MonitorX.dmg`.
+Compose defaults to port 8080. To change it:
 
 ```bash
-cp ../dist/MonitorX-<version>.dmg downloads/MonitorX.dmg
+cp .env.example .env
+# Edit .env, for example PORT=3000
+docker compose up -d
 ```
 
-With `docker compose` the folder is mounted read-only into the container, so no rebuild is needed.
-With plain `docker build` the file is baked into the image, so rebuild after replacing it.
+`.env` is ignored by Git and excluded from the Docker image.
+
+## Release downloads
+
+The hero and download section link directly to GitHub Releases, so the server does not need to host an installer:
+
+- Repository: https://github.com/DeaglePC/MonitorX
+- Release notes: https://github.com/DeaglePC/MonitorX/releases/latest
+- `releases.js` queries the public GitHub API for the latest stable release and updates both DMG links and the displayed version.
+- If JavaScript is disabled, the API is unavailable/rate-limited, or the release has no matching DMG, the verified v1.2.0 link in `index.html` remains available. Refresh this fallback when publishing a new release.
+- This API request is made by the website; the MonitorX macOS app still collects data locally without network requests.
+
+The `downloads/` mount remains available for optional local files, but the page's buttons no longer use it.
 
 ## Local preview without Docker
 

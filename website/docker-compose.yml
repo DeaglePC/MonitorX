@@ -6,6 +6,6 @@ services:
     restart: unless-stopped
     ports:
       - "${PORT:-8080}:80"
-    # Publish new releases without rebuilding the image: put MonitorX.dmg in ./downloads
+    # Optional local files; the landing page downloads installers from GitHub Releases
     volumes:
       - ./downloads:/usr/share/nginx/html/downloads:ro
