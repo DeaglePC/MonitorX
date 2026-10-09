@@ -223,3 +223,8 @@
 "Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "사용량을 기다리는 중입니다. Claude Code에서 메시지를 보내면 응답 후 자동으로 표시됩니다. 웹이나 데스크톱 채팅은 이 연결을 업데이트하지 않습니다.";
 
 "Show Claude Usage" = "Claude 사용량 표시";
+
+/* Window behavior */
+"Menu Bar Click Behavior" = "메뉴 막대 클릭 동작";
+"Quick Panel" = "빠른 패널";
+"Main Window" = "메인 창";

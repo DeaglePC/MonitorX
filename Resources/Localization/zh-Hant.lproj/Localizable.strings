@@ -223,3 +223,8 @@
 "Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "等待額度資料。在 Claude Code 傳送訊息，回覆後額度會自動顯示；網頁或桌面聊天不會更新此連線。";
 
 "Show Claude Usage" = "顯示 Claude 額度";
+
+/* Window behavior */
+"Menu Bar Click Behavior" = "選單列點擊行為";
+"Quick Panel" = "快捷彈窗";
+"Main Window" = "主視窗";

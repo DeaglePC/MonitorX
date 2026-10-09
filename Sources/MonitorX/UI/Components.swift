@@ -101,6 +101,14 @@ extension EnvironmentValues {
 /// Horizontal room the page headers leave for the share and settings buttons.
 let headerTrailingRoom: CGFloat = 84
 
+private struct MonitoringWidthKey: EnvironmentKey { static let defaultValue: CGFloat = 420 }
+extension EnvironmentValues {
+    var monitoringWidth: CGFloat {
+        get { self[MonitoringWidthKey.self] }
+        set { self[MonitoringWidthKey.self] = newValue }
+    }
+}
+
 /// A page's scroll container; in snapshot mode the content is laid out at its full height instead.
 struct PageScroll<Content: View>: View {
     @Environment(\.isSnapshot) private var isSnapshot

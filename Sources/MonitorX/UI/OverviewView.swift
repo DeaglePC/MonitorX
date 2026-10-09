@@ -4,16 +4,19 @@ struct OverviewView: View {
     var go: (Tab) -> Void
     @Environment(SystemMonitor.self) private var m
     @Environment(Settings.self) private var settings
+    @Environment(\.monitoringWidth) private var width
 
     var body: some View {
         PageScroll {
             VStack(spacing: 14) {
                 header
-                if !Edition.isAppStore && settings.showCodexUsage {
-                    CodexUsageCard(usage: m.codexUsage)
+                if !Edition.isAppStore {
+                    let count = width >= 760 && settings.showCodexUsage && settings.showClaudeUsage ? 2 : 1
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 14, alignment: .top), count: count), spacing: 14) {
+                        quotaCards
+                    }
                 }
-                if !Edition.isAppStore && settings.showClaudeUsage { ClaudeUsageCard(usage: m.claudeUsage) }
-                LazyVGrid(columns: [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)], spacing: 12) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 180), spacing: 12)], spacing: 12) {
                     cpuCard
                     memCard
                     netCard
@@ -25,6 +28,11 @@ struct OverviewView: View {
             .padding(.top, 18)
             .padding(.bottom, 12)
         }
+    }
+
+    @ViewBuilder private var quotaCards: some View {
+        if settings.showCodexUsage { CodexUsageCard(usage: m.codexUsage) }
+        if settings.showClaudeUsage { ClaudeUsageCard(usage: m.claudeUsage) }
     }
 
     private var header: some View {

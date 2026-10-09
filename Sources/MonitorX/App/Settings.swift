@@ -6,8 +6,13 @@ enum MenuBarAppearance: String {
     case automatic, compact, detailed
 }
 
+enum MenuBarClickBehavior: String { case quickPanel, mainWindow }
+
 @Observable
 final class Settings {
+    var menuBarClickBehavior: MenuBarClickBehavior {
+        didSet { UserDefaults.standard.set(menuBarClickBehavior.rawValue, forKey: "menuBarClickBehavior") }
+    }
     var showClaudeUsage: Bool { didSet { save("showClaudeUsage", showClaudeUsage) } }
     var showClaudeInMenuBar: Bool { didSet { save("showClaudeInMenuBar", showClaudeInMenuBar) } }
     var showCodexInMenuBar: Bool { didSet { save("showCodexInMenuBar", showCodexInMenuBar) } }
@@ -27,6 +32,7 @@ final class Settings {
 
     init() {
         let d = UserDefaults.standard
+        menuBarClickBehavior = MenuBarClickBehavior(rawValue: d.string(forKey: "menuBarClickBehavior") ?? "") ?? .quickPanel
         d.register(defaults: ["showClaudeUsage": true, "showClaudeInMenuBar": true])
         showClaudeUsage = d.bool(forKey: "showClaudeUsage")
         showClaudeInMenuBar = d.bool(forKey: "showClaudeInMenuBar")

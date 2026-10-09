@@ -30,9 +30,11 @@ struct RootView: View {
     var body: some View {
         // While the panel is hidden the whole tree is dropped so SwiftUI does no work on every sample.
         if state.isOpen {
-            content
+            GeometryReader { geometry in
+                content.environment(\.monitoringWidth, geometry.size.width)
+            }
         } else {
-            Color.clear.frame(width: PanelController.size.width, height: PanelController.size.height)
+            Color.clear.frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 
@@ -60,7 +62,7 @@ struct RootView: View {
             }
             .padding(.top, 16).padding(.trailing, 16)
         }
-        .frame(width: PanelController.size.width, height: PanelController.size.height)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .environment(\.locale, Localizer.shared.locale)
         .environment(\.layoutDirection, Localizer.shared.layoutDirection)
     }
@@ -253,6 +255,10 @@ private struct SettingsMenu: View {
                 }
             }
             Section {
+                Picker(selection: $s.menuBarClickBehavior) {
+                    Text(L("Quick Panel")).tag(MenuBarClickBehavior.quickPanel)
+                    Text(L("Main Window")).tag(MenuBarClickBehavior.mainWindow)
+                } label: { Text(L("Menu Bar Click Behavior")) }
                 if !Edition.isAppStore { Toggle(L("Show Codex Usage"), isOn: $s.showCodexUsage) }
                 if !Edition.isAppStore { Toggle(L("Show Claude Usage"), isOn: $s.showClaudeUsage) }
                 Picker(selection: $loc.language) {

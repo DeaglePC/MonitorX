@@ -39,7 +39,7 @@ final class StatusItemController: NSObject {
             statusItem.menu = menu
             sender.performClick(nil)
             statusItem.menu = nil
-        } else if mainWindow.isVisible {
+        } else if settings.menuBarClickBehavior == .mainWindow {
             mainWindow.show()
         } else {
             panel.toggle(relativeTo: sender)

@@ -223,3 +223,8 @@
 "Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "Väntar på data. Skicka ett meddelande i Claude Code; användningen visas efter svaret. Webb- och skrivbordschattar uppdaterar inte denna anslutning.";
 
 "Show Claude Usage" = "Visa Claude-användning";
+
+/* Window behavior */
+"Menu Bar Click Behavior" = "Klickbeteende i menyraden";
+"Quick Panel" = "Snabbpanel";
+"Main Window" = "Huvudfönster";

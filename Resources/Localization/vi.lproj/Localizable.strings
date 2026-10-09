@@ -223,3 +223,8 @@
 "Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "Đang chờ dữ liệu. Gửi tin nhắn trong Claude Code; mức sử dụng sẽ hiện sau khi có phản hồi. Chat trên web và ứng dụng máy tính không cập nhật kết nối này.";
 
 "Show Claude Usage" = "Hiển thị mức sử dụng Claude";
+
+/* Window behavior */
+"Menu Bar Click Behavior" = "Hành vi nhấp thanh menu";
+"Quick Panel" = "Bảng nhanh";
+"Main Window" = "Cửa sổ chính";
