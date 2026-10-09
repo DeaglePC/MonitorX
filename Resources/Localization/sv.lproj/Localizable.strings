@@ -221,3 +221,5 @@
 "This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "Denna inloggning använder API-debitering. Logga in med Claude Pro eller Max för prenumerationsanvändning.";
 "Couldn't check Claude Code login. Open Claude Code to continue setup." = "Kunde inte kontrollera inloggningen. Öppna Claude Code för att fortsätta.";
 "Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "Väntar på data. Skicka ett meddelande i Claude Code; användningen visas efter svaret. Webb- och skrivbordschattar uppdaterar inte denna anslutning.";
+
+"Show Claude Usage" = "Visa Claude-användning";

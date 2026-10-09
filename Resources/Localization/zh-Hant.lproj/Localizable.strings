@@ -221,3 +221,5 @@
 "This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "目前 Claude Code 使用 API 計費，請登入 Claude Pro 或 Max 帳號以取得訂閱額度。";
 "Couldn't check Claude Code login. Open Claude Code to continue setup." = "無法檢查 Claude Code 登入狀態，請開啟 Claude Code 繼續設定。";
 "Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "等待額度資料。在 Claude Code 傳送訊息，回覆後額度會自動顯示；網頁或桌面聊天不會更新此連線。";
+
+"Show Claude Usage" = "顯示 Claude 額度";

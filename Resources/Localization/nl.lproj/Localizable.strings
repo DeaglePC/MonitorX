@@ -221,3 +221,5 @@
 "This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "Deze sessie gebruikt API-facturering. Meld je aan met Claude Pro of Max voor abonnementsgebruik.";
 "Couldn't check Claude Code login. Open Claude Code to continue setup." = "Aanmelding kon niet worden gecontroleerd. Open Claude Code om verder te gaan.";
 "Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "Wachten op gegevens. Stuur een bericht in Claude Code; gebruik verschijnt na het antwoord. Web- en desktopchats werken deze verbinding niet bij.";
+
+"Show Claude Usage" = "Claude-gebruik tonen";

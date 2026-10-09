@@ -221,3 +221,5 @@
 "This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "Esta sessão usa cobrança por API. Entre com Claude Pro ou Max para obter o uso da assinatura.";
 "Couldn't check Claude Code login. Open Claude Code to continue setup." = "Não foi possível verificar o login. Abra Claude Code para continuar.";
 "Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "Aguardando dados. Envie uma mensagem no Claude Code; o uso aparecerá após a resposta. Chats web e desktop não atualizam esta conexão.";
+
+"Show Claude Usage" = "Mostrar uso do Claude";

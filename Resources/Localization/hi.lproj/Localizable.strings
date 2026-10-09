@@ -221,3 +221,5 @@
 "This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "यह लॉगिन API बिलिंग का उपयोग करता है। सदस्यता उपयोग के लिए Claude Pro या Max से साइन इन करें।";
 "Couldn't check Claude Code login. Open Claude Code to continue setup." = "लॉगिन की जाँच नहीं हो सकी। सेटअप जारी रखने के लिए Claude Code खोलें।";
 "Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "डेटा की प्रतीक्षा है। Claude Code में संदेश भेजें; उत्तर के बाद उपयोग दिखेगा। वेब और डेस्कटॉप चैट इस कनेक्शन को अपडेट नहीं करतीं।";
+
+"Show Claude Usage" = "Claude उपयोग दिखाएँ";

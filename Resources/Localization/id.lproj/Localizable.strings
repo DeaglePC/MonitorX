@@ -221,3 +221,5 @@
 "This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "Login ini menggunakan penagihan API. Masuk dengan Claude Pro atau Max untuk mendapatkan penggunaan langganan.";
 "Couldn't check Claude Code login. Open Claude Code to continue setup." = "Tidak dapat memeriksa login. Buka Claude Code untuk melanjutkan pengaturan.";
 "Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "Menunggu data. Kirim pesan di Claude Code; penggunaan muncul setelah balasan. Chat web dan desktop tidak memperbarui koneksi ini.";
+
+"Show Claude Usage" = "Tampilkan penggunaan Claude";

@@ -22,7 +22,7 @@ enum TextSnapshot {
         var lines: [String] = []
         switch tab {
         case .overview:
-            if !Edition.isAppStore, let snapshot = m.claudeUsage.snapshot {
+            if !Edition.isAppStore && settings.showClaudeUsage, let snapshot = m.claudeUsage.snapshot {
                 lines.append(L("Claude Usage"))
                 if m.claudeUsage.isStale { lines.append(L("Last reading (may be outdated)")) }
                 for window in snapshot.quotaWindows {

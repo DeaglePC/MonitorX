@@ -221,3 +221,5 @@
 "This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "כניסה זו משתמשת בחיוב API. היכנסו עם Claude Pro או Max לקבלת נתוני המינוי.";
 "Couldn't check Claude Code login. Open Claude Code to continue setup." = "לא ניתן לבדוק את הכניסה. פתחו את Claude Code להמשך ההגדרה.";
 "Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "ממתין לנתונים. שלחו הודעה ב-Claude Code; השימוש יוצג לאחר התשובה. שיחות בדפדפן וביישום שולחן העבודה אינן מעדכנות חיבור זה.";
+
+"Show Claude Usage" = "הצגת השימוש ב-Claude";

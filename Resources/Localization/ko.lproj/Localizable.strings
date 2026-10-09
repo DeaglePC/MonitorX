@@ -221,3 +221,5 @@
 "This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "현재 API 요금제를 사용합니다. 구독 사용량을 보려면 Claude Pro 또는 Max로 로그인하세요.";
 "Couldn't check Claude Code login. Open Claude Code to continue setup." = "로그인 상태를 확인할 수 없습니다. Claude Code를 열어 설정을 계속하세요.";
 "Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "사용량을 기다리는 중입니다. Claude Code에서 메시지를 보내면 응답 후 자동으로 표시됩니다. 웹이나 데스크톱 채팅은 이 연결을 업데이트하지 않습니다.";
+
+"Show Claude Usage" = "Claude 사용량 표시";

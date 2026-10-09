@@ -221,3 +221,5 @@
 "This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "Використовується оплата API. Увійдіть з Claude Pro або Max для отримання даних підписки.";
 "Couldn't check Claude Code login. Open Claude Code to continue setup." = "Не вдалося перевірити вхід. Відкрийте Claude Code для продовження.";
 "Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "Очікування даних. Надішліть повідомлення в Claude Code; дані з’являться після відповіді. Чати в браузері та настільному застосунку не оновлюють це підключення.";
+
+"Show Claude Usage" = "Показувати використання Claude";

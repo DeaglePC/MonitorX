@@ -12,7 +12,7 @@ struct OverviewView: View {
                 if !Edition.isAppStore && settings.showCodexUsage {
                     CodexUsageCard(usage: m.codexUsage)
                 }
-                if !Edition.isAppStore { ClaudeUsageCard(usage: m.claudeUsage) }
+                if !Edition.isAppStore && settings.showClaudeUsage { ClaudeUsageCard(usage: m.claudeUsage) }
                 LazyVGrid(columns: [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)], spacing: 12) {
                     cpuCard
                     memCard

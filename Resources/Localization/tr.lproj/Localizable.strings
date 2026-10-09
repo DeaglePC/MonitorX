@@ -221,3 +221,5 @@
 "This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "Bu oturum API faturalandırması kullanıyor. Abonelik kullanımını almak için Claude Pro veya Max ile giriş yapın.";
 "Couldn't check Claude Code login. Open Claude Code to continue setup." = "Oturum durumu kontrol edilemedi. Devam etmek için Claude Code’u açın.";
 "Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "Veriler bekleniyor. Claude Code’da mesaj gönderin; yanıt sonrası kullanım otomatik görünür. Web ve masaüstü sohbetleri bu bağlantıyı güncellemez.";
+
+"Show Claude Usage" = "Claude kullanımını göster";

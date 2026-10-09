@@ -254,6 +254,7 @@ private struct SettingsMenu: View {
             }
             Section {
                 if !Edition.isAppStore { Toggle(L("Show Codex Usage"), isOn: $s.showCodexUsage) }
+                if !Edition.isAppStore { Toggle(L("Show Claude Usage"), isOn: $s.showClaudeUsage) }
                 Picker(selection: $loc.language) {
                     ForEach(AppLanguage.allCases) { Text($0.nativeName).tag($0) }
                 } label: {

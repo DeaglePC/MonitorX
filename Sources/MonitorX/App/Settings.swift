@@ -8,6 +8,7 @@ enum MenuBarAppearance: String {
 
 @Observable
 final class Settings {
+    var showClaudeUsage: Bool { didSet { save("showClaudeUsage", showClaudeUsage) } }
     var showClaudeInMenuBar: Bool { didSet { save("showClaudeInMenuBar", showClaudeInMenuBar) } }
     var showCodexInMenuBar: Bool { didSet { save("showCodexInMenuBar", showCodexInMenuBar) } }
     var showCodexUsage: Bool { didSet { save("showCodexUsage", showCodexUsage) } }
@@ -26,7 +27,8 @@ final class Settings {
 
     init() {
         let d = UserDefaults.standard
-        d.register(defaults: ["showClaudeInMenuBar": true])
+        d.register(defaults: ["showClaudeUsage": true, "showClaudeInMenuBar": true])
+        showClaudeUsage = d.bool(forKey: "showClaudeUsage")
         showClaudeInMenuBar = d.bool(forKey: "showClaudeInMenuBar")
         d.register(defaults: ["showCodexUsage": true, "showCodexInMenuBar": true])
         showCodexInMenuBar = d.bool(forKey: "showCodexInMenuBar")

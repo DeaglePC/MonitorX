@@ -221,3 +221,5 @@
 "This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "Đăng nhập này dùng thanh toán API. Đăng nhập bằng Claude Pro hoặc Max để nhận dữ liệu gói đăng ký.";
 "Couldn't check Claude Code login. Open Claude Code to continue setup." = "Không thể kiểm tra đăng nhập. Mở Claude Code để tiếp tục thiết lập.";
 "Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "Đang chờ dữ liệu. Gửi tin nhắn trong Claude Code; mức sử dụng sẽ hiện sau khi có phản hồi. Chat trên web và ứng dụng máy tính không cập nhật kết nối này.";
+
+"Show Claude Usage" = "Hiển thị mức sử dụng Claude";
