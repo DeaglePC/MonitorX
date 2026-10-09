@@ -178,3 +178,53 @@
 "Show in Finder" = "הצג ב-Finder";
 "Creating image…" = "יוצר תמונה…";
 "Fan Speed" = "מהירות מאוורר";
+
+/* Menu-bar layout */
+"Menu Bar Appearance" = "מראה שורת התפריטים";
+"Automatic" = "אוטומטי";
+"Icon Only" = "סמל בלבד";
+"Live Metrics" = "מדדים בזמן אמת";
+
+/* Text sharing */
+"Copy as Text" = "העתקה כטקסט";
+"Save as Text…" = "שמירה כטקסט…";
+"Text copied to clipboard" = "הטקסט הועתק ללוח";
+"Couldn't copy the text" = "לא ניתן להעתיק את הטקסט";
+"Couldn't save the text" = "לא ניתן לשמור את הטקסט";
+
+/* Codex usage */
+"Codex Usage" = "מכסת Codex";
+"Show Codex Usage" = "הצגת מכסת Codex";
+"Refresh" = "רענון";
+"Remaining: %@" = "נותרו: %@";
+"Resets: %@" = "איפוס: %@";
+"Updated: %@" = "עודכן: %@";
+"Codex CLI not found" = "Codex CLI לא נמצא";
+"Couldn't read Codex usage. Sign in to Codex with ChatGPT." = "לא ניתן לקרוא את המכסה. יש להתחבר ל-Codex באמצעות ChatGPT.";
+"No quota data available" = "אין נתוני מכסה";
+
+/* Claude integration */
+"Claude Usage" = "מכסת Claude";
+"Connect Claude Code" = "חיבור Claude Code";
+"Disconnect Claude Code" = "ניתוק Claude Code";
+"Couldn't configure Claude Code" = "לא ניתן להגדיר את Claude Code";
+"Start a Claude Code conversation to update usage." = "התחל שיחה ב-Claude Code לעדכון המכסה.";
+"Last reading (may be outdated)" = "הקריאה האחרונה (ייתכן שאינה עדכנית)";
+
+/* Claude setup */
+"Install Claude Code" = "התקנת Claude Code";
+"Sign in to Claude" = "כניסה ל-Claude";
+"Open Claude Code" = "פתיחת Claude Code";
+"Checking Claude Code…" = "בודק את Claude Code…";
+"Claude Code is not installed. Open the official installation guide to get started." = "Claude Code אינו מותקן. פתחו את מדריך ההתקנה הרשמי.";
+"Claude Code is not signed in. Sign in with your Claude Pro or Max account." = "Claude Code אינו מחובר. היכנסו עם חשבון Claude Pro או Max.";
+"This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "כניסה זו משתמשת בחיוב API. היכנסו עם Claude Pro או Max לקבלת נתוני המינוי.";
+"Couldn't check Claude Code login. Open Claude Code to continue setup." = "לא ניתן לבדוק את הכניסה. פתחו את Claude Code להמשך ההגדרה.";
+"Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "ממתין לנתונים. שלחו הודעה ב-Claude Code; השימוש יוצג לאחר התשובה. שיחות בדפדפן וביישום שולחן העבודה אינן מעדכנות חיבור זה.";
+
+"Show Claude Usage" = "הצגת השימוש ב-Claude";
+
+/* Window behavior */
+"Menu Bar Click Behavior" = "פעולת לחיצה בשורת התפריטים";
+"Quick Panel" = "חלונית מהירה";
+"Main Window" = "חלון ראשי";

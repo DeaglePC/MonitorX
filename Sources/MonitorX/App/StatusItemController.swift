@@ -6,11 +6,13 @@ final class StatusItemController: NSObject {
     private let monitor: SystemMonitor
     private let settings: Settings
     private let panel: PanelController
+    private let mainWindow: MainWindowController
 
-    init(monitor: SystemMonitor, settings: Settings, panel: PanelController) {
+    init(monitor: SystemMonitor, settings: Settings, panel: PanelController, mainWindow: MainWindowController) {
         self.monitor = monitor
         self.settings = settings
         self.panel = panel
+        self.mainWindow = mainWindow
         super.init()
 
         if let b = statusItem.button {
@@ -20,6 +22,7 @@ final class StatusItemController: NSObject {
             b.imagePosition = .imageOnly
         }
         monitor.onUpdate = { [weak self] in self?.refresh() }
+        monitor.codexUsage.onUpdate = { [weak self] in self?.refresh() }
         refresh()
     }
 
@@ -36,13 +39,15 @@ final class StatusItemController: NSObject {
             statusItem.menu = menu
             sender.performClick(nil)
             statusItem.menu = nil
+        } else if settings.menuBarClickBehavior == .mainWindow {
+            mainWindow.show()
         } else {
             panel.toggle(relativeTo: sender)
         }
     }
 
     @objc private func openPanel() {
-        if let b = statusItem.button { panel.toggle(relativeTo: b) }
+        mainWindow.show()
     }
 
     @objc private func quit() { NSApp.terminate(nil) }
@@ -56,7 +61,19 @@ final class StatusItemController: NSObject {
     }
 
     func refresh() {
+        if !Edition.isAppStore { monitor.claudeUsage.refresh() }
+        let wantsClaude = !Edition.isAppStore && settings.showClaudeInMenuBar && monitor.claudeUsage.isConnected
+        let wantsCodex = !Edition.isAppStore && settings.showCodexInMenuBar
+        monitor.codexUsage.setEnabled(!Edition.isAppStore && (settings.showCodexUsage || wantsCodex))
         var segs: [Segment] = []
+        let codexSegment = Segment(label: "CODEX", lines: [monitor.codexUsage.menuBarRemaining.map {
+            Fmt.percent($0 / 100) + (monitor.codexUsage.errorKey == nil ? "" : "*")
+        } ?? "–"], widthSample: "100%*")
+        if wantsCodex { segs.append(codexSegment) }
+        let claudeSegment = Segment(label: "CLAUDE", lines: [monitor.claudeUsage.menuBarRemaining.map {
+            Fmt.percent($0 / 100) + (monitor.claudeUsage.isStale ? "*" : "")
+        } ?? "–"], widthSample: "100%*")
+        if wantsClaude { segs.append(claudeSegment) }
         if settings.showCPU {
             segs.append(Segment(label: "CPU", lines: [Fmt.percent(monitor.cpu.total)], widthSample: "100%"))
         }
@@ -86,16 +103,60 @@ final class StatusItemController: NSObject {
         }
 
         guard let button = statusItem.button else { return }
-        if segs.isEmpty {
+        // macOS owns status-item placement. Use a square item on camera-housing
+        // displays by default to leave space in the narrow menu-bar area.
+        let screen = button.window?.screen ?? NSScreen.main
+        let compact = settings.menuBarAppearance == .compact ||
+            (settings.menuBarAppearance == .automatic && (screen?.safeAreaInsets.top ?? 0) > 0)
+        if compact && (wantsCodex || wantsClaude) && settings.menuBarAppearance != .compact {
+            // Keep the requested quota visible while omitting wider system metrics on a notched screen.
+            statusItem.length = NSStatusItem.variableLength
+            button.image = Self.render((wantsCodex ? [codexSegment] : []) + (wantsClaude ? [claudeSegment] : []))
+        } else if segs.isEmpty || compact {
+            statusItem.length = NSStatusItem.squareLength
             let img = NSImage(systemSymbolName: "gauge.with.dots.needle.50percent", accessibilityDescription: "MonitorX")
             img?.isTemplate = true
             button.image = img
         } else {
+            statusItem.length = NSStatusItem.variableLength
             button.image = Self.render(segs)
         }
         button.toolTip = L("CPU %1$@ · Memory %2$@ · ↓%3$@ ↑%4$@",
                            Fmt.percent(monitor.cpu.total), Fmt.percent(monitor.mem.usedFraction),
                            Fmt.rate(monitor.net.downRate), Fmt.rate(monitor.net.upRate))
+        if wantsCodex {
+            var lines = [L("Codex Usage")]
+            for bucket in monitor.codexUsage.buckets {
+                lines.append(bucket.title)
+                for window in bucket.windows {
+                    lines.append(window.duration + " · " + L("Remaining: %@", window.remaining.map { Fmt.percent($0 / 100) } ?? "—"))
+                    if let reset = window.resetsAt {
+                        lines.append(L("Resets: %@", Date(timeIntervalSince1970: reset).formatted(Date.FormatStyle(date: .abbreviated, time: .shortened).locale(Localizer.shared.locale))))
+                    }
+                }
+            }
+            if let error = monitor.codexUsage.errorKey {
+                lines.append(error == "Codex CLI not found" ? L("Codex CLI not found") : L("Couldn't read Codex usage. Sign in to Codex with ChatGPT."))
+            }
+            if let date = monitor.codexUsage.updatedAt {
+                lines.append(L("Updated: %@", date.formatted(Date.FormatStyle(date: .abbreviated, time: .shortened).locale(Localizer.shared.locale))))
+            }
+            button.toolTip = (button.toolTip ?? "") + "\n\n" + lines.joined(separator: "\n")
+        }
+        if wantsClaude {
+            var lines = [L("Claude Usage")]
+            for window in monitor.claudeUsage.windows {
+                lines.append(window.duration + " · " + L("Remaining: %@", window.remaining.map { Fmt.percent($0 / 100) } ?? "—"))
+                if let reset = window.resetsAt {
+                    lines.append(L("Resets: %@", Date(timeIntervalSince1970: reset).formatted(Date.FormatStyle(date: .abbreviated, time: .shortened).locale(Localizer.shared.locale))))
+                }
+            }
+            if let snapshot = monitor.claudeUsage.snapshot {
+                if monitor.claudeUsage.isStale { lines.append(L("Last reading (may be outdated)")) }
+                lines.append(L("Updated: %@", Date(timeIntervalSince1970: snapshot.updatedAt).formatted(Date.FormatStyle(date: .abbreviated, time: .shortened).locale(Localizer.shared.locale))))
+            } else { lines.append(L("Start a Claude Code conversation to update usage.")) }
+            button.toolTip = (button.toolTip ?? "") + "\n\n" + lines.joined(separator: "\n")
+        }
     }
 
     private static func render(_ segs: [Segment]) -> NSImage {

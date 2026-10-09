@@ -178,3 +178,53 @@
 "Show in Finder" = "Hiển thị trong Finder";
 "Creating image…" = "Đang tạo ảnh…";
 "Fan Speed" = "Tốc độ quạt";
+
+/* Menu-bar layout */
+"Menu Bar Appearance" = "Giao diện thanh menu";
+"Automatic" = "Tự động";
+"Icon Only" = "Chỉ biểu tượng";
+"Live Metrics" = "Chỉ số trực tiếp";
+
+/* Text sharing */
+"Copy as Text" = "Sao chép dạng văn bản";
+"Save as Text…" = "Lưu dạng văn bản…";
+"Text copied to clipboard" = "Đã sao chép văn bản vào bộ nhớ tạm";
+"Couldn't copy the text" = "Không thể sao chép văn bản";
+"Couldn't save the text" = "Không thể lưu văn bản";
+
+/* Codex usage */
+"Codex Usage" = "Hạn mức Codex";
+"Show Codex Usage" = "Hiện hạn mức Codex";
+"Refresh" = "Làm mới";
+"Remaining: %@" = "Còn lại: %@";
+"Resets: %@" = "Đặt lại: %@";
+"Updated: %@" = "Cập nhật: %@";
+"Codex CLI not found" = "Không tìm thấy Codex CLI";
+"Couldn't read Codex usage. Sign in to Codex with ChatGPT." = "Không thể đọc hạn mức. Đăng nhập Codex bằng ChatGPT.";
+"No quota data available" = "Không có dữ liệu hạn mức";
+
+/* Claude integration */
+"Claude Usage" = "Hạn mức Claude";
+"Connect Claude Code" = "Kết nối Claude Code";
+"Disconnect Claude Code" = "Ngắt kết nối Claude Code";
+"Couldn't configure Claude Code" = "Không thể cấu hình Claude Code";
+"Start a Claude Code conversation to update usage." = "Bắt đầu hội thoại Claude Code để cập nhật hạn mức.";
+"Last reading (may be outdated)" = "Dữ liệu gần nhất (có thể đã cũ)";
+
+/* Claude setup */
+"Install Claude Code" = "Cài đặt Claude Code";
+"Sign in to Claude" = "Đăng nhập Claude";
+"Open Claude Code" = "Mở Claude Code";
+"Checking Claude Code…" = "Đang kiểm tra Claude Code…";
+"Claude Code is not installed. Open the official installation guide to get started." = "Claude Code chưa được cài đặt. Mở hướng dẫn cài đặt chính thức.";
+"Claude Code is not signed in. Sign in with your Claude Pro or Max account." = "Claude Code chưa đăng nhập. Đăng nhập bằng tài khoản Claude Pro hoặc Max.";
+"This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "Đăng nhập này dùng thanh toán API. Đăng nhập bằng Claude Pro hoặc Max để nhận dữ liệu gói đăng ký.";
+"Couldn't check Claude Code login. Open Claude Code to continue setup." = "Không thể kiểm tra đăng nhập. Mở Claude Code để tiếp tục thiết lập.";
+"Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "Đang chờ dữ liệu. Gửi tin nhắn trong Claude Code; mức sử dụng sẽ hiện sau khi có phản hồi. Chat trên web và ứng dụng máy tính không cập nhật kết nối này.";
+
+"Show Claude Usage" = "Hiển thị mức sử dụng Claude";
+
+/* Window behavior */
+"Menu Bar Click Behavior" = "Hành vi nhấp thanh menu";
+"Quick Panel" = "Bảng nhanh";
+"Main Window" = "Cửa sổ chính";

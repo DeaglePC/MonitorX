@@ -40,6 +40,7 @@ else
   BIN="$(build --show-bin-path)/MonitorX"
 fi
 cp "$BIN" "$APP/Contents/MacOS/MonitorX"
+cp -R Resources/BrandIcons "$APP/Contents/Resources/"
 rm -f "$(dirname "$APP")/MonitorX.universal"
 
 # Icon

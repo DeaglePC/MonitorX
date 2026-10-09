@@ -178,3 +178,53 @@
 "Show in Finder" = "在 Finder 中顯示";
 "Creating image…" = "正在產生圖片…";
 "Fan Speed" = "風扇轉速";
+
+/* Menu-bar layout */
+"Menu Bar Appearance" = "選單列外觀";
+"Automatic" = "自動（適配瀏海螢幕）";
+"Icon Only" = "僅圖示";
+"Live Metrics" = "即時指標";
+
+/* Text sharing */
+"Copy as Text" = "複製文字版";
+"Save as Text…" = "匯出為文字檔…";
+"Text copied to clipboard" = "文字已複製到剪貼簿";
+"Couldn't copy the text" = "無法複製文字";
+"Couldn't save the text" = "無法儲存文字";
+
+/* Codex usage */
+"Codex Usage" = "Codex 額度";
+"Show Codex Usage" = "顯示 Codex 額度";
+"Refresh" = "重新整理";
+"Remaining: %@" = "剩餘：%@";
+"Resets: %@" = "重設時間：%@";
+"Updated: %@" = "更新於：%@";
+"Codex CLI not found" = "找不到 Codex CLI";
+"Couldn't read Codex usage. Sign in to Codex with ChatGPT." = "無法讀取 Codex 額度，請使用 ChatGPT 帳號登入 Codex。";
+"No quota data available" = "暫無額度資料";
+
+/* Claude integration */
+"Claude Usage" = "Claude 額度";
+"Connect Claude Code" = "連接 Claude Code";
+"Disconnect Claude Code" = "中斷 Claude Code";
+"Couldn't configure Claude Code" = "無法設定 Claude Code";
+"Start a Claude Code conversation to update usage." = "連接後，開始一次 Claude Code 對話以更新額度。";
+"Last reading (may be outdated)" = "上次讀數（可能已過期）";
+
+/* Claude setup */
+"Install Claude Code" = "安裝 Claude Code";
+"Sign in to Claude" = "登入 Claude";
+"Open Claude Code" = "開啟 Claude Code";
+"Checking Claude Code…" = "正在檢查 Claude Code…";
+"Claude Code is not installed. Open the official installation guide to get started." = "尚未安裝 Claude Code，請開啟官方安裝指南。";
+"Claude Code is not signed in. Sign in with your Claude Pro or Max account." = "Claude Code 尚未登入，請使用 Claude Pro 或 Max 帳號登入。";
+"This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "目前 Claude Code 使用 API 計費，請登入 Claude Pro 或 Max 帳號以取得訂閱額度。";
+"Couldn't check Claude Code login. Open Claude Code to continue setup." = "無法檢查 Claude Code 登入狀態，請開啟 Claude Code 繼續設定。";
+"Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "等待額度資料。在 Claude Code 傳送訊息，回覆後額度會自動顯示；網頁或桌面聊天不會更新此連線。";
+
+"Show Claude Usage" = "顯示 Claude 額度";
+
+/* Window behavior */
+"Menu Bar Click Behavior" = "選單列點擊行為";
+"Quick Panel" = "快捷彈窗";
+"Main Window" = "主視窗";

@@ -178,3 +178,53 @@
 "Show in Finder" = "Finderに表示";
 "Creating image…" = "画像を作成中…";
 "Fan Speed" = "ファン回転数";
+
+/* Menu-bar layout */
+"Menu Bar Appearance" = "メニューバーの表示";
+"Automatic" = "自動";
+"Icon Only" = "アイコンのみ";
+"Live Metrics" = "リアルタイム指標";
+
+/* Text sharing */
+"Copy as Text" = "テキストとしてコピー";
+"Save as Text…" = "テキストとして保存…";
+"Text copied to clipboard" = "テキストをクリップボードにコピーしました";
+"Couldn't copy the text" = "テキストをコピーできませんでした";
+"Couldn't save the text" = "テキストを保存できませんでした";
+
+/* Codex usage */
+"Codex Usage" = "Codex 使用枠";
+"Show Codex Usage" = "Codex 使用枠を表示";
+"Refresh" = "更新";
+"Remaining: %@" = "残り: %@";
+"Resets: %@" = "リセット: %@";
+"Updated: %@" = "更新: %@";
+"Codex CLI not found" = "Codex CLI が見つかりません";
+"Couldn't read Codex usage. Sign in to Codex with ChatGPT." = "使用枠を取得できません。ChatGPT で Codex にログインしてください。";
+"No quota data available" = "使用枠のデータがありません";
+
+/* Claude integration */
+"Claude Usage" = "Claude 使用枠";
+"Connect Claude Code" = "Claude Code に接続";
+"Disconnect Claude Code" = "Claude Code を切断";
+"Couldn't configure Claude Code" = "Claude Code を設定できません";
+"Start a Claude Code conversation to update usage." = "Claude Code で会話を始めると使用枠が更新されます。";
+"Last reading (may be outdated)" = "前回の値（古い可能性あり）";
+
+/* Claude setup */
+"Install Claude Code" = "Claude Code をインストール";
+"Sign in to Claude" = "Claude にログイン";
+"Open Claude Code" = "Claude Code を開く";
+"Checking Claude Code…" = "Claude Code を確認中…";
+"Claude Code is not installed. Open the official installation guide to get started." = "Claude Code が未インストールです。公式インストールガイドを開いてください。";
+"Claude Code is not signed in. Sign in with your Claude Pro or Max account." = "Claude Code に未ログインです。Claude Pro または Max アカウントでログインしてください。";
+"This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "API 課金でログインしています。購読の使用量には Claude Pro または Max でログインしてください。";
+"Couldn't check Claude Code login. Open Claude Code to continue setup." = "ログイン状態を確認できません。Claude Code を開いて設定を続けてください。";
+"Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "使用量を待っています。Claude Code でメッセージを送ると、返信後に自動表示します。Web やデスクトップのチャットはこの接続を更新しません。";
+
+"Show Claude Usage" = "Claude 使用量を表示";
+
+/* Window behavior */
+"Menu Bar Click Behavior" = "メニューバーのクリック動作";
+"Quick Panel" = "クイックパネル";
+"Main Window" = "メインウインドウ";

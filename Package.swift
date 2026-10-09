@@ -9,9 +9,9 @@ let package = Package(
             name: "MonitorX",
             path: ".",
             exclude: ["Scripts", "build", "dist", "docs", "promo", "website",
-                      "README.md", "PRIVACY.md", "Resources/AppStore.entitlements"],
+                      "README.md", "README.en.md", "PRIVACY.md", "Resources/AppStore.entitlements"],
             sources: ["Sources/MonitorX"],
-            resources: [.copy("Resources/Localization")],
+            resources: [.copy("Resources/Localization"), .copy("Resources/BrandIcons")],
             swiftSettings: [.swiftLanguageMode(.v5)]
         )
     ]

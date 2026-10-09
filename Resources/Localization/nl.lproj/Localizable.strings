@@ -178,3 +178,53 @@
 "Show in Finder" = "Toon in Finder";
 "Creating image…" = "Afbeelding aanmaken…";
 "Fan Speed" = "Ventilatorsnelheid";
+
+/* Menu-bar layout */
+"Menu Bar Appearance" = "Weergave menubalk";
+"Automatic" = "Automatisch";
+"Icon Only" = "Alleen pictogram";
+"Live Metrics" = "Live statistieken";
+
+/* Text sharing */
+"Copy as Text" = "Kopiëren als tekst";
+"Save as Text…" = "Opslaan als tekst…";
+"Text copied to clipboard" = "Tekst naar klembord gekopieerd";
+"Couldn't copy the text" = "Tekst kon niet worden gekopieerd";
+"Couldn't save the text" = "Tekst kon niet worden opgeslagen";
+
+/* Codex usage */
+"Codex Usage" = "Codex-limiet";
+"Show Codex Usage" = "Codex-limiet tonen";
+"Refresh" = "Vernieuwen";
+"Remaining: %@" = "Resterend: %@";
+"Resets: %@" = "Reset: %@";
+"Updated: %@" = "Bijgewerkt: %@";
+"Codex CLI not found" = "Codex CLI niet gevonden";
+"Couldn't read Codex usage. Sign in to Codex with ChatGPT." = "Kan limiet niet lezen. Meld je aan bij Codex met ChatGPT.";
+"No quota data available" = "Geen limietgegevens";
+
+/* Claude integration */
+"Claude Usage" = "Claude-limiet";
+"Connect Claude Code" = "Claude Code verbinden";
+"Disconnect Claude Code" = "Claude Code loskoppelen";
+"Couldn't configure Claude Code" = "Claude Code kon niet worden ingesteld";
+"Start a Claude Code conversation to update usage." = "Start een Claude Code gesprek om de limiet bij te werken.";
+"Last reading (may be outdated)" = "Laatste meting (mogelijk verouderd)";
+
+/* Claude setup */
+"Install Claude Code" = "Claude Code installeren";
+"Sign in to Claude" = "Aanmelden bij Claude";
+"Open Claude Code" = "Claude Code openen";
+"Checking Claude Code…" = "Claude Code controleren…";
+"Claude Code is not installed. Open the official installation guide to get started." = "Claude Code is niet geïnstalleerd. Open de officiële installatiehandleiding.";
+"Claude Code is not signed in. Sign in with your Claude Pro or Max account." = "Claude Code is niet aangemeld. Meld je aan met Claude Pro of Max.";
+"This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "Deze sessie gebruikt API-facturering. Meld je aan met Claude Pro of Max voor abonnementsgebruik.";
+"Couldn't check Claude Code login. Open Claude Code to continue setup." = "Aanmelding kon niet worden gecontroleerd. Open Claude Code om verder te gaan.";
+"Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "Wachten op gegevens. Stuur een bericht in Claude Code; gebruik verschijnt na het antwoord. Web- en desktopchats werken deze verbinding niet bij.";
+
+"Show Claude Usage" = "Claude-gebruik tonen";
+
+/* Window behavior */
+"Menu Bar Click Behavior" = "Klikgedrag menubalk";
+"Quick Panel" = "Snel paneel";
+"Main Window" = "Hoofdvenster";

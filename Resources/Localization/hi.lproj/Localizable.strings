@@ -178,3 +178,53 @@
 "Show in Finder" = "Finder में दिखाएँ";
 "Creating image…" = "इमेज बनाई जा रही है…";
 "Fan Speed" = "फ़ैन स्पीड";
+
+/* Menu-bar layout */
+"Menu Bar Appearance" = "मेन्यू बार का रूप";
+"Automatic" = "स्वचालित";
+"Icon Only" = "केवल आइकन";
+"Live Metrics" = "लाइव मेट्रिक्स";
+
+/* Text sharing */
+"Copy as Text" = "टेक्स्ट के रूप में कॉपी करें";
+"Save as Text…" = "टेक्स्ट के रूप में सहेजें…";
+"Text copied to clipboard" = "टेक्स्ट क्लिपबोर्ड पर कॉपी किया गया";
+"Couldn't copy the text" = "टेक्स्ट कॉपी नहीं हो सका";
+"Couldn't save the text" = "टेक्स्ट सहेजा नहीं जा सका";
+
+/* Codex usage */
+"Codex Usage" = "Codex कोटा";
+"Show Codex Usage" = "Codex कोटा दिखाएं";
+"Refresh" = "रीफ़्रेश";
+"Remaining: %@" = "शेष: %@";
+"Resets: %@" = "रीसेट: %@";
+"Updated: %@" = "अपडेट: %@";
+"Codex CLI not found" = "Codex CLI नहीं मिला";
+"Couldn't read Codex usage. Sign in to Codex with ChatGPT." = "कोटा नहीं पढ़ सके। ChatGPT से Codex में साइन इन करें।";
+"No quota data available" = "कोटा डेटा उपलब्ध नहीं है";
+
+/* Claude integration */
+"Claude Usage" = "Claude कोटा";
+"Connect Claude Code" = "Claude Code जोड़ें";
+"Disconnect Claude Code" = "Claude Code डिस्कनेक्ट करें";
+"Couldn't configure Claude Code" = "Claude Code सेटअप नहीं हो सका";
+"Start a Claude Code conversation to update usage." = "कोटा अपडेट करने के लिए Claude Code बातचीत शुरू करें।";
+"Last reading (may be outdated)" = "अंतिम डेटा (पुराना हो सकता है)";
+
+/* Claude setup */
+"Install Claude Code" = "Claude Code इंस्टॉल करें";
+"Sign in to Claude" = "Claude में साइन इन करें";
+"Open Claude Code" = "Claude Code खोलें";
+"Checking Claude Code…" = "Claude Code की जाँच हो रही है…";
+"Claude Code is not installed. Open the official installation guide to get started." = "Claude Code इंस्टॉल नहीं है। आधिकारिक इंस्टॉलेशन गाइड खोलें।";
+"Claude Code is not signed in. Sign in with your Claude Pro or Max account." = "Claude Code में साइन इन नहीं है। Claude Pro या Max खाते से साइन इन करें।";
+"This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "यह लॉगिन API बिलिंग का उपयोग करता है। सदस्यता उपयोग के लिए Claude Pro या Max से साइन इन करें।";
+"Couldn't check Claude Code login. Open Claude Code to continue setup." = "लॉगिन की जाँच नहीं हो सकी। सेटअप जारी रखने के लिए Claude Code खोलें।";
+"Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "डेटा की प्रतीक्षा है। Claude Code में संदेश भेजें; उत्तर के बाद उपयोग दिखेगा। वेब और डेस्कटॉप चैट इस कनेक्शन को अपडेट नहीं करतीं।";
+
+"Show Claude Usage" = "Claude उपयोग दिखाएँ";
+
+/* Window behavior */
+"Menu Bar Click Behavior" = "मेनू बार क्लिक व्यवहार";
+"Quick Panel" = "त्वरित पैनल";
+"Main Window" = "मुख्य विंडो";
