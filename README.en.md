@@ -99,7 +99,7 @@ Launching normally opens the main window; `--show` is no longer necessary, but r
 
 ## Usage
 
-- **Main window**: opens at launch, supports resizing and zooming, and remembers its size and position. Wide windows place quota cards side by side and adjust the resource grid. Closing or minimizing it hides it to the menu bar. A Dock entry is available while the window is visible.
+- **Main window**: opens at launch, supports resizing (minimum content size: 480 × 600) and zooming, and remembers its size and position. Wide windows place quota cards side by side and adjust the resource grid. Closing or minimizing it hides it to the menu bar. A Dock entry is available while the window is visible.
 - **Left-click the menu bar item**: choose Quick Panel (default) or Main Window under `···` → Menu Bar Click Behavior. The quick panel keeps a fixed size; press `Esc` or click elsewhere to dismiss it. Main Window opens or brings forward the resizable window.
 - **Right-click**: opens a menu to show the main window or quit.
 - **Notched displays**: Automatic menu bar appearance prioritizes compact quota indicators on displays with a camera notch, or an icon when quotas are disabled. Other displays show live metrics. Choose Icon Only or Live Metrics in settings. macOS controls placement; using less space cannot guarantee visibility in a crowded menu bar.

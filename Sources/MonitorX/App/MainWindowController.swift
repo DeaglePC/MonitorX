@@ -5,10 +5,20 @@ import SwiftUI
 private final class MonitorWindow: NSWindow {
     var minimizeToMenuBar: (() -> Void)?
     override func miniaturize(_ sender: Any?) { minimizeToMenuBar?() }
+    override var contentMinSize: NSSize {
+        get { super.contentMinSize }
+        set {
+            // SwiftUI can reset this to zero even when hosting sizing options are disabled.
+            let floor = MainWindowController.minimumContentSize
+            super.contentMinSize = NSSize(width: max(newValue.width, floor.width),
+                                          height: max(newValue.height, floor.height))
+        }
+    }
 }
 
 final class MainWindowController: NSObject, NSWindowDelegate {
     static let frameAutosaveName = "MonitorX.MainWindow"
+    static let minimumContentSize = NSSize(width: 480, height: 600)
     private let window: MonitorWindow
     private let monitor: SystemMonitor
     private let panel: PanelController
@@ -19,17 +29,20 @@ final class MainWindowController: NSObject, NSWindowDelegate {
         self.monitor = monitor
         self.panel = panel
         self.autosaveName = autosaveName
-        window = MonitorWindow(contentRect: NSRect(origin: .zero, size: PanelController.size),
+        window = MonitorWindow(contentRect: NSRect(origin: .zero, size: NSSize(width: 480, height: 700)),
                                styleMask: [.titled, .closable, .miniaturizable, .resizable],
                                backing: .buffered, defer: false)
         super.init()
         window.title = "MonitorX"
         window.isReleasedWhenClosed = false
         window.delegate = self
-        window.contentMinSize = NSSize(width: 420, height: 480)
         window.collectionBehavior.insert(.fullScreenPrimary)
-        window.contentView = NSHostingView(rootView: RootView()
+        let host = NSHostingView(rootView: RootView()
             .environment(monitor).environment(settings).environment(state))
+        // The hidden SwiftUI tree has no intrinsic size; the window owns its size constraints.
+        host.sizingOptions = []
+        window.contentView = host
+        window.contentMinSize = Self.minimumContentSize
         window.center()
         window.setFrameAutosaveName(autosaveName)
         window.setFrameUsingName(autosaveName)
@@ -44,7 +57,8 @@ final class MainWindowController: NSObject, NSWindowDelegate {
         NSApp.setActivationPolicy(.regular)
         // Re-clamp after display changes, including disconnecting an external display.
         if let visible = (window.screen ?? NSScreen.main)?.visibleFrame {
-            window.setFrame(Self.fitting(window.frame, inside: visible), display: true)
+            let minimum = window.frameRect(forContentRect: NSRect(origin: .zero, size: Self.minimumContentSize)).size
+            window.setFrame(Self.fitting(window.frame, inside: visible, minimum: minimum), display: true)
         }
         window.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
@@ -52,8 +66,9 @@ final class MainWindowController: NSObject, NSWindowDelegate {
     }
 
     /// Keep restored windows reachable after a monitor is unplugged or its resolution changes.
-    static func fitting(_ frame: NSRect, inside visible: NSRect) -> NSRect {
-        let size = NSSize(width: min(frame.width, visible.width), height: min(frame.height, visible.height))
+    static func fitting(_ frame: NSRect, inside visible: NSRect, minimum: NSSize = .zero) -> NSRect {
+        let size = NSSize(width: min(max(frame.width, minimum.width), visible.width),
+                          height: min(max(frame.height, minimum.height), visible.height))
         return NSRect(x: max(visible.minX, min(frame.minX, visible.maxX - size.width)),
                       y: max(visible.minY, min(frame.minY, visible.maxY - size.height)),
                       width: size.width, height: size.height)

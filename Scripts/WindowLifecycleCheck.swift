@@ -19,15 +19,27 @@ struct WindowLifecycleCheck {
         // A command-line harness does not enter NSApplication.run(), which delivers
         // the delegate launch callback in the real app. Exercise that callback explicitly.
         delegate.applicationDidFinishLaunching(Notification(name: NSApplication.didFinishLaunchingNotification))
-        RunLoop.main.run(until: Date().addingTimeInterval(0.5))
+        let launchDeadline = Date().addingTimeInterval(3)
+        while Date() < launchDeadline && !app.windows.contains(where: {
+            $0.title == "MonitorX" && $0.styleMask.contains(.titled) && $0.isVisible
+        }) {
+            RunLoop.main.run(until: Date().addingTimeInterval(0.1))
+        }
 
-        guard let window = app.windows.first(where: { $0.title == "MonitorX" }) else {
+        guard let window = app.windows.first(where: { $0.title == "MonitorX" && $0.styleMask.contains(.titled) }) else {
             fatalError("Launch must create the main window")
         }
         precondition(window.isVisible, "Launch must show the main window without --show")
         precondition(app.activationPolicy() == .regular, "Visible window must have a Dock entry")
         precondition(window.styleMask.contains(.miniaturizable))
         precondition(window.styleMask.contains(.resizable))
+        precondition(window.contentMinSize == MainWindowController.minimumContentSize,
+                     "SwiftUI must not replace the minimum window size: \(window.contentMinSize)")
+        window.setContentSize(NSSize(width: 220, height: 300))
+        _ = delegate.applicationShouldHandleReopen(app, hasVisibleWindows: true)
+        RunLoop.main.run(until: Date().addingTimeInterval(0.1))
+        precondition((window.contentView?.bounds.width ?? 0) >= 480 && (window.contentView?.bounds.height ?? 0) >= 600,
+                     "Window resizing must enforce the content minimum")
         window.setContentSize(NSSize(width: 960, height: 700))
         RunLoop.main.run(until: Date().addingTimeInterval(0.1))
         precondition(abs((window.contentView?.bounds.width ?? 0) - 960) < 1, "Hosting content must expand with the window")
@@ -39,6 +51,7 @@ struct WindowLifecycleCheck {
 
         _ = delegate.applicationShouldHandleReopen(app, hasVisibleWindows: false)
         precondition(window.isVisible, "Finder reopen must restore the window")
+        precondition(window.contentMinSize == MainWindowController.minimumContentSize, "Hiding and reopening must retain the minimum")
         precondition(abs(window.frame.width - resized.width) < 1, "Reopen must retain resized width")
         let expected = window.frame
         let restoreName = "MonitorX.RestoreCheck." + UUID().uuidString
@@ -51,6 +64,9 @@ struct WindowLifecycleCheck {
         let fitted = MainWindowController.fitting(NSRect(x: 3000, y: -800, width: 1800, height: 1000),
                                                    inside: NSRect(x: 0, y: 0, width: 1200, height: 800))
         precondition(fitted == NSRect(x: 0, y: 0, width: 1200, height: 800), "Disconnected-monitor frames must fit on screen")
+        let expanded = MainWindowController.fitting(NSRect(x: 40, y: 40, width: 220, height: 300),
+            inside: NSRect(x: 0, y: 0, width: 1200, height: 800), minimum: NSSize(width: 480, height: 628))
+        precondition(expanded.size == NSSize(width: 480, height: 628), "Old undersized saved frames must be expanded")
         window.performClose(nil)
         // Exercise the actual menu button with both click behaviors, including a visible main window.
         let settings = Settings(), monitor = SystemMonitor()
@@ -62,7 +78,7 @@ struct WindowLifecycleCheck {
         monitor.codexUsage.buckets = [.init(limitId: "codex", limitName: nil,
             primary: .init(usedPercent: 20, windowDurationMins: 300, resetsAt: now + 3600), secondary: nil)]
         monitor.claudeUsage.snapshot = .init(updatedAt: now, windows: ["five_hour": .init(used_percentage: 25, resets_at: now + 3600)])
-        for width in [CGFloat(420), 960] {
+        for width in [CGFloat(480), 960] {
             let renderer = ImageRenderer(content: OverviewView(go: { _ in })
                 .environment(monitor).environment(settings).environment(\.monitoringWidth, width)
                 .environment(\.isSnapshot, true).environment(\.colorScheme, .dark)
