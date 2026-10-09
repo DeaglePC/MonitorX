@@ -4,6 +4,8 @@
 
 # MonitorX
 
+**简体中文** · [English](README.en.md)
+
 **谁在吃你的 Mac？一眼就知道。**
 
 macOS 26 菜单栏系统监视器 · Liquid Glass 界面 · 系统占用 + Codex / Claude 额度
@@ -15,7 +17,7 @@ macOS 26 菜单栏系统监视器 · Liquid Glass 界面 · 系统占用 + Codex
 ## 亮点
 
 - **直接告诉你是谁**：概览页每张卡片底部写出该资源当前占用最高的应用；明细页按应用合并（Chrome 的几十个 Helper 合成一行），点开看每个进程。
-- **六大分类**：概览、CPU、内存、网络、磁盘、传感器、硬件，每类一个独立页面。
+- **分类页面**：概览、CPU、内存、网络、磁盘、传感器、硬件，每类一个独立页面。
 - **菜单栏常驻**：CPU、内存、网速、磁盘读写可自由勾选，两行紧凑显示，深浅色都清晰。
 - **AI 额度**（官网版）：概览页和菜单栏查看 Codex / Claude 剩余额度与重置时间。Codex 自动查询，Claude 一键连接并引导官方登录；详见下方接入说明。
 - **热度着色**：条形图平时是主题色，负载变重依次变黄、橙、红。
@@ -197,8 +199,10 @@ docker compose up -d --build      # http://localhost:8080，PORT=3000 可改端�
 | 温度 / 风扇（传感器页枚举全部 `T*` 键） | AppleSMC（仅官网版） |
 | 电池 | IOKit `AppleSmartBattery` |
 | 序列号 / GPU / 显示器 | 官网版 `system_profiler`；App Store 版 IOKit 注册表 / Metal / AppKit |
+| Codex 额度 | 官方 Codex CLI app-server，`account/rateLimits/read` |
+| Claude 额度 | 官方 Claude Code `statusLine` 回调 |
 
-面板关闭时只采样系统级指标；进程级采样仅在面板打开时进行（3 秒一次）。
+监控界面隐藏时只采样系统级指标；进程级采样仅在主窗口或面板显示时进行（3 秒一次）。额度监控按前述更新方式进行。
 
 ## 已知限制
 
@@ -207,6 +211,7 @@ docker compose up -d --build      # http://localhost:8080，PORT=3000 可改端�
 - root 进程的内存为 RSS，与活动监视器的 footprint 口径略有差别。
 - 进程网络流量忽略回环，所以经本机代理转发的流量只会算在代理软件上。
 - Apple Silicon 上的温度传感器键名与 Intel 不同，部分机型可能读不到全部传感器（仅在 Intel MacBook Pro 上实测）。
+- AI 额度监控需要本机官方 CLI 和相应登录，仅官网直装版提供；Claude 订阅额度需要在 Claude Code 中收到一次回复后更新。
 
 ## 目录结构
 
