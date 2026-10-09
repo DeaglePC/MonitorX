@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MonitorX：菜单栏系统监视器</title>
-  <meta name="description" content="MonitorX 把 CPU、内存、网络、磁盘按应用排好队，一眼看出谁在占用你的 Mac。macOS 26 菜单栏应用。">
+  <meta name="description" content="MonitorX 按应用查看 Mac 系统占用，并在菜单栏显示 Codex、Claude 剩余额度与重置时间。macOS 26 菜单栏应用。">
   <meta name="color-scheme" content="light dark">
   <meta property="og:title" content="MonitorX：谁在占用你的 Mac，一眼就知道">
-  <meta property="og:description" content="常驻菜单栏，按应用查看 CPU、内存、网络与磁盘占用。支持 Intel 与 Apple Silicon，数据只留在本机。">
+  <meta property="og:description" content="常驻菜单栏，按应用查看系统占用，监控 Codex、Claude 剩余额度。支持 Intel 与 Apple Silicon，不向开发者上传数据。">
   <meta property="og:type" content="website">
   <meta property="og:image" content="images/hero.png">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -29,6 +29,7 @@
       <a href="#network">网络</a>
       <a href="#disk">磁盘</a>
       <a href="#sensors">传感器</a>
+      <a href="#ai-usage">AI 额度</a>
       <a href="#screens">界面</a>
       <a href="https://github.com/DeaglePC/MonitorX" class="repo-link" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
       <a href="#download" class="dl-link">下载</a>
@@ -43,7 +44,7 @@
     <section class="hero wrap">
       <p class="eyebrow">MonitorX · macOS 菜单栏系统监视器</p>
       <h1>谁在占用你的 Mac，<br>一眼就知道。</h1>
-      <p class="lede">MonitorX 常驻菜单栏，把 CPU、内存、网络、磁盘按应用排好队。Chrome 的几十个 Helper 进程合成一行，点开再看每个进程。</p>
+      <p class="lede">MonitorX 常驻菜单栏，把 CPU、内存、网络、磁盘按应用排好队。Chrome 的几十个 Helper 进程合成一行，点开再看每个进程。也能查看 Codex、Claude 剩余额度，写代码前先看还剩多少。</p>
       <div class="actions">
         <a class="btn solid" data-release-download href="https://github.com/DeaglePC/MonitorX/releases/download/v1.2.0/MonitorX-1.2.0.dmg">下载 MonitorX <span aria-hidden="true">↓</span></a>
         <a class="btn" href="#screens">看真实界面</a>
@@ -151,15 +152,44 @@
       </div>
     </section>
 
+    <!-- AI usage: production cards rendered with labeled demo readings -->
+    <section id="ai-usage" class="story wrap usage-story" aria-labelledby="usage-h">
+      <div class="say">
+        <p class="eyebrow">官网版 · Codex / Claude</p>
+        <h2 id="usage-h">AI 额度：还剩多少，何时重置</h2>
+        <p>概览页查看剩余比例、重置时间和更新时间；菜单栏显示各自剩余最少的额度窗口。忙着写代码时，也能抬头确认用量。</p>
+        <div class="usage-detail">
+          <h3>Codex：登录后自动查询</h3>
+          <p>安装官方 Codex CLI，用 ChatGPT 账号登录后即可显示。每 5 分钟自动刷新，也支持手动刷新；显示官方返回的额度窗口，不推算缺失数据。</p>
+        </div>
+        <div class="usage-detail">
+          <h3>Claude：一键连接，官方登录</h3>
+          <p>点击「连接 Claude Code」，自动配置桥接并打开 Claude Code。软件检查安装和登录状态，未登录时可直接启动官方登录流程。使用 Pro / Max 账号，在 Claude Code 收到一次对话回复后，5 小时和 7 天额度自动显示。</p>
+        </div>
+        <p class="usage-note">Claude 网页或桌面聊天不会更新此连接。旧读数会明确标记；菜单栏用 <code>*</code> 表示旧值，<code>–</code> 表示尚无数据。额度功能仅官网版提供，可在设置中控制菜单栏显示。</p>
+        <a class="text-link" href="https://github.com/DeaglePC/MonitorX#ai-usage" target="_blank" rel="noopener noreferrer">查看接入说明 ↗</a>
+      </div>
+      <figure class="usage-preview">
+        <img src="images/ai-usage-dark.png" alt="MonitorX 的 Codex 和 Claude 额度卡片，展示剩余比例与重置时间；数值为演示数据" width="840" height="975" loading="lazy">
+        <figcaption>真实 App 界面渲染，额度为演示数据。</figcaption>
+      </figure>
+    </section>
+
     <!-- Screens: real panels on a "wallpaper", in Liquid Glass frames -->
     <section id="screens" class="screens" aria-labelledby="screens-h">
       <div class="wallpaper" id="wallpaper" aria-hidden="true"><i class="w1"></i><i class="w2"></i><i class="w3"></i><i class="w4"></i></div>
       <div class="wrap screens-head">
         <h2 id="screens-h">真实界面</h2>
-        <p class="lede sm">以下截图来自真实运行的 App。面板背景是 Liquid Glass，会随桌面壁纸透出，这里放在一张壁纸上，更接近它在你桌面上的样子。</p>
+        <p class="lede sm">系统监控截图来自真实运行的 App，Liquid Glass 背景会随壁纸透出。新增额度截图由同一套 App 界面代码渲染，数值为已标注的演示数据。</p>
       </div>
 
       <div class="deck" id="deck" tabindex="0" role="group" aria-roledescription="轮播" aria-label="界面截图，左右方向键切换">
+        <figure class="pane" data-name="AI 额度" data-desc="Codex 与 Claude 的剩余额度、重置时间和更新时间。真实 App 界面渲染，额度为演示数据；此功能仅官网版提供。">
+          <div class="frame"><img src="images/ai-usage-dark.png" alt="Codex 与 Claude 额度卡片（深色，演示数据）" width="840" height="975" draggable="false"></div>
+        </figure>
+        <figure class="pane" data-name="额度 · 浅色" data-desc="同一套额度卡片的浅色外观。真实 App 界面渲染，额度为演示数据，支持系统深浅色切换。">
+          <div class="frame"><img src="images/ai-usage-light.png" alt="Codex 与 Claude 额度卡片（浅色，演示数据）" width="840" height="975" loading="lazy" draggable="false"></div>
+        </figure>
         <figure class="pane" data-name="概览" data-desc="四张资源卡片加电池、温度、风扇，每张卡片带趋势图，并直接写出当前占用最高的应用。">
           <div class="frame"><img src="images/overview.png" alt="概览页" width="640" height="1006" draggable="false"></div>
         </figure>
@@ -202,6 +232,8 @@
           <tr><th scope="row">电池与硬件信息</th><td>有</td><td>有</td></tr>
           <tr><th scope="row">按应用与进程的占用排行</th><td>有</td><td class="no">无</td></tr>
           <tr><th scope="row">传感器页（温度、风扇）</th><td>有</td><td class="no">无</td></tr>
+          <tr><th scope="row">Codex / Claude 额度及菜单栏显示</th><td>有</td><td class="no">无</td></tr>
+          <tr><th scope="row">图片及文字复制 / 导出</th><td>有</td><td>有</td></tr>
         </tbody>
       </table>
     </section>
@@ -220,14 +252,16 @@
         <li>首次打开若提示无法验证开发者，在终端执行下面的命令，或右键选择「打开」。
           <div class="code"><code id="cmd">xattr -cr /Applications/MonitorX.app</code><button id="copy" type="button">复制</button></div>
         </li>
-        <li>菜单栏出现 CPU、内存和网速。左键展开面板，右键退出。</li>
+        <li>启动后自动显示主窗口；关闭或最小化后继续在菜单栏运行。再次打开应用可恢复窗口。</li>
       </ol>
     </section>
 
     <section class="wrap plain faq">
       <h2>常见问题</h2>
       <details><summary>为什么提示无法验证开发者？</summary><p>不同版本的签名与公证状态可能不同，请先查看 GitHub Releases 中的版本说明。确认安装包来自本项目后，可按上方安装步骤操作。</p></details>
-      <details><summary>它会联网或上传数据吗？</summary><p>系统指标在本机采集，不向开发者上传数据。直装版开启 Codex 额度监控时，本机官方 Codex 会使用已有登录状态向 OpenAI 查询额度，可在设置中关闭。</p></details>
+      <details><summary>它会联网或上传数据吗？</summary><p>系统指标在本机采集，不向开发者上传数据。直装版开启 Codex 额度监控时，本机官方 Codex 会使用已有登录状态向 OpenAI 查询额度，可在设置中关闭。Claude 额度由本机 Claude Code 的官方状态栏提供，不向开发者上传账号或对话内容。</p></details>
+      <details><summary>为什么连上 Claude 后还没有额度？</summary><p>连接会配置额度桥接，不等于已经登录。根据卡片提示点击「登录 Claude」，使用 Pro / Max 账号完成官方授权，再在打开的 Claude Code 中发送一条消息，收到回复后自动更新。网页或桌面版聊天不会触发该桥接；API 计费登录不提供这里的订阅额度。</p></details>
+      <details><summary>额度多久更新？会消耗模型额度吗？</summary><p>Codex 每 5 分钟查询一次账号额度，也可手动刷新；只读查询不发起模型任务。Claude 随 Claude Code 的状态栏回调更新，MonitorX 不会自动发送聊天消息。显示的是最近读数，过期或刷新失败时会标记。</p></details>
       <details><summary>需要哪些权限？</summary><p>不需要辅助功能、屏幕录制或完全磁盘访问。读取温度与风扇走系统的 SMC 接口，读取进程信息用系统自带的接口和命令行工具。</p></details>
       <details><summary>支持 Apple Silicon 吗？</summary><p>支持，安装包是 x86_64 加 arm64 的通用二进制。Apple Silicon 的温度传感器键名与 Intel 不同，部分机型可能读不全，目前只在 Intel MacBook Pro 上实测过。</p></details>
     </section>

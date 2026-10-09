@@ -6,7 +6,7 @@
 
 **谁在吃你的 Mac？一眼就知道。**
 
-macOS 26 菜单栏系统监视器 · Liquid Glass 界面 · CPU / 内存 / 网络 / 磁盘 / 传感器 / 硬件
+macOS 26 菜单栏系统监视器 · Liquid Glass 界面 · 系统占用 + Codex / Claude 额度
 
 </div>
 
@@ -17,6 +17,7 @@ macOS 26 菜单栏系统监视器 · Liquid Glass 界面 · CPU / 内存 / 网�
 - **直接告诉你是谁**：概览页每张卡片底部写出该资源当前占用最高的应用；明细页按应用合并（Chrome 的几十个 Helper 合成一行），点开看每个进程。
 - **六大分类**：概览、CPU、内存、网络、磁盘、传感器、硬件，每类一个独立页面。
 - **菜单栏常驻**：CPU、内存、网速、磁盘读写可自由勾选，两行紧凑显示，深浅色都清晰。
+- **AI 额度**（官网版）：概览页和菜单栏查看 Codex / Claude 剩余额度与重置时间。Codex 自动查询，Claude 一键连接并引导官方登录；详见下方接入说明。
 - **热度着色**：条形图平时是主题色，负载变重依次变黄、橙、红。
 - **很轻**：面板关闭时约 1% 单核、约 27 MB 内存；进程级采样仅在面板打开时进行。
 - **本地系统监控**：系统指标在本机采集；可选 Codex 额度监控由本机官方 Codex 向 OpenAI 查询，不向 MonitorX 开发者上传数据。
@@ -48,6 +49,30 @@ macOS 26 菜单栏系统监视器 · Liquid Glass 界面 · CPU / 内存 / 网�
 </table>
 
 > 截图来自真实运行的 App（Intel MacBook Pro，macOS 26.3）。面板背景是 Liquid Glass，会随桌面壁纸透出，截图里看到的是深色底。
+
+<a id="ai-usage"></a>
+
+## AI 额度：Codex / Claude
+
+写代码时，一起查看系统占用和 AI 剩余额度。概览页展示额度窗口、重置时间与更新时间；菜单栏分别显示 Codex / Claude 剩余最少的额度窗口。仅官网直装版提供。
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/images/ai-usage-dark.png" alt="Codex 与 Claude 额度卡片，深色，演示数据" width="340"><br><b>额度 · 深色</b></td>
+    <td align="center"><img src="docs/images/ai-usage-light.png" alt="Codex 与 Claude 额度卡片，浅色，演示数据" width="340"><br><b>额度 · 浅色</b></td>
+  </tr>
+</table>
+
+> 上面两张图使用真实 App 的界面代码渲染，额度数值为演示数据，不是账号实测。可运行 `Scripts/render_usage_screenshots.sh` 重新生成 README 和落地页的额度截图。
+
+| | 接入步骤 | 更新方式 |
+| --- | --- | --- |
+| Codex | 安装官方 Codex CLI，使用 ChatGPT 账号登录；打开 MonitorX 即可查看 | 每 5 分钟自动查询，也可手动刷新 |
+| Claude | 点击「连接 Claude Code」；按卡片提示完成 Pro / Max 账号登录，在自动打开的 Claude Code 中发送一条消息 | 首次收到回复后显示，随后随官方状态栏回调更新 |
+
+Claude 网页或桌面聊天不会更新这个连接，API 计费登录也不提供这里的订阅额度。软件自动检查安装与登录状态，保留原有状态栏配置，断开时恢复。浏览器授权仍需本人完成一次。
+
+额度显示最近读数：菜单栏 `*` 表示读数过期或刷新失败，`–` 表示尚无数据。Codex 只读查询不发起模型任务；MonitorX 不会为获取 Claude 额度自动发送消息，也不读取或导出登录凭证。
 
 ## 安装
 
@@ -104,6 +129,8 @@ open build/MonitorX.app
 | CPU / 内存 / 网络 / 磁盘 / 电池 / 硬件信息 | ✅ | ✅ |
 | 进程占用排行与明细 | ✅ | ❌ 沙盒禁止读取其他进程 |
 | 传感器页（全部温度 + 风扇） | ✅ | ❌ 沙盒禁止访问 AppleSMC |
+| Codex / Claude 额度及菜单栏显示 | ✅ | ❌ |
+| 图片及文字复制 / 导出 | ✅ | ✅ |
 
 App Store 版用 `-DAPPSTORE` 编译，被裁掉的功能（`ps` / `netstat` / `system_profiler` / SMC）的代码不会进入二进制。
 序列号、GPU、显示器信息改用 IOKit 注册表 / Metal / AppKit 读取。
