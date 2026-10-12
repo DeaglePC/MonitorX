@@ -8,7 +8,7 @@
 # hardware lookups are compiled out) and ad-hoc signed *with the sandbox entitlement* so it can be run and
 # tested locally under the same restrictions the App Store enforces. Use Scripts/release_appstore.sh to ship it.
 #
-# Optional env: VERSION, BUILD_NUMBER, BUNDLE_ID.
+# Optional env: VERSION, BUILD_NUMBER, BUNDLE_ID, BUILD_SCRATCH (isolated build cache).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -19,6 +19,7 @@ case "$EDITION" in
   appstore) APP="build/appstore/MonitorX.app"; SCRATCH=".build-appstore"; FLAGS=(-Xswiftc -DAPPSTORE) ;;
   *) echo "Unknown EDITION '$EDITION' (use direct or appstore)" >&2; exit 1 ;;
 esac
+SCRATCH="${BUILD_SCRATCH:-$SCRATCH}"
 
 rm -rf "${APP:?}"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"

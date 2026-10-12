@@ -205,16 +205,12 @@
 
 /* Claude integration */
 "Claude Usage" = "Kuota Claude";
-"Connect Claude Code" = "Sambungkan Claude Code";
 "Disconnect Claude Code" = "Putuskan Claude Code";
 "Couldn't configure Claude Code" = "Tidak dapat mengkonfigurasi Claude Code";
 "Start a Claude Code conversation to update usage." = "Mulakan perbualan Claude Code untuk mengemas kini kuota.";
 "Last reading (may be outdated)" = "Bacaan terakhir (mungkin sudah lapuk)";
 
 /* Claude setup */
-"Install Claude Code" = "Pasang Claude Code";
-"Sign in to Claude" = "Log masuk ke Claude";
-"Open Claude Code" = "Buka Claude Code";
 "Checking Claude Code…" = "Memeriksa Claude Code…";
 "Claude Code is not installed. Open the official installation guide to get started." = "Claude Code belum dipasang. Buka panduan pemasangan rasmi.";
 "Claude Code is not signed in. Sign in with your Claude Pro or Max account." = "Claude Code belum log masuk. Log masuk dengan akaun Claude Pro atau Max.";
@@ -228,3 +224,35 @@
 "Menu Bar Click Behavior" = "Tindakan klik bar menu";
 "Quick Panel" = "Panel pantas";
 "Main Window" = "Tetingkap utama";
+
+/* Quota access consent and local snapshots */
+"Allow" = "Benarkan";
+"Cancel" = "Batal";
+"Choose File" = "Pilih fail";
+"Connect quota file" = "Sambungkan fail kuota";
+"Disconnect quota file" = "Putuskan fail kuota";
+"Connect a quota snapshot file to view usage." = "Sambungkan fail kuota untuk melihat penggunaan.";
+"Couldn't read quota file. Select a valid quota snapshot again." = "Kuota tidak dapat dibaca. Pilih semula fail yang sah.";
+"Enable direct Codex query" = "Aktifkan pertanyaan terus Codex";
+"Direct account query enabled" = "Pertanyaan akaun terus aktif";
+"Use CLI only" = "Gunakan CLI sahaja";
+"Choose a quota-only JSON snapshot. MonitorX will read this file until you disconnect. Do not select login credentials. This does not query your account online." = "Pilih JSON yang hanya mengandungi kuota. MonitorX membacanya sehingga diputuskan. Jangan pilih kelayakan log masuk. Akaun tidak ditanya dalam talian.";
+"MonitorX will read the access token from your local Codex auth.json and send it only to ChatGPT to query quota. It will not save or refresh the token. You can revoke this access here." = "MonitorX membaca token daripada Codex auth.json setempat dan menghantarnya hanya kepada ChatGPT untuk kuota. Token tidak disimpan atau diperbaharui. Anda boleh menarik balik akses di sini.";
+
+"Enable direct Claude query" = "Enable direct Claude query";
+
+"MonitorX will read Claude Code's local OAuth credentials, including Keychain if needed, and send the access token only to Anthropic to query quota. It will not save or renew the token. Third-party subscription credential use carries Anthropic terms risk. You can revoke access here." = "MonitorX will read Claude Code's local OAuth credentials, including Keychain if needed, and send the access token only to Anthropic to query quota. It will not save or renew the token. Third-party subscription credential use carries Anthropic terms risk. You can revoke access here.";
+
+"Claude credentials missing or expired. Sign in again with Claude Code." = "Claude credentials missing or expired. Sign in again with Claude Code.";
+
+"Claude Keychain access denied. Click Refresh to authorize again." = "Claude Keychain access denied. Click Refresh to authorize again.";
+
+"Claude quota query is rate limited. Wait a few minutes." = "Claude quota query is rate limited. Wait a few minutes.";
+
+"Couldn't query Claude usage. Try again later." = "Couldn't query Claude usage. Try again later.";
+
+"Quota settings" = "Tetapan kuota";
+
+"Connect Claude" = "Sambungkan Claude";
+
+"Stop direct query" = "Hentikan pertanyaan langsung";

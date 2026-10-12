@@ -205,16 +205,12 @@
 
 /* Claude integration */
 "Claude Usage" = "Cuota Claude";
-"Connect Claude Code" = "Conectar Claude Code";
 "Disconnect Claude Code" = "Desconectar Claude Code";
 "Couldn't configure Claude Code" = "No se pudo configurar Claude Code";
 "Start a Claude Code conversation to update usage." = "Inicia una conversación en Claude Code para actualizar la cuota.";
 "Last reading (may be outdated)" = "Última lectura (puede estar desactualizada)";
 
 /* Claude setup */
-"Install Claude Code" = "Instalar Claude Code";
-"Sign in to Claude" = "Iniciar sesión en Claude";
-"Open Claude Code" = "Abrir Claude Code";
 "Checking Claude Code…" = "Comprobando Claude Code…";
 "Claude Code is not installed. Open the official installation guide to get started." = "Claude Code no está instalado. Abre la guía oficial de instalación.";
 "Claude Code is not signed in. Sign in with your Claude Pro or Max account." = "Claude Code no tiene una sesión iniciada. Accede con tu cuenta Claude Pro o Max.";
@@ -228,3 +224,35 @@
 "Menu Bar Click Behavior" = "Acción al hacer clic en la barra de menús";
 "Quick Panel" = "Panel rápido";
 "Main Window" = "Ventana principal";
+
+/* Quota access consent and local snapshots */
+"Allow" = "Permitir";
+"Cancel" = "Cancelar";
+"Choose File" = "Elegir archivo";
+"Connect quota file" = "Conectar archivo de cuota";
+"Disconnect quota file" = "Desconectar archivo de cuota";
+"Connect a quota snapshot file to view usage." = "Conecta un archivo de cuota para ver el uso.";
+"Couldn't read quota file. Select a valid quota snapshot again." = "No se pudo leer la cuota. Selecciona de nuevo un archivo válido.";
+"Enable direct Codex query" = "Activar consulta directa de Codex";
+"Direct account query enabled" = "Consulta directa de la cuenta activada";
+"Use CLI only" = "Usar solo CLI";
+"Choose a quota-only JSON snapshot. MonitorX will read this file until you disconnect. Do not select login credentials. This does not query your account online." = "Elige un JSON que contenga solo cuotas. MonitorX lo leerá hasta que lo desconectes. No selecciones credenciales. No se consulta la cuenta en línea.";
+"MonitorX will read the access token from your local Codex auth.json and send it only to ChatGPT to query quota. It will not save or refresh the token. You can revoke this access here." = "MonitorX leerá el token de acceso del auth.json local de Codex y lo enviará solo a ChatGPT para consultar la cuota. No guardará ni renovará el token. Puedes revocar el acceso aquí.";
+
+"Enable direct Claude query" = "Enable direct Claude query";
+
+"MonitorX will read Claude Code's local OAuth credentials, including Keychain if needed, and send the access token only to Anthropic to query quota. It will not save or renew the token. Third-party subscription credential use carries Anthropic terms risk. You can revoke access here." = "MonitorX will read Claude Code's local OAuth credentials, including Keychain if needed, and send the access token only to Anthropic to query quota. It will not save or renew the token. Third-party subscription credential use carries Anthropic terms risk. You can revoke access here.";
+
+"Claude credentials missing or expired. Sign in again with Claude Code." = "Claude credentials missing or expired. Sign in again with Claude Code.";
+
+"Claude Keychain access denied. Click Refresh to authorize again." = "Claude Keychain access denied. Click Refresh to authorize again.";
+
+"Claude quota query is rate limited. Wait a few minutes." = "Claude quota query is rate limited. Wait a few minutes.";
+
+"Couldn't query Claude usage. Try again later." = "Couldn't query Claude usage. Try again later.";
+
+"Quota settings" = "Ajustes de cuota";
+
+"Connect Claude" = "Conectar Claude";
+
+"Stop direct query" = "Detener consulta directa";

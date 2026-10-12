@@ -13,17 +13,34 @@ struct CodexUsageCard: View {
                 if !isSnapshot {
                     Button { usage.refresh() } label: {
                         if usage.isRefreshing { ProgressView().controlSize(.mini) }
-                        else { Image(systemName: "arrow.clockwise") }
+                        else { Image(systemName: "arrow.clockwise").foregroundStyle(Color.primary) }
                     }
                     .buttonStyle(.plain)
                     .disabled(usage.isRefreshing)
                     .help(L("Refresh"))
+                    .accessibilityLabel(L("Refresh"))
+                    connectionMenu
                 }
             }
-            if let error = usage.errorKey {
-                Text(error == "Codex CLI not found" ? L("Codex CLI not found") : L("Couldn't read Codex usage. Sign in to Codex with ChatGPT."))
+            if !isSnapshot {
+                #if APPSTORE
+                if !usage.isConnected {
+                    Button(L("Connect quota file")) { usage.connect() }.font(.caption)
+                    Text(L("Connect a quota snapshot file to view usage.")).font(.caption).foregroundStyle(.secondary)
+                }
+                #else
+                if !usage.usesOAuth && usage.buckets.isEmpty {
+                    Button(L("Enable direct Codex query")) { usage.connect() }.font(.caption)
+                }
+                #endif
+            }
+            if usage.errorKey != nil {
+                Text(usage.errorMessage)
                     .font(.caption).foregroundStyle(.orange)
                     .fixedSize(horizontal: false, vertical: true)
+            }
+            if usage.isStale && usage.updatedAt != nil {
+                Text(L("Last reading (may be outdated)")).font(.caption).foregroundStyle(.orange)
             }
             ForEach(Array(usage.buckets.enumerated()), id: \.offset) { _, bucket in
                 if usage.buckets.count > 1 { Text(bucket.title).font(.caption.bold()) }
@@ -64,6 +81,28 @@ struct CodexUsageCard: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .glassCard()
+    }
+
+    private var connectionMenu: some View {
+        Menu {
+            #if APPSTORE
+            Button(L("Connect quota file")) { usage.connect() }
+            if usage.isConnected { Button(L("Disconnect quota file")) { usage.disconnect() } }
+            #else
+            if usage.usesOAuth {
+                Label(L("Direct account query enabled"), systemImage: "checkmark")
+                Divider()
+                Button(L("Use CLI only")) { usage.disconnect() }
+            } else {
+                Button(L("Enable direct Codex query")) { usage.connect() }
+            }
+            #endif
+        } label: {
+            Image(systemName: "ellipsis").foregroundStyle(Color.primary)
+                .frame(width: 24, height: 24).contentShape(Rectangle())
+        }
+        .menuStyle(.button).buttonStyle(.plain).menuIndicator(.hidden)
+        .fixedSize().help(L("Quota settings")).accessibilityLabel(L("Quota settings"))
     }
 
     private func dateString(_ date: Date) -> String {

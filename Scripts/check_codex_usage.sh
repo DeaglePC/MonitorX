@@ -5,6 +5,6 @@ swift build
 BIN="$(swift build --show-bin-path)"
 CHECK="$(mktemp -d)"
 trap 'rm -rf "$CHECK"' EXIT
-swiftc -swift-version 5 Sources/MonitorX/App/Localization.swift Sources/MonitorX/Sampling/CodexUsage.swift \
+swiftc -swift-version 5 Sources/MonitorX/App/Localization.swift Sources/MonitorX/App/Edition.swift Sources/MonitorX/Sampling/CodexUsage.swift Sources/MonitorX/Sampling/CodexOAuthUsage.swift \
   "$BIN/MonitorX.build/DerivedSources/resource_bundle_accessor.swift" Scripts/CodexUsageCheck.swift -o "$CHECK/check"
 "$CHECK/check" "$@"

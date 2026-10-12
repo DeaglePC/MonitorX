@@ -10,7 +10,7 @@ struct OverviewView: View {
         PageScroll {
             VStack(spacing: 14) {
                 header
-                if !Edition.isAppStore {
+                if settings.showCodexUsage || settings.showClaudeUsage {
                     let count = width >= 760 && settings.showCodexUsage && settings.showClaudeUsage ? 2 : 1
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 14, alignment: .top), count: count), spacing: 14) {
                         quotaCards

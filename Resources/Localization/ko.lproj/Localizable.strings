@@ -205,16 +205,12 @@
 
 /* Claude integration */
 "Claude Usage" = "Claude 사용 한도";
-"Connect Claude Code" = "Claude Code 연결";
 "Disconnect Claude Code" = "Claude Code 연결 해제";
 "Couldn't configure Claude Code" = "Claude Code를 설정할 수 없습니다";
 "Start a Claude Code conversation to update usage." = "Claude Code 대화를 시작하면 한도가 업데이트됩니다.";
 "Last reading (may be outdated)" = "이전 값(오래되었을 수 있음)";
 
 /* Claude setup */
-"Install Claude Code" = "Claude Code 설치";
-"Sign in to Claude" = "Claude 로그인";
-"Open Claude Code" = "Claude Code 열기";
 "Checking Claude Code…" = "Claude Code 확인 중…";
 "Claude Code is not installed. Open the official installation guide to get started." = "Claude Code가 설치되지 않았습니다. 공식 설치 안내를 여세요.";
 "Claude Code is not signed in. Sign in with your Claude Pro or Max account." = "Claude Code에 로그인하지 않았습니다. Claude Pro 또는 Max 계정으로 로그인하세요.";
@@ -228,3 +224,35 @@
 "Menu Bar Click Behavior" = "메뉴 막대 클릭 동작";
 "Quick Panel" = "빠른 패널";
 "Main Window" = "메인 창";
+
+/* Quota access consent and local snapshots */
+"Allow" = "허용";
+"Cancel" = "취소";
+"Choose File" = "파일 선택";
+"Connect quota file" = "사용량 파일 연결";
+"Disconnect quota file" = "사용량 파일 연결 해제";
+"Connect a quota snapshot file to view usage." = "사용량 스냅샷 파일을 연결하여 확인하세요.";
+"Couldn't read quota file. Select a valid quota snapshot again." = "파일을 읽을 수 없습니다. 유효한 사용량 스냅샷을 다시 선택하세요.";
+"Enable direct Codex query" = "Codex 직접 조회 활성화";
+"Direct account query enabled" = "계정 직접 조회 활성화됨";
+"Use CLI only" = "CLI만 사용";
+"Choose a quota-only JSON snapshot. MonitorX will read this file until you disconnect. Do not select login credentials. This does not query your account online." = "사용량만 포함한 JSON 스냅샷을 선택하세요. 연결 해제 전까지 파일을 읽습니다. 로그인 자격 증명을 선택하지 마세요. 온라인 계정 조회는 하지 않습니다.";
+"MonitorX will read the access token from your local Codex auth.json and send it only to ChatGPT to query quota. It will not save or refresh the token. You can revoke this access here." = "로컬 Codex auth.json의 액세스 토큰을 읽어 사용량 조회를 위해 ChatGPT에만 보냅니다. 토큰을 저장하거나 갱신하지 않습니다. 여기서 허용을 철회할 수 있습니다.";
+
+"Enable direct Claude query" = "Enable direct Claude query";
+
+"MonitorX will read Claude Code's local OAuth credentials, including Keychain if needed, and send the access token only to Anthropic to query quota. It will not save or renew the token. Third-party subscription credential use carries Anthropic terms risk. You can revoke access here." = "MonitorX will read Claude Code's local OAuth credentials, including Keychain if needed, and send the access token only to Anthropic to query quota. It will not save or renew the token. Third-party subscription credential use carries Anthropic terms risk. You can revoke access here.";
+
+"Claude credentials missing or expired. Sign in again with Claude Code." = "Claude credentials missing or expired. Sign in again with Claude Code.";
+
+"Claude Keychain access denied. Click Refresh to authorize again." = "Claude Keychain access denied. Click Refresh to authorize again.";
+
+"Claude quota query is rate limited. Wait a few minutes." = "Claude quota query is rate limited. Wait a few minutes.";
+
+"Couldn't query Claude usage. Try again later." = "Couldn't query Claude usage. Try again later.";
+
+"Quota settings" = "사용량 설정";
+
+"Connect Claude" = "Claude 연결";
+
+"Stop direct query" = "직접 조회 중지";

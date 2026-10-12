@@ -205,16 +205,12 @@
 
 /* Claude integration */
 "Claude Usage" = "โควตา Claude";
-"Connect Claude Code" = "เชื่อมต่อ Claude Code";
 "Disconnect Claude Code" = "ยกเลิกการเชื่อมต่อ Claude Code";
 "Couldn't configure Claude Code" = "ตั้งค่า Claude Code ไม่ได้";
 "Start a Claude Code conversation to update usage." = "เริ่มสนทนาใน Claude Code เพื่ออัปเดตโควตา";
 "Last reading (may be outdated)" = "ข้อมูลล่าสุด (อาจล้าสมัย)";
 
 /* Claude setup */
-"Install Claude Code" = "ติดตั้ง Claude Code";
-"Sign in to Claude" = "เข้าสู่ระบบ Claude";
-"Open Claude Code" = "เปิด Claude Code";
 "Checking Claude Code…" = "กำลังตรวจสอบ Claude Code…";
 "Claude Code is not installed. Open the official installation guide to get started." = "ยังไม่ได้ติดตั้ง Claude Code เปิดคู่มือติดตั้งอย่างเป็นทางการ";
 "Claude Code is not signed in. Sign in with your Claude Pro or Max account." = "Claude Code ยังไม่ได้เข้าสู่ระบบ เข้าสู่ระบบด้วยบัญชี Claude Pro หรือ Max";
@@ -228,3 +224,35 @@
 "Menu Bar Click Behavior" = "การทำงานเมื่อคลิกแถบเมนู";
 "Quick Panel" = "แผงด่วน";
 "Main Window" = "หน้าต่างหลัก";
+
+/* Quota access consent and local snapshots */
+"Allow" = "อนุญาต";
+"Cancel" = "ยกเลิก";
+"Choose File" = "เลือกไฟล์";
+"Connect quota file" = "เชื่อมต่อไฟล์โควตา";
+"Disconnect quota file" = "ยกเลิกการเชื่อมต่อไฟล์โควตา";
+"Connect a quota snapshot file to view usage." = "เชื่อมต่อไฟล์โควตาเพื่อดูการใช้งาน";
+"Couldn't read quota file. Select a valid quota snapshot again." = "อ่านโควตาไม่ได้ โปรดเลือกไฟล์ที่ถูกต้องอีกครั้ง";
+"Enable direct Codex query" = "เปิดการสอบถาม Codex โดยตรง";
+"Direct account query enabled" = "เปิดการสอบถามบัญชีโดยตรงแล้ว";
+"Use CLI only" = "ใช้ CLI เท่านั้น";
+"Choose a quota-only JSON snapshot. MonitorX will read this file until you disconnect. Do not select login credentials. This does not query your account online." = "เลือก JSON ที่มีเฉพาะโควตา MonitorX จะอ่านจนกว่าจะยกเลิกการเชื่อมต่อ ห้ามเลือกข้อมูลเข้าสู่ระบบ ไม่มีการสอบถามบัญชีออนไลน์";
+"MonitorX will read the access token from your local Codex auth.json and send it only to ChatGPT to query quota. It will not save or refresh the token. You can revoke this access here." = "MonitorX อ่านโทเค็นจาก Codex auth.json ในเครื่องและส่งให้ ChatGPT เท่านั้นเพื่อสอบถามโควตา ไม่บันทึกหรือต่ออายุโทเค็น คุณเพิกถอนสิทธิ์ได้ที่นี่";
+
+"Enable direct Claude query" = "Enable direct Claude query";
+
+"MonitorX will read Claude Code's local OAuth credentials, including Keychain if needed, and send the access token only to Anthropic to query quota. It will not save or renew the token. Third-party subscription credential use carries Anthropic terms risk. You can revoke access here." = "MonitorX will read Claude Code's local OAuth credentials, including Keychain if needed, and send the access token only to Anthropic to query quota. It will not save or renew the token. Third-party subscription credential use carries Anthropic terms risk. You can revoke access here.";
+
+"Claude credentials missing or expired. Sign in again with Claude Code." = "Claude credentials missing or expired. Sign in again with Claude Code.";
+
+"Claude Keychain access denied. Click Refresh to authorize again." = "Claude Keychain access denied. Click Refresh to authorize again.";
+
+"Claude quota query is rate limited. Wait a few minutes." = "Claude quota query is rate limited. Wait a few minutes.";
+
+"Couldn't query Claude usage. Try again later." = "Couldn't query Claude usage. Try again later.";
+
+"Quota settings" = "การตั้งค่าโควตา";
+
+"Connect Claude" = "เชื่อมต่อ Claude";
+
+"Stop direct query" = "หยุดการสอบถามโดยตรง";

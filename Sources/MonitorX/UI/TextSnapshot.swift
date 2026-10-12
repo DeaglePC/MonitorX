@@ -22,7 +22,7 @@ enum TextSnapshot {
         var lines: [String] = []
         switch tab {
         case .overview:
-            if !Edition.isAppStore && settings.showClaudeUsage, let snapshot = m.claudeUsage.snapshot {
+            if settings.showClaudeUsage, let snapshot = m.claudeUsage.snapshot {
                 lines.append(L("Claude Usage"))
                 if m.claudeUsage.isStale { lines.append(L("Last reading (may be outdated)")) }
                 for window in snapshot.quotaWindows {
@@ -41,7 +41,7 @@ enum TextSnapshot {
             if let v = m.disk.volumes.first { lines.append(row(L("Disk"), "\(v.name) · \(Fmt.percent(v.usedFraction))")) }
             if let t = m.sensors.cpuTemp { lines.append(row(L("CPU Temperature"), Fmt.temp(t))) }
             lines += battery(m.battery)
-            if !Edition.isAppStore && settings.showCodexUsage {
+            if settings.showCodexUsage {
                 lines.append(L("Codex Usage"))
                 for bucket in m.codexUsage.buckets {
                     lines.append(bucket.title)
@@ -52,8 +52,9 @@ enum TextSnapshot {
                         } ?? "—"))
                     }
                 }
-                if let error = m.codexUsage.errorKey {
-                    lines.append(error == "Codex CLI not found" ? L("Codex CLI not found") : L("Couldn't read Codex usage. Sign in to Codex with ChatGPT."))
+                if m.codexUsage.isStale && m.codexUsage.updatedAt != nil { lines.append(L("Last reading (may be outdated)")) }
+                if m.codexUsage.errorKey != nil {
+                    lines.append(m.codexUsage.errorMessage)
                 } else if m.codexUsage.buckets.flatMap(\.windows).isEmpty { lines.append(L("No quota data available")) }
                 if let updated = m.codexUsage.updatedAt {
                     lines.append(L("Updated: %@", updated.formatted(Date.FormatStyle(date: .abbreviated, time: .shortened).locale(Localizer.shared.locale))))

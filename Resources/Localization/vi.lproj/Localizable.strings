@@ -205,16 +205,12 @@
 
 /* Claude integration */
 "Claude Usage" = "Hạn mức Claude";
-"Connect Claude Code" = "Kết nối Claude Code";
 "Disconnect Claude Code" = "Ngắt kết nối Claude Code";
 "Couldn't configure Claude Code" = "Không thể cấu hình Claude Code";
 "Start a Claude Code conversation to update usage." = "Bắt đầu hội thoại Claude Code để cập nhật hạn mức.";
 "Last reading (may be outdated)" = "Dữ liệu gần nhất (có thể đã cũ)";
 
 /* Claude setup */
-"Install Claude Code" = "Cài đặt Claude Code";
-"Sign in to Claude" = "Đăng nhập Claude";
-"Open Claude Code" = "Mở Claude Code";
 "Checking Claude Code…" = "Đang kiểm tra Claude Code…";
 "Claude Code is not installed. Open the official installation guide to get started." = "Claude Code chưa được cài đặt. Mở hướng dẫn cài đặt chính thức.";
 "Claude Code is not signed in. Sign in with your Claude Pro or Max account." = "Claude Code chưa đăng nhập. Đăng nhập bằng tài khoản Claude Pro hoặc Max.";
@@ -228,3 +224,35 @@
 "Menu Bar Click Behavior" = "Hành vi nhấp thanh menu";
 "Quick Panel" = "Bảng nhanh";
 "Main Window" = "Cửa sổ chính";
+
+/* Quota access consent and local snapshots */
+"Allow" = "Cho phép";
+"Cancel" = "Hủy";
+"Choose File" = "Chọn tệp";
+"Connect quota file" = "Kết nối tệp hạn mức";
+"Disconnect quota file" = "Ngắt kết nối tệp hạn mức";
+"Connect a quota snapshot file to view usage." = "Kết nối tệp hạn mức để xem mức sử dụng.";
+"Couldn't read quota file. Select a valid quota snapshot again." = "Không đọc được hạn mức. Hãy chọn lại tệp hợp lệ.";
+"Enable direct Codex query" = "Bật truy vấn Codex trực tiếp";
+"Direct account query enabled" = "Đã bật truy vấn tài khoản trực tiếp";
+"Use CLI only" = "Chỉ dùng CLI";
+"Choose a quota-only JSON snapshot. MonitorX will read this file until you disconnect. Do not select login credentials. This does not query your account online." = "Chọn JSON chỉ chứa hạn mức. MonitorX đọc tệp đến khi ngắt kết nối. Không chọn thông tin đăng nhập. Không truy vấn tài khoản trực tuyến.";
+"MonitorX will read the access token from your local Codex auth.json and send it only to ChatGPT to query quota. It will not save or refresh the token. You can revoke this access here." = "MonitorX đọc token từ Codex auth.json cục bộ và chỉ gửi đến ChatGPT để hỏi hạn mức. Không lưu hoặc làm mới token. Bạn có thể thu hồi quyền tại đây.";
+
+"Enable direct Claude query" = "Enable direct Claude query";
+
+"MonitorX will read Claude Code's local OAuth credentials, including Keychain if needed, and send the access token only to Anthropic to query quota. It will not save or renew the token. Third-party subscription credential use carries Anthropic terms risk. You can revoke access here." = "MonitorX will read Claude Code's local OAuth credentials, including Keychain if needed, and send the access token only to Anthropic to query quota. It will not save or renew the token. Third-party subscription credential use carries Anthropic terms risk. You can revoke access here.";
+
+"Claude credentials missing or expired. Sign in again with Claude Code." = "Claude credentials missing or expired. Sign in again with Claude Code.";
+
+"Claude Keychain access denied. Click Refresh to authorize again." = "Claude Keychain access denied. Click Refresh to authorize again.";
+
+"Claude quota query is rate limited. Wait a few minutes." = "Claude quota query is rate limited. Wait a few minutes.";
+
+"Couldn't query Claude usage. Try again later." = "Couldn't query Claude usage. Try again later.";
+
+"Quota settings" = "Cài đặt hạn mức";
+
+"Connect Claude" = "Kết nối Claude";
+
+"Stop direct query" = "Dừng truy vấn trực tiếp";

@@ -160,13 +160,13 @@
         <p>概览页查看剩余比例、重置时间和更新时间；菜单栏显示各自剩余最少的额度窗口。忙着写代码时，也能抬头确认用量。</p>
         <div class="usage-detail">
           <h3>Codex：登录后自动查询</h3>
-          <p>安装官方 Codex CLI，用 ChatGPT 账号登录后即可显示。每 5 分钟自动刷新，也支持手动刷新；显示官方返回的额度窗口，不推算缺失数据。</p>
+          <p>安装官方 Codex CLI，用 ChatGPT 账号登录后即可显示。每 5 分钟自动刷新，也支持手动刷新；可明确授权启用直接查询，token 不保存或导出。显示返回的额度窗口，不推算缺失数据。</p>
         </div>
         <div class="usage-detail">
           <h3>Claude：一键连接，官方登录</h3>
-          <p>点击「连接 Claude Code」，自动配置桥接并打开 Claude Code。软件检查安装和登录状态，未登录时可直接启动官方登录流程。使用 Pro / Max 账号，在 Claude Code 收到一次对话回复后，5 小时和 7 天额度自动显示。</p>
+          <p>在官方 Claude Code 登录 Pro / Max，点击「启用 Claude 直接查询」并确认凭证访问。立即读取 5 小时和 7 天额度，之后每 5 分钟更新，无需发消息。第三方复用订阅凭证存在服务条款风险；App Store 版仅接入用户授权的本地额度快照。</p>
         </div>
-        <p class="usage-note">Claude 网页或桌面聊天不会更新此连接。旧读数会明确标记；菜单栏用 <code>*</code> 表示旧值，<code>–</code> 表示尚无数据。额度功能仅官网版提供，可在设置中控制菜单栏显示。</p>
+        <p class="usage-note">Claude 网页或桌面聊天不会更新此连接。旧读数会明确标记；菜单栏用 <code>*</code> 表示旧值，<code>–</code> 表示尚无数据。官网版直接接入；商店版可通过系统文件选择框授权读取本地额度快照，不联网查询账号。可在设置中控制菜单栏显示。</p>
         <a class="text-link" href="https://github.com/DeaglePC/MonitorX#ai-usage" target="_blank" rel="noopener noreferrer">查看接入说明 ↗</a>
       </div>
       <figure class="usage-preview">
@@ -184,7 +184,7 @@
       </div>
 
       <div class="deck" id="deck" tabindex="0" role="group" aria-roledescription="轮播" aria-label="界面截图，左右方向键切换">
-        <figure class="pane" data-name="AI 额度" data-desc="Codex 与 Claude 的剩余额度、重置时间和更新时间。真实 App 界面渲染，额度为演示数据；此功能仅官网版提供。">
+        <figure class="pane" data-name="AI 额度" data-desc="Codex 与 Claude 的剩余额度、重置时间和更新时间。真实 App 界面渲染，额度为演示数据；官网版直接接入，商店版支持授权额度快照。">
           <div class="frame"><img src="images/ai-usage-dark.png" alt="Codex 与 Claude 额度卡片（深色，演示数据）" width="840" height="975" draggable="false"></div>
         </figure>
         <figure class="pane" data-name="额度 · 浅色" data-desc="同一套额度卡片的浅色外观。真实 App 界面渲染，额度为演示数据，支持系统深浅色切换。">
@@ -232,7 +232,7 @@
           <tr><th scope="row">电池与硬件信息</th><td>有</td><td>有</td></tr>
           <tr><th scope="row">按应用与进程的占用排行</th><td>有</td><td class="no">无</td></tr>
           <tr><th scope="row">传感器页（温度、风扇）</th><td>有</td><td class="no">无</td></tr>
-          <tr><th scope="row">Codex / Claude 额度及菜单栏显示</th><td>有</td><td class="no">无</td></tr>
+          <tr><th scope="row">Codex / Claude 额度及菜单栏显示</th><td>直接接入</td><td>授权本地快照</td></tr>
           <tr><th scope="row">图片及文字复制 / 导出</th><td>有</td><td>有</td></tr>
         </tbody>
       </table>
@@ -259,10 +259,10 @@
     <section class="wrap plain faq">
       <h2>常见问题</h2>
       <details><summary>为什么提示无法验证开发者？</summary><p>不同版本的签名与公证状态可能不同，请先查看 GitHub Releases 中的版本说明。确认安装包来自本项目后，可按上方安装步骤操作。</p></details>
-      <details><summary>它会联网或上传数据吗？</summary><p>系统指标在本机采集，不向开发者上传数据。直装版开启 Codex 额度监控时，本机官方 Codex 会使用已有登录状态向 OpenAI 查询额度，可在设置中关闭。Claude 额度由本机 Claude Code 的官方状态栏提供，不向开发者上传账号或对话内容。</p></details>
-      <details><summary>为什么连上 Claude 后还没有额度？</summary><p>连接会配置额度桥接，不等于已经登录。根据卡片提示点击「登录 Claude」，使用 Pro / Max 账号完成官方授权，再在打开的 Claude Code 中发送一条消息，收到回复后自动更新。网页或桌面版聊天不会触发该桥接；API 计费登录不提供这里的订阅额度。</p></details>
+      <details><summary>它会联网或上传数据吗？</summary><p>系统指标在本机采集，不向开发者上传数据。直装版开启 Codex 额度监控时，默认由官方 Codex 使用已有登录状态向 OpenAI 查询额度；明确授权直接查询后，MonitorX 读取本机 Codex token，仅发送给 ChatGPT 额度端点，不保存或导出。可撤销授权或关闭额度显示。商店版只读取用户选择的额度快照。Claude 额度由本机 Claude Code 的官方状态栏提供，不向开发者上传账号或对话内容。</p></details>
+      <details><summary>为什么连上 Claude 后还没有额度？</summary><p>请先在官方 Claude Code 登录 Pro / Max，再启用直接查询并确认授权。Keychain 授权拒绝或凭证过期时，卡片会显示原因；重新登录后点击刷新。查询不需要发送消息；API 计费凭证不提供这里的订阅额度。</p></details>
       <details><summary>额度多久更新？会消耗模型额度吗？</summary><p>Codex 每 5 分钟查询一次账号额度，也可手动刷新；只读查询不发起模型任务。Claude 随 Claude Code 的状态栏回调更新，MonitorX 不会自动发送聊天消息。显示的是最近读数，过期或刷新失败时会标记。</p></details>
-      <details><summary>需要哪些权限？</summary><p>不需要辅助功能、屏幕录制或完全磁盘访问。读取温度与风扇走系统的 SMC 接口，读取进程信息用系统自带的接口和命令行工具。</p></details>
+      <details><summary>需要哪些权限？</summary><p>不需要辅助功能、屏幕录制或完全磁盘访问。商店版的额度文件需要通过系统选择框授权，断开后撤销。读取温度与风扇走系统的 SMC 接口，读取进程信息用系统自带的接口和命令行工具。</p></details>
       <details><summary>支持 Apple Silicon 吗？</summary><p>支持，安装包是 x86_64 加 arm64 的通用二进制。Apple Silicon 的温度传感器键名与 Intel 不同，部分机型可能读不全，目前只在 Intel MacBook Pro 上实测过。</p></details>
     </section>
   </main>

@@ -4,6 +4,8 @@ import AppKit
 enum ClaudeCodeSetup {
     enum Status: Equatable { case checking, missing, signedOut, signedIn, unsupported, unavailable }
 
+    #if !APPSTORE
+
     static func executable() -> URL? {
         let home = FileManager.default.homeDirectoryForCurrentUser.path
         let candidates = [home + "/.local/bin/claude", "/opt/homebrew/bin/claude", "/usr/local/bin/claude"]
@@ -76,4 +78,5 @@ enum ClaudeCodeSetup {
             DispatchQueue.main.async { completion(error == nil) }
         }
     }
+    #endif
 }

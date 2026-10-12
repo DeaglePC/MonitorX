@@ -1,7 +1,7 @@
-import Foundation
+import AppKit
 import Observation
 
-struct CodexLimitWindow: Decodable {
+struct CodexLimitWindow: Codable {
     let usedPercent: Double?
     let windowDurationMins: Int?
     let resetsAt: Double?
@@ -19,7 +19,7 @@ struct CodexLimitWindow: Decodable {
     }
 }
 
-struct CodexLimitBucket: Decodable {
+struct CodexLimitBucket: Codable {
     let limitId: String?
     let limitName: String?
     let primary: CodexLimitWindow?
@@ -46,6 +46,57 @@ final class CodexUsageMonitor {
     var updatedAt: Date?
     var isRefreshing = false
     var errorKey: String?
+    #if APPSTORE
+    @ObservationIgnored private let fileAccess = QuotaFileAccess(provider: "codex")
+    var isConnected: Bool { fileAccess.isConnected }
+    #else
+    var usesOAuth = UserDefaults.standard.bool(forKey: "codexQuotaOAuthConsent")
+    #endif
+    var isStale: Bool {
+        guard let updatedAt else { return true }
+        return errorKey != nil || Date().timeIntervalSince(updatedAt) > 900
+            || buckets.flatMap(\.windows).contains { ($0.resetsAt ?? .greatestFiniteMagnitude) <= Date().timeIntervalSince1970 }
+    }
+    var errorMessage: String {
+        if errorKey == "Couldn't read quota file. Select a valid quota snapshot again." {
+            return L("Couldn't read quota file. Select a valid quota snapshot again.")
+        }
+        return errorKey == "Codex CLI not found" ? L("Codex CLI not found") : L("Couldn't read Codex usage. Sign in to Codex with ChatGPT.")
+    }
+
+    func connect() {
+        #if APPSTORE
+        guard fileAccess.choose() else { return }
+        #else
+        let alert = NSAlert()
+        alert.messageText = L("Enable direct Codex query")
+        alert.informativeText = L("MonitorX will read the access token from your local Codex auth.json and send it only to ChatGPT to query quota. It will not save or refresh the token. You can revoke this access here.")
+        alert.addButton(withTitle: L("Allow"))
+        alert.addButton(withTitle: L("Cancel"))
+        guard alert.runModal() == .alertFirstButtonReturn else { return }
+        UserDefaults.standard.set(true, forKey: "codexQuotaOAuthConsent")
+        usesOAuth = true
+        #endif
+        restartAfterSourceChange()
+    }
+
+    func disconnect() {
+        #if APPSTORE
+        fileAccess.disconnect()
+        #else
+        UserDefaults.standard.removeObject(forKey: "codexQuotaOAuthConsent")
+        usesOAuth = false
+        #endif
+        restartAfterSourceChange()
+    }
+
+    private func restartAfterSourceChange() {
+        let wasEnabled = enabled
+        setEnabled(false)
+        buckets = []; updatedAt = nil; errorKey = nil
+        setEnabled(wasEnabled)
+        onUpdate?()
+    }
     /// The main Codex bucket's most restrictive known window; never combine unrelated model buckets.
     var menuBarRemaining: Double? {
         let bucket = buckets.first { $0.limitId == "codex" } ?? buckets.first
@@ -63,7 +114,7 @@ final class CodexUsageMonitor {
         timer = nil
         if on {
             refresh()
-            timer = Timer.scheduledTimer(withTimeInterval: 300, repeats: true) { [weak self] _ in self?.refresh() }
+            timer = Timer.scheduledTimer(withTimeInterval: Edition.isAppStore ? 5 : 300, repeats: true) { [weak self] _ in self?.refresh() }
         }
     }
 
@@ -71,23 +122,41 @@ final class CodexUsageMonitor {
 
     func refresh() {
         guard enabled, !isRefreshing else { return }
+        #if APPSTORE
+        guard isConnected else { return }
+        #else
+        let allowOAuth = usesOAuth
+        #endif
         isRefreshing = true
         let requestGeneration = generation
         DispatchQueue.global(qos: .utility).async { [weak self] in
-            let result = Result { try CodexUsageReader.read() }
+            let result = Result { () -> (CodexLimitsResponse, Date) in
+                #if APPSTORE
+                guard let self else { throw QuotaSnapshotFile.Invalid.snapshot }
+                let snapshot = try QuotaSnapshotFile.codex(self.fileAccess.read())
+                let map = Dictionary(uniqueKeysWithValues: snapshot.buckets.enumerated().map { (String($0.offset), $0.element) })
+                return (CodexLimitsResponse(rateLimits: nil, rateLimitsByLimitId: map), Date(timeIntervalSince1970: snapshot.updatedAt))
+                #else
+                return (try CodexUsageReader.readPreferred(allowOAuth: allowOAuth), Date())
+                #endif
+            }
             DispatchQueue.main.async {
                 guard let self else { return }
                 self.isRefreshing = false
                 guard self.enabled else { return }
                 guard self.generation == requestGeneration else { self.refresh(); return }
                 switch result {
-                case .success(let response):
+                case .success(let (response, capturedAt)):
                     self.buckets = response.buckets
-                    self.updatedAt = Date()
+                    self.updatedAt = capturedAt
                     self.errorKey = nil
                 case .failure(let error):
                     // Retain the last reading, with an explicit error and its original timestamp.
+                    #if APPSTORE
+                    self.errorKey = "Couldn't read quota file. Select a valid quota snapshot again."
+                    #else
                     self.errorKey = error is CodexUsageReader.MissingExecutable ? "Codex CLI not found" : "Couldn't read Codex usage. Sign in to Codex with ChatGPT."
+                    #endif
                 }
                 self.onUpdate?()
             }
@@ -99,6 +168,18 @@ final class CodexUsageMonitor {
 enum CodexUsageReader {
     struct MissingExecutable: Error {}
     struct Unavailable: Error {}
+
+    #if !APPSTORE
+    static func readPreferred(allowOAuth: Bool) throws -> CodexLimitsResponse {
+        if allowOAuth {
+            do { return try CodexOAuthUsage.read() }
+            catch CodexOAuthUsage.Failure.credentials { /* unavailable source: try official CLI */ }
+            catch CodexOAuthUsage.Failure.authentication { /* CLI owns credential renewal */ }
+        }
+        // Network/server/decode errors do not silently switch data sources.
+        return try read()
+    }
+    #endif
 
     static func read(executable: URL? = nil, timeoutInterval: TimeInterval = 20) throws -> CodexLimitsResponse {
         #if APPSTORE

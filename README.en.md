@@ -22,7 +22,7 @@ A macOS 26 menu bar system monitor · Liquid Glass · System usage + Codex / Cla
 - **AI quotas** (direct edition): view Codex / Claude remaining quotas and reset times in the overview and menu bar. Codex refreshes automatically; Claude offers one-click connection and guides you through official sign-in.
 - **Load-based colors**: bars use their normal theme color at low load, then turn yellow, orange and red as usage rises.
 - **Lightweight**: approximately 1% of one CPU core and 27 MB of memory with the panel closed. Process-level sampling runs only while a monitoring window or panel is visible.
-- **Local system monitoring**: system metrics are collected on your Mac. Optional Codex quota monitoring uses the official local CLI to query OpenAI; no data is uploaded to the MonitorX developer.
+- **Local system monitoring**: system metrics are collected on your Mac. Optional Codex quota monitoring uses the official CLI or an explicitly authorized direct query to OpenAI; no data is uploaded to the MonitorX developer.
 - **23 languages**: English, Simplified Chinese, Traditional Chinese, Japanese, Korean, Spanish, French, German, Italian, Portuguese, Russian, Ukrainian, Polish, Dutch, Swedish, Turkish, Arabic, Hebrew, Hindi, Thai, Vietnamese, Indonesian and Malay. The app follows your system language by default; change it through `···` → Language. Arabic and Hebrew use right-to-left layouts.
 
 <div align="center">
@@ -56,7 +56,7 @@ A macOS 26 menu bar system monitor · Liquid Glass · System usage + Codex / Cla
 
 ## AI quotas: Codex / Claude
 
-Check system usage and remaining AI quotas while coding. The overview shows quota windows, reset times and the last update time. The menu bar shows each provider's lowest remaining percentage across its known quota windows. Available in the direct edition only.
+Check system usage and remaining AI quotas while coding. The overview shows quota windows, reset times and the last update time. The menu bar shows each provider's lowest remaining percentage across its known quota windows. The direct edition connects to account sources; the App Store edition displays user-authorized local quota snapshots.
 
 <table>
   <tr>
@@ -67,14 +67,14 @@ Check system usage and remaining AI quotas while coding. The overview shows quot
 
 > These two images use the production app UI with clearly labeled **demo quota readings**, not actual account usage. Run `Scripts/render_usage_screenshots.sh` to regenerate the README and landing-page images.
 
-| Provider | Setup | Updates |
+| Direct edition | Setup | Updates |
 | --- | --- | --- |
 | Codex | Install the official Codex CLI, sign in with ChatGPT, then open MonitorX | Every 5 minutes, with manual refresh available |
-| Claude | Click **Connect Claude Code**, follow the card's prompts to sign in with Pro / Max, then send a message in the Claude Code session that opens | Appears after the first reply, then updates through official status-line callbacks |
+| Claude | Sign into official Claude Code with Pro / Max, then choose Connect Claude and confirm consent | Immediately and every 5 minutes; manual refresh; no chat message required |
 
-Claude web and desktop chats do not update this connection. API billing sign-ins do not provide the subscription quotas shown here. MonitorX checks installation and sign-in status, preserves your original status-line configuration and restores it when disconnected. You still need to complete browser authorization yourself once.
+Claude direct queries reuse official Claude Code OAuth credentials from `.claude/.credentials.json` (or `CLAUDE_CONFIG_DIR`) or the macOS Claude Code-credentials Keychain item. Custom configuration directories never fall back to the default account. MonitorX does not save or renew tokens; official Claude Code owns sign-in and renewal.
 
-The app displays the latest reading: `*` in the menu bar means a stale reading or failed refresh; `–` means no data yet. Codex's read-only query does not initiate a model task. MonitorX does not automatically send Claude messages to obtain usage data, or read or export login credentials.
+The app displays the latest reading: `*` means stale data or a failed refresh; `–` means no data. Direct credential queries require explicit consent and do not initiate model tasks. Tokens are never saved or exported.
 
 ## Installation
 
@@ -97,6 +97,19 @@ open build/MonitorX.app
 
 Launching normally opens the main window; `--show` is no longer necessary, but remains compatible. Open the app again from Finder or Launchpad to restore its window, even if the menu bar icon is hidden.
 
+<a id="quota-files"></a>
+
+### App Store edition: authorized quota snapshots
+
+Click Connect quota file, read the explanation, and choose a quota-only JSON file through the macOS file picker. Read-only access survives app relaunch and can be revoked with Disconnect quota file. Credential files such as `auth.json` are rejected. The app never reads Keychain credentials, installs scripts, launches external CLIs or queries quota online. Connected Codex files are checked every five seconds; Claude files follow local monitoring updates. The original capture timestamp remains unchanged and old readings are marked stale.
+
+Python 3 is required to generate snapshots. Download and run these scripts yourself; the App Store app does not install or invoke them:
+
+- **Codex**: with the official CLI installed and signed in with ChatGPT, run `python3 Scripts/export_codex_quota.py ~/Documents/codex-quota.json` from the repository directory. The exporter uses official app-server RPC without reading or exporting credentials. Rerun for a new reading, then connect that file in the app.
+- **Claude**: users of the direct edition’s bridge can select `~/Library/Application Support/MonitorX/claude-quota.json`. Otherwise, manually configure `Scripts/export_claude_quota.py` as the Claude Code `statusLine` command, for example `python3 /absolute/repo/MonitorX/Scripts/export_claude_quota.py /Users/you/Documents/claude-quota.json`. Preserve your original status-line settings first. Connect after a Claude Code reply generates the file. This example prints a simple status line; users with an existing command should chain it themselves or use the direct edition’s preserving bridge.
+
+The App Store edition does not read Claude OAuth tokens. The direct edition supports consent-based CodexBar-style queries, which carry Anthropic terms risk: open-source implementations and user consent do not establish service authorization. Snapshots reduce credential and sandbox risks but do not guarantee Apple approval. If a file replacement invalidates its grant, select it again. See [Anthropic authentication rules](https://code.claude.com/docs/en/legal-and-compliance#authentication-and-credential-use) and [Apple review rules](https://developer.apple.com/app-store/review/guidelines/#intellectual-property).
+
 ## Usage
 
 - **Main window**: opens at launch, supports resizing (minimum content size: 480 × 600) and zooming, and remembers its size and position. Wide windows place quota cards side by side and adjust the resource grid. Closing or minimizing it hides it to the menu bar. A Dock entry is available while the window is visible.
@@ -104,9 +117,9 @@ Launching normally opens the main window; `--show` is no longer necessary, but r
 - **Right-click**: opens a menu to show the main window or quit.
 - **Notched displays**: Automatic menu bar appearance prioritizes compact quota indicators on displays with a camera notch, or an icon when quotas are disabled. Other displays show live metrics. Choose Icon Only or Live Metrics in settings. macOS controls placement; using less space cannot guarantee visibility in a crowded menu bar.
 - **Settings**: use `···` at the top right to choose menu bar metrics, enable launch at login, change language or quit. Show Codex Usage and Show Claude Usage independently control overview cards, separately from the menu bar quota toggles. Hidden cards are also omitted from image and text exports. Hiding the Claude card does not disconnect Claude Code.
-- **Claude quotas** (direct edition): Connect Claude Code configures the official `statusLine` bridge and opens Claude Code in Terminal. If the CLI is missing, the app opens its official installation guide. If signed out, Sign in to Claude starts the official login flow and then opens an interactive session. A dedicated working folder avoids project-level status-line overrides. Existing status-line commands and settings are preserved and restored on disconnect. After a Pro / Max Claude Code reply, available 5-hour / 7-day quotas appear automatically. Readings older than 15 minutes, or whose quota window has reset, are marked stale. Other projects that override `statusLine` need that override removed to use the bridge. Only quota fields and the update timestamp are stored locally; image and text exports can include them.
+- **Claude quotas** (direct edition): choose Connect Claude and confirm consent; later connection controls live in the card’s ellipsis menu. MonitorX reads local official Claude Code OAuth credentials and queries `https://api.anthropic.com/api/oauth/usage`. No conversation or status-line installation is needed. Polling runs every 5 minutes with manual refresh; background reads never show Keychain prompts. Missing/expired credentials and denied access are reported without recording secrets. Use official Claude Code to sign in or renew credentials, then refresh. HTTP 429 pauses queries for at least 5 minutes, including manual retries. Only returned 5-hour / 7-day windows are displayed. Failures retain the previous timestamp and mark old readings. Stop direct query in the card’s ellipsis menu revokes credential access and restores any previously installed MonitorX bridge.
 - **Codex in the menu bar** (direct edition): CODEX and its remaining percentage are enabled by default and can be disabled independently. The indicator shows the lowest remaining percentage across the main Codex quota's known windows. Hover for individual windows and reset times. Automatic mode on notched displays shows only enabled Codex / Claude quota indicators. Icon Only shows quotas in the tooltip. Failed refreshes retain old values with `*`; unavailable data shows `–`.
-- **Codex quotas** (direct edition): overview cards refresh every 5 minutes and support manual refresh. Requires the official Codex CLI signed in with ChatGPT. MonitorX uses the official `codex app-server` read-only `account/rateLimits/read` interface without reading credentials or initiating model tasks. It displays returned quota buckets and does not estimate missing windows. Failed refreshes preserve the previous reading and timestamp with an error. Disable the overview card in settings; polling stops when both the card and menu bar quota are disabled. This feature is unavailable in the sandboxed App Store edition.
+- **Codex quotas** (direct edition): overview cards refresh every 5 minutes and support manual refresh. Requires the official Codex CLI signed in with ChatGPT. By default, MonitorX uses the official `codex app-server` read-only `account/rateLimits/read` interface. Enable direct Codex query asks permission to read the local access token from `CODEX_HOME/auth.json` (default `~/.codex/auth.json`) and send it only to the official ChatGPT quota endpoint, following the CodexBar approach. Missing credentials or authentication failures can fall back to the official CLI; network and parsing failures preserve their original error. Tokens are never saved, renewed or exported. Use CLI only revokes direct credential access. Neither source initiates model tasks. It displays returned quota buckets and does not estimate missing windows. Failed refreshes preserve the previous reading and timestamp with an error. Disable the overview card in settings; polling stops when both the card and menu bar quota are disabled. The App Store edition uses local quota snapshots described below.
 - **Sharing**: export the current page or all pages as images or text, to the clipboard or a UTF-8 `.txt` file. Text includes the export time, current metrics and the top 8 apps / processes according to your grouping setting. It omits the device serial number. Sampling continues during the save dialog, but exported text retains the readings captured when you clicked export.
 - **Detail pages**: click an overview card to open its page. Rankings group processes by app by default; expand a row for individual processes or switch grouping at the top right.
 - **Serial number**: click it on the hardware page to copy it.
@@ -130,7 +143,7 @@ Launching normally opens the main window; `--show` is no longer necessary, but r
 | CPU / memory / network / disk / battery / hardware | ✅ | ✅ |
 | App and process rankings | ✅ | ❌ Sandbox restrictions |
 | Sensors: temperatures and fans | ✅ | ❌ AppleSMC is unavailable in the sandbox |
-| Codex / Claude quotas and menu bar indicators | ✅ | ❌ |
+| Codex / Claude quotas and menu bar indicators | ✅ Account sources | ✅ Authorized local snapshots |
 | Image and text clipboard / file exports | ✅ | ✅ |
 
 The App Store edition uses `-DAPPSTORE` to compile out restricted features such as `ps`, `netstat`, `system_profiler` and SMC access. Serial number, GPU and display information use IOKit registry, Metal and AppKit instead. The App Store build script applies an ad-hoc sandbox signature for local testing under the same restrictions.
@@ -197,8 +210,8 @@ Download buttons link directly to GitHub Releases and automatically use the late
 | Temperature / fans | AppleSMC, enumerating all `T*` sensor keys in the direct edition |
 | Battery | IOKit `AppleSmartBattery` |
 | Serial number / GPU / displays | Direct: `system_profiler`; App Store: IOKit registry / Metal / AppKit |
-| Codex quotas | Official Codex CLI app-server, `account/rateLimits/read` |
-| Claude quotas | Official Claude Code `statusLine` callbacks |
+| Codex quotas | Direct: opt-in OAuth / official app-server; App Store: authorized quota snapshots |
+| Claude quotas | Direct: consent-based OAuth queries; App Store: authorized quota snapshots |
 
 Only system-level metrics are sampled while the monitoring UI is hidden. Process-level sampling runs every 3 seconds while the main window or panel is visible. Quota monitoring follows the update rules described above.
 
@@ -209,7 +222,7 @@ Only system-level metrics are sampled while the monitoring UI is hidden. Process
 - Root-process memory uses RSS, which differs slightly from Activity Monitor's footprint metric.
 - Process network statistics exclude loopback traffic; traffic forwarded through a local proxy is attributed to the proxy app.
 - Temperature sensor keys differ between Intel and Apple Silicon. Some models may not expose every sensor. Sensor coverage has only been tested on an Intel MacBook Pro.
-- AI quota monitoring requires the official local CLI and appropriate sign-in, and is available only in the direct edition. Claude subscription quota updates require a Claude Code reply.
+- Direct quota sources use the official CLI / status line; direct Codex token access needs explicit consent. The App Store edition reads selected quota files without querying accounts online. Claude status-line snapshots update after a Claude Code reply.
 
 ## Repository layout
 

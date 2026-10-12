@@ -245,8 +245,8 @@ private struct SettingsMenu: View {
                 Toggle(L("Memory"), isOn: $s.showMemory)
                 Toggle(L("Network Speed"), isOn: $s.showNetwork)
                 Toggle(L("Disk Activity"), isOn: $s.showDisk)
-                if !Edition.isAppStore { Toggle(L("Codex Usage"), isOn: $s.showCodexInMenuBar) }
-                if !Edition.isAppStore { Toggle(L("Claude Usage"), isOn: $s.showClaudeInMenuBar) }
+                Toggle(L("Codex Usage"), isOn: $s.showCodexInMenuBar)
+                Toggle(L("Claude Usage"), isOn: $s.showClaudeInMenuBar)
                 if Edition.hasSensors {
                     Toggle(L("CPU Temperature"), isOn: $s.showTemperature)
                     if hasFans || s.showFan {   // fanless Macs have nothing to show
@@ -259,8 +259,8 @@ private struct SettingsMenu: View {
                     Text(L("Quick Panel")).tag(MenuBarClickBehavior.quickPanel)
                     Text(L("Main Window")).tag(MenuBarClickBehavior.mainWindow)
                 } label: { Text(L("Menu Bar Click Behavior")) }
-                if !Edition.isAppStore { Toggle(L("Show Codex Usage"), isOn: $s.showCodexUsage) }
-                if !Edition.isAppStore { Toggle(L("Show Claude Usage"), isOn: $s.showClaudeUsage) }
+                Toggle(L("Show Codex Usage"), isOn: $s.showCodexUsage)
+                Toggle(L("Show Claude Usage"), isOn: $s.showClaudeUsage)
                 Picker(selection: $loc.language) {
                     ForEach(AppLanguage.allCases) { Text($0.nativeName).tag($0) }
                 } label: {

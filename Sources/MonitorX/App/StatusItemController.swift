@@ -61,13 +61,13 @@ final class StatusItemController: NSObject {
     }
 
     func refresh() {
-        if !Edition.isAppStore { monitor.claudeUsage.refresh() }
-        let wantsClaude = !Edition.isAppStore && settings.showClaudeInMenuBar && monitor.claudeUsage.isConnected
-        let wantsCodex = !Edition.isAppStore && settings.showCodexInMenuBar
-        monitor.codexUsage.setEnabled(!Edition.isAppStore && (settings.showCodexUsage || wantsCodex))
+        if settings.showClaudeUsage || settings.showClaudeInMenuBar { monitor.claudeUsage.refresh() }
+        let wantsClaude = settings.showClaudeInMenuBar && monitor.claudeUsage.isConnected
+        let wantsCodex = settings.showCodexInMenuBar
+        monitor.codexUsage.setEnabled(settings.showCodexUsage || wantsCodex)
         var segs: [Segment] = []
         let codexSegment = Segment(label: "CODEX", lines: [monitor.codexUsage.menuBarRemaining.map {
-            Fmt.percent($0 / 100) + (monitor.codexUsage.errorKey == nil ? "" : "*")
+            Fmt.percent($0 / 100) + (monitor.codexUsage.isStale ? "*" : "")
         } ?? "–"], widthSample: "100%*")
         if wantsCodex { segs.append(codexSegment) }
         let claudeSegment = Segment(label: "CLAUDE", lines: [monitor.claudeUsage.menuBarRemaining.map {
@@ -135,9 +135,8 @@ final class StatusItemController: NSObject {
                     }
                 }
             }
-            if let error = monitor.codexUsage.errorKey {
-                lines.append(error == "Codex CLI not found" ? L("Codex CLI not found") : L("Couldn't read Codex usage. Sign in to Codex with ChatGPT."))
-            }
+            if monitor.codexUsage.errorKey != nil { lines.append(monitor.codexUsage.errorMessage) }
+            else if monitor.codexUsage.isStale && monitor.codexUsage.updatedAt != nil { lines.append(L("Last reading (may be outdated)")) }
             if let date = monitor.codexUsage.updatedAt {
                 lines.append(L("Updated: %@", date.formatted(Date.FormatStyle(date: .abbreviated, time: .shortened).locale(Localizer.shared.locale))))
             }
@@ -154,7 +153,7 @@ final class StatusItemController: NSObject {
             if let snapshot = monitor.claudeUsage.snapshot {
                 if monitor.claudeUsage.isStale { lines.append(L("Last reading (may be outdated)")) }
                 lines.append(L("Updated: %@", Date(timeIntervalSince1970: snapshot.updatedAt).formatted(Date.FormatStyle(date: .abbreviated, time: .shortened).locale(Localizer.shared.locale))))
-            } else { lines.append(L("Start a Claude Code conversation to update usage.")) }
+            } else { lines.append(Edition.isAppStore ? L("Connect a quota snapshot file to view usage.") : L("Start a Claude Code conversation to update usage.")) }
             button.toolTip = (button.toolTip ?? "") + "\n\n" + lines.joined(separator: "\n")
         }
     }
