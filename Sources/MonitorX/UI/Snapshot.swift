@@ -1,5 +1,6 @@
 import SwiftUI
 import AppKit
+import UniformTypeIdentifiers
 
 /// Renders pages into share images and puts them on the clipboard or saves them as PNG files.
 ///
@@ -106,15 +107,24 @@ enum Snapshot {
 
     /// Asks where to save (standard save dialog, starting in the last folder used, else the Desktop) and writes a PNG.
     static func save(_ image: CGImage, name: String, date: Date, done: @escaping (SaveResult) -> Void) {
+        save(name: name, date: date, type: .png, extension: "png", data: { png(image) }, done: done)
+    }
+
+    static func saveText(_ text: String, name: String, date: Date, done: @escaping (SaveResult) -> Void) {
+        save(name: name, date: date, type: .plainText, extension: "txt", data: { Data(text.utf8) }, done: done)
+    }
+
+    private static func save(name: String, date: Date, type: UTType, extension suffix: String,
+                             data: @escaping () -> Data?, done: @escaping (SaveResult) -> Void) {
         let f = DateFormatter()
         f.locale = Locale(identifier: "en_US_POSIX")
         f.dateFormat = "yyyy-MM-dd HH.mm.ss"
         let stamp = f.string(from: date)
         let panel = NSSavePanel()
-        panel.allowedContentTypes = [.png]
+        panel.allowedContentTypes = [type]
         panel.canCreateDirectories = true
         panel.isExtensionHidden = false
-        panel.nameFieldStringValue = "MonitorX \(name) \(stamp).png"
+        panel.nameFieldStringValue = "MonitorX \(name) \(stamp).\(suffix)"
         panel.directoryURL = UserDefaults.standard.url(forKey: saveDirKey)
             ?? FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first
         // The monitor panel floats at pop-up-menu level; the dialog must sit above it.
@@ -123,7 +133,7 @@ enum Snapshot {
         panel.begin { response in
             guard response == .OK, let url = panel.url else { return done(.cancelled) }
             UserDefaults.standard.set(url.deletingLastPathComponent(), forKey: saveDirKey)
-            guard let data = png(image), (try? data.write(to: url, options: .atomic)) != nil else { return done(.failed) }
+            guard let bytes = data(), (try? bytes.write(to: url, options: .atomic)) != nil else { return done(.failed) }
             done(.saved(url))
         }
     }

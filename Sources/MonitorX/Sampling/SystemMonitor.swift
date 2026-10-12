@@ -3,6 +3,8 @@ import Observation
 
 @Observable
 final class SystemMonitor {
+    let codexUsage = CodexUsageMonitor()
+    let claudeUsage = ClaudeUsageMonitor()
     static let historyCapacity = 60
 
     // Published state (main thread)
@@ -37,6 +39,8 @@ final class SystemMonitor {
     @ObservationIgnored private let diskSampler = DiskSampler()
     @ObservationIgnored private var tickCount = 0
     @ObservationIgnored private var detailActive = false
+    enum DetailSurface: Hashable { case panel, mainWindow }
+    @ObservationIgnored private var detailSurfaces: Set<DetailSurface> = []
     @ObservationIgnored private var menuBarSensors = false
 
     #if !APPSTORE
@@ -65,9 +69,11 @@ final class SystemMonitor {
         t.resume()
     }
 
-    /// The detail panel is on screen: sample sensors every tick and processes every 3 s.
-    func setDetailActive(_ active: Bool) {
+    /// Sample details while either monitoring surface is visible, even when the other is closed.
+    func setDetailActive(_ visible: Bool, source: DetailSurface = .panel) {
         queue.async { [self] in
+            if visible { detailSurfaces.insert(source) } else { detailSurfaces.remove(source) }
+            let active = !detailSurfaces.isEmpty
             guard detailActive != active else { return }
             detailActive = active
             #if !APPSTORE
@@ -93,7 +99,7 @@ final class SystemMonitor {
         queue.async { [self] in menuBarSensors = on }
     }
 
-    func shutdown() {}
+    func shutdown() { codexUsage.shutdown() }
 
     // MARK: sampling
 

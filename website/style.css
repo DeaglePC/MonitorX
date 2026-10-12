@@ -370,3 +370,13 @@ canvas { display: block; width: 100%; height: 100%; }
   .cmp { font-size: 13px; }
   .cmp th, .cmp td { padding-right: 8px; }
 }
+
+/* AI quota introduction uses screenshots rendered from the native app. */
+.usage-story { align-items: center; }
+.usage-detail { margin-top: 22px; }
+.usage-detail h3 { margin: 0 0 8px; font-size: 18px; letter-spacing: -.02em; }
+.usage-detail p { margin: 0; }
+.usage-note { font-size: 14px; color: var(--ink-2); }
+.usage-preview { margin: 0; max-width: 420px; justify-self: center; width: 100%; }
+.usage-preview img { display: block; width: 100%; height: auto; border-radius: 22px; border: 1px solid var(--line); box-shadow: 0 20px 60px -30px rgba(0, 0, 0, .4); }
+.usage-preview figcaption { margin-top: 12px; font-size: 13px; color: var(--ink-2); text-align: center; }

@@ -178,3 +178,81 @@
 "Show in Finder" = "Toon in Finder";
 "Creating image…" = "Afbeelding aanmaken…";
 "Fan Speed" = "Ventilatorsnelheid";
+
+/* Menu-bar layout */
+"Menu Bar Appearance" = "Weergave menubalk";
+"Automatic" = "Automatisch";
+"Icon Only" = "Alleen pictogram";
+"Live Metrics" = "Live statistieken";
+
+/* Text sharing */
+"Copy as Text" = "Kopiëren als tekst";
+"Save as Text…" = "Opslaan als tekst…";
+"Text copied to clipboard" = "Tekst naar klembord gekopieerd";
+"Couldn't copy the text" = "Tekst kon niet worden gekopieerd";
+"Couldn't save the text" = "Tekst kon niet worden opgeslagen";
+
+/* Codex usage */
+"Codex Usage" = "Codex-limiet";
+"Show Codex Usage" = "Codex-limiet tonen";
+"Refresh" = "Vernieuwen";
+"Remaining: %@" = "Resterend: %@";
+"Resets: %@" = "Reset: %@";
+"Updated: %@" = "Bijgewerkt: %@";
+"Codex CLI not found" = "Codex CLI niet gevonden";
+"Couldn't read Codex usage. Sign in to Codex with ChatGPT." = "Kan limiet niet lezen. Meld je aan bij Codex met ChatGPT.";
+"No quota data available" = "Geen limietgegevens";
+
+/* Claude integration */
+"Claude Usage" = "Claude-limiet";
+"Disconnect Claude Code" = "Claude Code loskoppelen";
+"Couldn't configure Claude Code" = "Claude Code kon niet worden ingesteld";
+"Start a Claude Code conversation to update usage." = "Start een Claude Code gesprek om de limiet bij te werken.";
+"Last reading (may be outdated)" = "Laatste meting (mogelijk verouderd)";
+
+/* Claude setup */
+"Checking Claude Code…" = "Claude Code controleren…";
+"Claude Code is not installed. Open the official installation guide to get started." = "Claude Code is niet geïnstalleerd. Open de officiële installatiehandleiding.";
+"Claude Code is not signed in. Sign in with your Claude Pro or Max account." = "Claude Code is niet aangemeld. Meld je aan met Claude Pro of Max.";
+"This Claude Code login uses API billing. Sign in with Claude Pro or Max to receive subscription usage." = "Deze sessie gebruikt API-facturering. Meld je aan met Claude Pro of Max voor abonnementsgebruik.";
+"Couldn't check Claude Code login. Open Claude Code to continue setup." = "Aanmelding kon niet worden gecontroleerd. Open Claude Code om verder te gaan.";
+"Waiting for usage. Send a message in Claude Code; usage will appear automatically after the reply. Web and desktop chats don't update this connection." = "Wachten op gegevens. Stuur een bericht in Claude Code; gebruik verschijnt na het antwoord. Web- en desktopchats werken deze verbinding niet bij.";
+
+"Show Claude Usage" = "Claude-gebruik tonen";
+
+/* Window behavior */
+"Menu Bar Click Behavior" = "Klikgedrag menubalk";
+"Quick Panel" = "Snel paneel";
+"Main Window" = "Hoofdvenster";
+
+/* Quota access consent and local snapshots */
+"Allow" = "Toestaan";
+"Cancel" = "Annuleren";
+"Choose File" = "Bestand kiezen";
+"Connect quota file" = "Quotabestand verbinden";
+"Disconnect quota file" = "Quotabestand loskoppelen";
+"Connect a quota snapshot file to view usage." = "Verbind een quotabestand om het gebruik te bekijken.";
+"Couldn't read quota file. Select a valid quota snapshot again." = "Quota niet leesbaar. Kies opnieuw een geldig bestand.";
+"Enable direct Codex query" = "Directe Codex-query inschakelen";
+"Direct account query enabled" = "Directe accountquery ingeschakeld";
+"Use CLI only" = "Alleen CLI gebruiken";
+"Choose a quota-only JSON snapshot. MonitorX will read this file until you disconnect. Do not select login credentials. This does not query your account online." = "Kies een JSON met alleen quota. MonitorX leest het tot u loskoppelt. Kies geen inloggegevens. Uw account wordt niet online opgevraagd.";
+"MonitorX will read the access token from your local Codex auth.json and send it only to ChatGPT to query quota. It will not save or refresh the token. You can revoke this access here." = "MonitorX leest het toegangstoken uit het lokale Codex auth.json en stuurt het alleen naar ChatGPT om quota op te vragen. Het token wordt niet opgeslagen of vernieuwd. U kunt toegang hier intrekken.";
+
+"Enable direct Claude query" = "Enable direct Claude query";
+
+"MonitorX will read Claude Code's local OAuth credentials, including Keychain if needed, and send the access token only to Anthropic to query quota. It will not save or renew the token. Third-party subscription credential use carries Anthropic terms risk. You can revoke access here." = "MonitorX will read Claude Code's local OAuth credentials, including Keychain if needed, and send the access token only to Anthropic to query quota. It will not save or renew the token. Third-party subscription credential use carries Anthropic terms risk. You can revoke access here.";
+
+"Claude credentials missing or expired. Sign in again with Claude Code." = "Claude credentials missing or expired. Sign in again with Claude Code.";
+
+"Claude Keychain access denied. Click Refresh to authorize again." = "Claude Keychain access denied. Click Refresh to authorize again.";
+
+"Claude quota query is rate limited. Wait a few minutes." = "Claude quota query is rate limited. Wait a few minutes.";
+
+"Couldn't query Claude usage. Try again later." = "Couldn't query Claude usage. Try again later.";
+
+"Quota settings" = "Quotuminstellingen";
+
+"Connect Claude" = "Claude verbinden";
+
+"Stop direct query" = "Directe query stoppen";

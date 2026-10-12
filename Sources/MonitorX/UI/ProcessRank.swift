@@ -35,26 +35,7 @@ struct ProcessRankSection: View {
         let denom = max(rows.first?.value(metric) ?? 0, floorValue)
 
         VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Text(title).font(.system(size: 14, weight: .semibold))
-                Spacer()
-                if isSnapshot {
-                    Text(settings.groupByApp ? L("Apps") : L("Processes"))
-                        .font(.system(size: 10.5, weight: .medium))
-                        .foregroundStyle(.secondary)
-                        .padding(.horizontal, 8).padding(.vertical, 2)
-                        .background(Color.primary.opacity(0.07), in: .capsule)
-                } else {
-                    Picker("", selection: $settings.groupByApp) {
-                        Text(L("Apps")).tag(true)
-                        Text(L("Processes")).tag(false)
-                    }
-                    .pickerStyle(.segmented)
-                    .labelsHidden()
-                    .tint(accent)
-                    .frame(width: 104)
-                }
-            }
+            ProcessRankHeader(title: title, groupByApp: $settings.groupByApp, accent: accent)
 
             if !monitor.processesReady {
                 HStack(spacing: 8) {
@@ -89,6 +70,56 @@ struct ProcessRankSection: View {
             }
         }
         .glassCard()
+    }
+}
+
+/// Give native segmented controls their real width; long translations can move below the title.
+struct ProcessRankHeader: View {
+    let title: String
+    @Binding var groupByApp: Bool
+    let accent: Color
+    @Environment(\.isSnapshot) private var isSnapshot
+
+    var body: some View {
+        if isSnapshot {
+            HStack {
+                heading
+                Spacer()
+                Text(groupByApp ? L("Apps") : L("Processes"))
+                    .font(.system(size: 10.5, weight: .medium))
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 8).padding(.vertical, 2)
+                    .background(Color.primary.opacity(0.07), in: .capsule)
+            }
+        } else {
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 8) {
+                    heading.fixedSize(horizontal: true, vertical: false)
+                    Spacer(minLength: 8)
+                    groupingPicker
+                }
+                VStack(alignment: .leading, spacing: 8) {
+                    heading.fixedSize(horizontal: false, vertical: true)
+                    HStack {
+                        Spacer(minLength: 0)
+                        groupingPicker
+                    }
+                }
+            }
+        }
+    }
+
+    private var heading: some View {
+        Text(title).font(.system(size: 14, weight: .semibold))
+    }
+
+    private var groupingPicker: some View {
+        Picker("", selection: $groupByApp) {
+            Text(L("Apps")).tag(true)
+            Text(L("Processes")).tag(false)
+        }
+        .pickerStyle(.segmented).labelsHidden().controlSize(.small)
+        .tint(accent).fixedSize(horizontal: true, vertical: false)
     }
 }
 
