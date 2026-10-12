@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>MonitorX Promo</title>
+<!-- 30s / 1920x1080 promo. Every frame is a pure function of t: render(t) sets all styles.
+     Beat grid: 96 BPM, one bar = 2.5s. Scenes start on bar lines so the soundtrack lines up. -->
+<style>
+  :root {
+    --ink: #eef2fb; --ink-2: #aab6cf; --ink-3: #7686a6;
+    --blue: #3987e5; --cyan: #5ad6ff; --violet: #7378ff; --pink: #d366ff;
+    --green: #2fd08a; --amber: #f5b53d; --red: #ff5f57;
+    --font: -apple-system, "SF Pro Display", "PingFang SC", "Hiragino Sans GB", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #070a16; }
+  body { font-family: var(--font); color: var(--ink); -webkit-font-smoothing: antialiased; }
+  #stage { position: absolute; inset: 0; overflow: hidden; background: #070a16; }
+  .abs { position: absolute; }
+  .layer { position: absolute; inset: 0; }
+  .blob { position: absolute; border-radius: 50%; filter: blur(120px); opacity: .55; }
+  .grad { background: linear-gradient(100deg, var(--cyan), var(--violet) 50%, var(--pink)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .shot { position: absolute; filter: drop-shadow(0 40px 60px rgba(0,0,0,.55)); border-radius: 34px; }
+
+  /* S1 hook */
+  #s1 { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; }
+  #s1 .small { font-size: 64px; font-weight: 600; color: var(--ink-2); letter-spacing: 2px; }
+  #s1 .big { font-size: 118px; font-weight: 800; letter-spacing: 1px; margin-top: 18px; }
+
+  /* S2 desktop + menubar */
+  #desk { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
+  #menubar { position: absolute; left: 0; top: 0; width: 1920px; height: 44px; display: flex; align-items: center;
+    background: rgba(20, 24, 44, .55); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,.06);
+    font-size: 15px; font-weight: 500; color: #fff; padding: 0 18px; }
+  #menubar .left { display: flex; gap: 26px; align-items: center; }
+  #menubar .left b { font-weight: 700; }
+  #mx { position: absolute; left: 1360px; top: 3px; height: 38px; padding: 0 12px; border-radius: 8px; display: flex; gap: 18px; align-items: center; }
+  #mx .col { display: flex; flex-direction: column; align-items: center; line-height: 1; }
+  #mx .lab { font-size: 9px; font-weight: 800; color: rgba(255,255,255,.62); letter-spacing: .5px; margin-bottom: 3px; }
+  #mx .val { font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; font-family: "SF Mono", ui-monospace, Menlo, monospace; }
+  #mx .net { font-size: 12.5px; font-weight: 800; font-family: "SF Mono", ui-monospace, Menlo, monospace; line-height: 1.15; }
+  #menubar .right { position: absolute; left: 1580px; display: flex; gap: 22px; align-items: center; }
+  #cursor { position: absolute; width: 26px; height: 38px; }
+  #cap2 { left: 150px; top: 420px; width: 900px; }
+  .eyebrow { font-size: 24px; font-weight: 700; letter-spacing: 6px; color: var(--cyan); margin-bottom: 22px; }
+  .h { font-size: 84px; font-weight: 800; line-height: 1.15; }
+  .p { font-size: 34px; font-weight: 500; color: var(--ink-2); line-height: 1.6; margin-top: 26px; }
+
+  /* S3 */
+  #cap3 { left: 1000px; top: 300px; width: 820px; }
+  .hl { position: absolute; border-radius: 16px; border: 3px solid var(--cyan); box-shadow: 0 0 0 6px rgba(90,214,255,.18), 0 0 40px rgba(90,214,255,.55); }
+  .tag { position: absolute; font-size: 22px; font-weight: 700; color: #07101f; background: var(--cyan); padding: 6px 14px; border-radius: 999px; white-space: nowrap; }
+
+  /* S4 carousel */
+  #cap4 { left: 150px; top: 330px; width: 700px; }
+  #cat-list { display: flex; gap: 12px; margin-top: 48px; flex-wrap: wrap; }
+  #cat-list span { font-size: 22px; font-weight: 700; padding: 8px 18px; border-radius: 999px; border: 1.5px solid rgba(255,255,255,.14); color: var(--ink-3); }
+  #cat-list span.on { color: #07101f; background: var(--ink); border-color: var(--ink); }
+  #cat-name { font-size: 110px; font-weight: 800; line-height: 1.1; }
+  #cat-desc { font-size: 36px; color: var(--ink-2); margin-top: 18px; font-weight: 500; }
+
+  /* S5 */
+  #s5 { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  #s5 .row { display: flex; gap: 120px; margin-top: 90px; }
+  .stat { text-align: center; width: 420px; }
+  .stat .num { font-size: 150px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+  .stat .num small { font-size: 64px; font-weight: 700; margin-left: 6px; }
+  .stat .lab { font-size: 30px; color: var(--ink-2); margin-top: 26px; font-weight: 500; }
+  .stat .bar { height: 6px; border-radius: 3px; margin: 30px auto 0; background: linear-gradient(90deg, var(--cyan), var(--violet)); }
+
+  /* S6 */
+  #s6 { display: flex; flex-direction: column; align-items: center; }
+  #logo { width: 150px; height: 150px; margin-top: 110px; filter: drop-shadow(0 20px 50px rgba(115,120,255,.55)); }
+  #word { font-size: 120px; font-weight: 800; letter-spacing: 1px; margin-top: 18px; line-height: 1; }
+  #tagline { font-size: 46px; font-weight: 600; margin-top: 26px; }
+  #meta { font-size: 26px; color: var(--ink-2); margin-top: 22px; letter-spacing: 1px; }
+  #hero { position: absolute; left: 285px; top: 640px; width: 1350px;
+    -webkit-mask-image: radial-gradient(ellipse 52% 58% at 50% 50%, #000 45%, transparent 100%); border-radius: 30px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <!-- ambient background -->
+  <div class="layer" id="bg">
+    <div class="blob" id="b1" style="width:900px;height:900px;background:#2a3fb8"></div>
+    <div class="blob" id="b2" style="width:800px;height:800px;background:#6a2fb0"></div>
+    <div class="blob" id="b3" style="width:700px;height:700px;background:#0f7f9a"></div>
+  </div>
+
+  <!-- S1: hook -->
+  <div class="layer" id="s1">
+    <div class="small" id="s1a">风扇狂转。</div>
+    <div class="small" id="s1b">机身发烫。</div>
+    <div class="big" id="s1c">到底是谁在吃你的 <span class="grad">Mac</span>？</div>
+  </div>
+
+  <!-- S2: desktop with menubar; camera transform applied to #desk -->
+  <div class="layer" id="s2">
+    <div id="desk">
+      <div id="menubar">
+        <div class="left">
+          <svg width="16" height="19" viewBox="0 0 17 20"><path fill="#fff" d="M14.1 10.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9C3.6 4.8 2 5.8 1.1 7.4c-1.9 3.2-.5 8 1.3 10.6.9 1.3 1.9 2.7 3.3 2.6 1.3-.1 1.8-.9 3.4-.9s2 .9 3.4.8c1.4 0 2.3-1.3 3.2-2.6 1-1.5 1.4-2.9 1.4-3-.1 0-2.9-1.1-3-4.3zM11.6 3c.7-.9 1.2-2 1.1-3.1-1 0-2.3.7-3 1.5-.6.7-1.2 1.9-1.1 3 1.2.1 2.3-.6 3-1.4z"/></svg>
+          <b>访达</b><span>文件</span><span>编辑</span><span>显示</span><span>前往</span><span>窗口</span><span>帮助</span>
+        </div>
+        <div id="mx">
+          <div class="col"><div class="lab">CPU</div><div class="val" id="mx-cpu">17%</div></div>
+          <div class="col"><div class="lab">MEM</div><div class="val" id="mx-mem">71%</div></div>
+          <div class="col" style="align-items:flex-start"><div class="net" id="mx-dn">↓ 1.0K</div><div class="net" id="mx-up">↑ 5.0K</div></div>
+        </div>
+        <div class="right">
+          <svg width="20" height="15" viewBox="0 0 20 15"><path fill="#fff" d="M10 12.4l2.3 2.3a.4.4 0 0 1-.1.1H7.8a.4.4 0 0 1-.1-.1zM10 7.6a7 7 0 0 1 4.8 1.9l-1.5 1.5a4.8 4.8 0 0 0-6.6 0L5.2 9.5A7 7 0 0 1 10 7.6zm0-4.2a11 11 0 0 1 7.7 3.1l-1.5 1.5a8.9 8.9 0 0 0-12.4 0L2.3 6.5A11 11 0 0 1 10 3.4zM10 0a15 15 0 0 1 10 3.8L18.5 5.3a12.9 12.9 0 0 0-17 0L0 3.8A15 15 0 0 1 10 0z"/></svg>
+          <svg width="30" height="14" viewBox="0 0 30 14"><rect x=".5" y=".5" width="25" height="13" rx="3.5" fill="none" stroke="rgba(255,255,255,.7)"/><rect x="2.5" y="2.5" width="21" height="9" rx="2" fill="#fff"/><rect x="27" y="4.5" width="2" height="5" rx="1" fill="rgba(255,255,255,.7)"/></svg>
+          <span>10月1日 周四 09:41</span>
+        </div>
+      </div>
+      <div class="abs" id="cap2">
+        <div class="eyebrow">MENU BAR</div>
+        <div class="h">常驻菜单栏<br>数字一直在眼前</div>
+        <div class="p">CPU · 内存 · 网速 · 磁盘读写<br>想看哪项，勾选哪项</div>
+      </div>
+    </div>
+    <svg id="cursor" viewBox="0 0 26 38"><path d="M2 2 L2 30 L9 23.5 L14 35 L19 33 L14 21.5 L23 21.5 Z" fill="#000" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/></svg>
+  </div>
+
+  <!-- S3 caption + highlights (panel itself is shared, see #panel) -->
+  <div class="layer" id="s3">
+    <div class="abs" id="cap3">
+      <div class="eyebrow">WHO'S USING IT</div>
+      <div class="h">不用猜，<br>直接告诉你是谁</div>
+      <div class="p">每张卡片底部写出当前占用最高的应用<br>Chrome 的几十个 Helper，合并成一行</div>
+    </div>
+  </div>
+  <img class="shot" id="panel" src="../docs/images/overview.png">
+  <div class="layer" id="hls" style="pointer-events:none"></div>
+
+  <!-- S4: six categories -->
+  <div class="layer" id="s4">
+    <div class="abs" id="cap4">
+      <div class="eyebrow">SIX VIEWS</div>
+      <div id="cat-name">CPU</div>
+      <div id="cat-desc">—</div>
+      <div id="cat-list"></div>
+    </div>
+    <div class="layer" id="carousel"></div>
+  </div>
+
+  <!-- S5: lightweight -->
+  <div class="layer" id="s5">
+    <div class="eyebrow" style="margin-bottom:10px">LIGHTWEIGHT · LOCAL ONLY</div>
+    <div class="h" style="text-align:center">很轻，而且纯本地</div>
+    <div class="row">
+      <div class="stat" id="st1"><div class="num"><span class="n">1</span><small>%</small></div><div class="bar"></div><div class="lab">面板关闭时的单核占用</div></div>
+      <div class="stat" id="st2"><div class="num"><span class="n">27</span><small>MB</small></div><div class="bar"></div><div class="lab">内存占用</div></div>
+      <div class="stat" id="st3"><div class="num"><span class="n">0</span><small>次</small></div><div class="bar"></div><div class="lab">网络请求</div></div>
+    </div>
+  </div>
+
+  <!-- S6: end card -->
+  <div class="layer" id="s6">
+    <img id="hero" src="../docs/images/hero.png">
+    <svg id="logo" viewBox="0 0 64 64"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5ad6ff"/><stop offset=".5" stop-color="#7378ff"/><stop offset="1" stop-color="#d366ff"/></linearGradient><linearGradient id="bgg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1f45"/><stop offset="1" stop-color="#080a1a"/></linearGradient></defs><rect x="3" y="3" width="58" height="58" rx="14" fill="url(#bgg)" stroke="rgba(255,255,255,.12)"/><path id="arc" d="M32 12a20 20 0 1 1-14.1 5.9" fill="none" stroke="url(#g)" stroke-width="6" stroke-linecap="round" pathLength="100"/><g fill="#fff" id="bars"><rect x="24" y="30" width="3.4" height="7" rx="1.7"/><rect x="29" y="27" width="3.4" height="10" rx="1.7"/><rect x="34" y="31" width="3.4" height="6" rx="1.7"/><rect x="39" y="25" width="3.4" height="12" rx="1.7"/></g></svg>
+    <div id="word">MonitorX</div>
+    <div id="tagline">谁在吃你的 Mac？<span class="grad">一眼就知道。</span></div>
+    <div id="meta">macOS 26 菜单栏系统监视器 · Liquid Glass · Intel 与 Apple Silicon 通用</div>
+  </div>
+
+  <div class="layer" id="fade" style="background:#000;pointer-events:none"></div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const lerp = (a, b, k) => a + (b - a) * k;
+const eOut = k => 1 - Math.pow(1 - k, 3);
+const eInOut = k => k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+const eBack = k => { const c = 1.7; return 1 + (c + 1) * Math.pow(k - 1, 3) + c * Math.pow(k - 1, 2); };
+// in/out envelope: fades in over [a, a+fi], out over [b-fo, b]
+const env = (t, a, b, fi = .4, fo = .4) => Math.min(seg(t, a, a + fi), 1 - seg(t, b - fo, b));
+const css = (el, o) => Object.assign(el.style, o);
+
+// Scene times (seconds). Bar = 2.5s at 96 BPM.
+const S = { s1: [0, 3.75], s2: [3.75, 8.75], s3: [8.75, 13.75], s4: [13.75, 21.25], s5: [21.25, 25], s6: [25, 30] };
+const DUR = 30;
+
+// Panel geometry (source image 840x1320)
+const PW = 840, PH = 1320;
+// S2 drop position: under the menubar item, height 760
+const P2 = { x: 1435 - 760 * PW / PH / 2, y: 54, h: 760 };
+const P3 = { x: 250, y: 90, h: 900 };
+
+// S3 highlights in source-image coordinates: bottom "top app" row of each card
+const HL = [
+  { x: 48, y: 428, w: 348, h: 52, at: 10.0, tag: 'CPU 最高' },
+  { x: 446, y: 428, w: 348, h: 52, at: 10.35, tag: '内存最高' },
+  { x: 48, y: 792, w: 348, h: 52, at: 10.7, tag: '网络最高' },
+  { x: 446, y: 797, w: 348, h: 52, at: 11.05, tag: '磁盘最高' },
+];
+const hlEls = HL.map(h => {
+  const box = document.createElement('div'); box.className = 'hl';
+  const tag = document.createElement('div'); tag.className = 'tag'; tag.textContent = h.tag;
+  $('hls').append(box, tag); return { box, tag };
+});
+
+// S4 categories
+const CATS = [
+  ['CPU', 'cpu', '用户 / 系统 / 空闲<br>负载与每个核心'],
+  ['内存', 'memory', '内存压力、构成<br>交换空间'],
+  ['网络', 'network', '上下行速度<br>每个应用的流量排行'],
+  ['磁盘', 'disk', '各卷容量<br>实时读写吞吐'],
+  ['传感器', 'sensors', '全部温度传感器<br>风扇转速，热度着色'],
+  ['硬件', 'hardware', '机型、芯片、GPU<br>电池健康度'],
+];
+const cards = CATS.map(([n, f]) => {
+  const im = document.createElement('img'); im.className = 'shot'; im.src = `../docs/images/${f}.png`;
+  $('carousel').appendChild(im); return im;
+});
+const pills = CATS.map(([n]) => { const s = document.createElement('span'); s.textContent = n; $('cat-list').appendChild(s); return s; });
+
+function placePanel(el, p, extra = {}) {
+  const w = p.h * PW / PH;
+  css(el, { left: p.x + 'px', top: p.y + 'px', width: w + 'px', height: p.h + 'px', ...extra });
+}
+
+function render(t) {
+  // ---------- background drift ----------
+  css($('b1'), { left: (-200 + 180 * Math.sin(t * .21)) + 'px', top: (-300 + 120 * Math.cos(t * .17)) + 'px' });
+  css($('b2'), { left: (1200 + 160 * Math.cos(t * .19)) + 'px', top: (400 + 140 * Math.sin(t * .23)) + 'px' });
+  css($('b3'), { left: (500 + 220 * Math.sin(t * .13 + 1)) + 'px', top: (600 + 100 * Math.cos(t * .29)) + 'px' });
+
+  // ---------- S1: hook ----------
+  {
+    const o = 1 - seg(t, 3.2, 3.75);
+    $('s1').style.opacity = o;
+    $('s1').style.display = t < 3.8 ? 'flex' : 'none';
+    [['s1a', .15], ['s1b', .75], ['s1c', 1.45]].forEach(([id, a]) => {
+      const k = eOut(seg(t, a, a + .55));
+      css($(id), { opacity: k, transform: `translateY(${(1 - k) * 40}px) scale(${1 + (1 - o) * .06})`, filter: `blur(${(1 - k) * 12}px)` });
+    });
+  }
+
+  // ---------- S2: menubar ----------
+  const s2on = t >= 3.6 && t < 9.6;
+  $('s2').style.display = s2on ? 'block' : 'none';
+  if (s2on) {
+    // live numbers
+    const cpu = Math.round(17 + 9 * Math.sin(t * 2.3) + 5 * Math.sin(t * 5.1));
+    const mem = 71 + (Math.sin(t * .9) > .6 ? 1 : 0);
+    const dn = (1.0 + 2.4 * Math.abs(Math.sin(t * 1.7))).toFixed(1);
+    const up = (5.0 + 1.3 * Math.sin(t * 2.9)).toFixed(1);
+    $('mx-cpu').textContent = String(cpu).padStart(2, ' ') + '%';
+    $('mx-mem').textContent = mem + '%';
+    $('mx-dn').textContent = '↓ ' + dn + 'K';
+    $('mx-up').textContent = '↑ ' + up + 'K';
+
+    // camera: start zoomed on the item, pull back to 1x
+    const k = eInOut(seg(t, 4.6, 6.2));
+    const sc = lerp(3.2, 1, k);
+    const fx = 1440, fy = 22;           // focus point in desk coords
+    const tx = lerp(960 - fx * sc, 0, k), ty = lerp(460 - fy * sc, 0, k);
+    const intro = eOut(seg(t, 3.75, 4.35));
+    css($('desk'), { transform: `translate(${tx}px, ${ty + (1 - intro) * 60}px) scale(${sc})` });
+    $('s2').style.opacity = intro * (1 - seg(t, 8.75, 9.4));
+
+    // caption
+    const ck = eOut(seg(t, 5.7, 6.4));
+    css($('cap2'), { opacity: ck * (1 - seg(t, 8.4, 8.8)), transform: `translateX(${(1 - ck) * -50}px)` });
+
+    // cursor: moves in, clicks at 6.9
+    const mk = eInOut(seg(t, 6.0, 6.8));
+    const cx = lerp(1100, 1430, mk), cy = lerp(420, 26, mk);
+    const press = t > 6.85 && t < 7.05 ? .85 : 1;
+    css($('cursor'), { left: cx + 'px', top: cy + 'px', opacity: seg(t, 5.9, 6.1) * (1 - seg(t, 8.0, 8.3)), transform: `scale(${press})` });
+    $('mx').style.background = t > 6.85 ? 'rgba(255,255,255,.22)' : 'transparent';
+  }
+
+  // ---------- shared panel (S2 drop -> S3 hero) ----------
+  const panel = $('panel');
+  if (t >= 6.9 && t < 14.2) {
+    panel.style.display = 'block';
+    if (t < 8.75) {
+      const k = eOut(seg(t, 6.95, 7.5));
+      placePanel(panel, P2, { opacity: k, transform: `translateY(${(1 - k) * -24}px) scale(${.96 + .04 * k})`, transformOrigin: '50% 0' });
+    } else {
+      const k = eInOut(seg(t, 8.75, 9.6));
+      const p = { x: lerp(P2.x, P3.x, k), y: lerp(P2.y, P3.y, k), h: lerp(P2.h, P3.h, k) };
+      const out = eInOut(seg(t, 13.4, 14.1));
+      placePanel(panel, p, { opacity: 1 - out, transform: `translateX(${out * -120}px) scale(${1 - out * .08})`, transformOrigin: '50% 50%' });
+    }
+  } else panel.style.display = 'none';
+
+  // ---------- S3 caption + highlights ----------
+  const s3on = t >= 8.75 && t < 14.2;
+  $('s3').style.display = s3on ? 'block' : 'none';
+  $('hls').style.display = s3on ? 'block' : 'none';
+  if (s3on) {
+    const ck = eOut(seg(t, 9.3, 10.0));
+    const out = seg(t, 13.3, 13.8);
+    css($('cap3'), { opacity: ck * (1 - out), transform: `translateX(${(1 - ck) * 60 - out * 60}px)` });
+    const s = P3.h / PH;
+    HL.forEach((h, i) => {
+      const k = eBack(seg(t, h.at, h.at + .45));
+      const o = seg(t, h.at, h.at + .2) * (1 - out);
+      const pulse = 1 + .02 * Math.sin((t - h.at) * 6);
+      css(hlEls[i].box, { left: P3.x + h.x * s + 'px', top: P3.y + h.y * s + 'px', width: h.w * s + 'px', height: h.h * s + 'px',
+        opacity: o, transform: `scale(${(.85 + .15 * k) * pulse})` });
+      css(hlEls[i].tag, { left: P3.x + h.x * s + 6 + 'px', top: P3.y + h.y * s - 50 + 'px', opacity: o, transform: `scale(${k})`, transformOrigin: '0 100%' });
+    });
+  }
+
+  // ---------- S4: carousel ----------
+  const s4on = t >= 13.6 && t < 21.7;
+  $('s4').style.display = s4on ? 'block' : 'none';
+  if (s4on) {
+    const u = t - S.s4[0];
+    const step = 1.25, hold = .8;
+    const kIdx = Math.min(CATS.length - 1, Math.floor(u / step));
+    const frac = u - kIdx * step;
+    const c = kIdx + (kIdx < CATS.length - 1 ? eInOut(clamp((frac - hold) / (step - hold))) : 0);
+    const intro = eOut(seg(t, 13.75, 14.4));
+    const out = seg(t, 20.8, 21.3);
+    $('s4').style.opacity = Math.min(1, seg(t, 13.75, 14.1)) * (1 - out);
+    const H = 860, W = H * PW / PH, CX = 1330;
+    cards.forEach((el, i) => {
+      const d = i - c, ad = Math.abs(d);
+      const sc = 1 - .2 * Math.min(ad, 2);
+      const x = CX + d * 470 - W / 2 + (1 - intro) * 300;
+      css(el, { left: x + 'px', top: (540 - H / 2) + 'px', width: W + 'px', height: H + 'px',
+        transform: `scale(${sc})`, opacity: clamp(1 - ad * (d < 0 ? .9 : .55)) * intro, zIndex: 100 - Math.round(ad * 10),
+        filter: `drop-shadow(0 40px 60px rgba(0,0,0,.55)) brightness(${1 - Math.min(ad, 1) * .45})` });
+    });
+    const cur = Math.round(c);
+    const swap = Math.abs(c - cur); // 0 at rest, .5 mid-transition
+    $('cat-name').textContent = CATS[cur][0];
+    $('cat-desc').innerHTML = CATS[cur][2];
+    const tk = 1 - clamp(swap * 2.2);
+    css($('cat-name'), { opacity: tk, transform: `translateY(${(1 - tk) * 16}px)` });
+    css($('cat-desc'), { opacity: tk });
+    pills.forEach((p, i) => p.classList.toggle('on', i === cur));
+    css($('cap4'), { opacity: intro, transform: `translateX(${(1 - intro) * -60}px)` });
+  }
+
+  // ---------- S5: stats ----------
+  const s5on = t >= 21.1 && t < 25.3;
+  $('s5').style.display = s5on ? 'flex' : 'none';
+  if (s5on) {
+    const o = seg(t, 21.25, 21.7) * (1 - seg(t, 24.6, 25.0));
+    $('s5').style.opacity = o;
+    const targets = [[1, 0], [27, 0], [0, 99]];
+    ['st1', 'st2', 'st3'].forEach((id, i) => {
+      const a = 21.6 + i * .3;
+      const k = eOut(seg(t, a, a + 1.1));
+      const [to, from] = targets[i];
+      const el = $(id);
+      el.querySelector('.n').textContent = Math.round(lerp(from, to, k));
+      css(el, { opacity: seg(t, a, a + .3), transform: `translateY(${(1 - eOut(seg(t, a, a + .5))) * 40}px)` });
+      el.querySelector('.bar').style.width = 80 * k + 'px';
+    });
+  }
+
+  // ---------- S6: end card ----------
+  const s6on = t >= 24.9;
+  $('s6').style.display = s6on ? 'flex' : 'none';
+  if (s6on) {
+    const lk = eBack(seg(t, 25.1, 25.7));
+    css($('logo'), { opacity: seg(t, 25.1, 25.3), transform: `scale(${.4 + .6 * lk}) rotate(${(1 - lk) * -30}deg)` });
+    $('arc').style.strokeDasharray = `${eOut(seg(t, 25.2, 26.2)) * 100} 100`;
+    [...$('bars').children].forEach((r, i) => {
+      const k = eBack(seg(t, 25.5 + i * .08, 25.9 + i * .08));
+      r.style.transformBox = 'fill-box'; r.style.transformOrigin = '50% 100%';
+      r.style.transform = `scaleY(${k})`;
+    });
+    [['word', 25.5], ['tagline', 25.9], ['meta', 26.3]].forEach(([id, a]) => {
+      const k = eOut(seg(t, a, a + .6));
+      css($(id), { opacity: k, transform: `translateY(${(1 - k) * 30}px)`, filter: `blur(${(1 - k) * 8}px)` });
+    });
+    const hk = eOut(seg(t, 26.2, 27.4));
+    css($('hero'), { opacity: hk * .9, transform: `translateY(${(1 - hk) * 80 - (t - 26.2) * 6}px)` });
+  }
+
+  // global fade in/out
+  $('fade').style.opacity = Math.max(1 - seg(t, 0, .35), seg(t, 29.2, 30));
+}
+
+window.render = render;
+window.DUR = DUR;
+// Preview: video.html?t=12.3 renders a single frame; ?play plays in real time.
+const q = new URLSearchParams(location.search);
+if (q.has('play')) { const t0 = performance.now(); (function f() { render(((performance.now() - t0) / 1000) % DUR); requestAnimationFrame(f); })(); }
+else render(parseFloat(q.get('t') || '1.8'));
+</script>
+</body>
+</html>

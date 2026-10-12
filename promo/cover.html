@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>MonitorX Cover</title>
+<!-- Video covers. cover.html?r=43 -> 1440x1080 (4:3), cover.html?r=34 -> 1080x1440 (3:4). Rendered by cover.js. -->
+<style>
+  :root {
+    --ink: #eef2fb; --ink-2: #aab6cf; --cyan: #5ad6ff; --violet: #7378ff; --pink: #d366ff;
+    --font: -apple-system, "SF Pro Display", "PingFang SC", "Hiragino Sans GB", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #070a16; overflow: hidden; }
+  body { font-family: var(--font); color: var(--ink); -webkit-font-smoothing: antialiased; }
+  #stage { position: relative; overflow: hidden; background: #070a16; }
+  .blob { position: absolute; border-radius: 50%; filter: blur(120px); opacity: .6; }
+  .grad { background: linear-gradient(100deg, var(--cyan), var(--violet) 50%, var(--pink)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .shot { position: absolute; filter: drop-shadow(0 40px 60px rgba(0,0,0,.6)); }
+  .brand { display: flex; align-items: center; gap: 22px; }
+  .brand svg { filter: drop-shadow(0 14px 36px rgba(115,120,255,.55)); }
+  .brand b { font-weight: 800; letter-spacing: .5px; }
+  .h { font-weight: 800; line-height: 1.12; }
+  .sub { color: var(--ink-2); font-weight: 500; }
+  .chips { display: flex; gap: 12px; flex-wrap: wrap; }
+  .chips span { font-weight: 700; padding: 8px 18px; border-radius: 999px; border: 1.5px solid rgba(255,255,255,.16); color: var(--ink); background: rgba(255,255,255,.05); }
+  /* menubar pill, same look as the video */
+  .mx { display: inline-flex; gap: 22px; align-items: center; padding: 14px 24px; border-radius: 18px;
+    background: rgba(20,24,44,.7); border: 1px solid rgba(255,255,255,.1); box-shadow: 0 20px 50px -20px rgba(0,0,0,.7); }
+  .mx .col { display: flex; flex-direction: column; align-items: center; line-height: 1; }
+  .mx .lab { font-size: 15px; font-weight: 800; color: rgba(255,255,255,.62); margin-bottom: 6px; }
+  .mx .val { font-size: 28px; font-weight: 800; font-family: "SF Mono", ui-monospace, Menlo, monospace; }
+  .mx .net { font-size: 22px; font-weight: 800; font-family: "SF Mono", ui-monospace, Menlo, monospace; line-height: 1.2; }
+  .abs { position: absolute; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+
+<template id="logo">
+  <svg viewBox="0 0 64 64"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5ad6ff"/><stop offset=".5" stop-color="#7378ff"/><stop offset="1" stop-color="#d366ff"/></linearGradient><linearGradient id="bgg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1f45"/><stop offset="1" stop-color="#080a1a"/></linearGradient></defs><rect x="3" y="3" width="58" height="58" rx="14" fill="url(#bgg)" stroke="rgba(255,255,255,.12)"/><path d="M32 12a20 20 0 1 1-14.1 5.9" fill="none" stroke="url(#g)" stroke-width="6" stroke-linecap="round"/><g fill="#fff"><rect x="24" y="30" width="3.4" height="7" rx="1.7"/><rect x="29" y="27" width="3.4" height="10" rx="1.7"/><rect x="34" y="31" width="3.4" height="6" rx="1.7"/><rect x="39" y="25" width="3.4" height="12" rx="1.7"/></g></svg>
+</template>
+
+<script>
+const r = new URLSearchParams(location.search).get('r') || '43';
+const stage = document.getElementById('stage');
+const logo = size => document.getElementById('logo').innerHTML.replace('<svg ', `<svg width="${size}" height="${size}" `);
+const menubar = `<div class="mx">
+  <div class="col"><div class="lab">CPU</div><div class="val">17%</div></div>
+  <div class="col"><div class="lab">MEM</div><div class="val">71%</div></div>
+  <div class="col" style="align-items:flex-start"><div class="net">↓ 1.0K</div><div class="net">↑ 5.0K</div></div></div>`;
+const chips = `<div class="chips">${['CPU', '内存', '网络', '磁盘', '传感器', '硬件'].map(c => `<span>${c}</span>`).join('')}</div>`;
+const blobs = (a, b, c) => `
+  <div class="blob" style="width:${a[2]}px;height:${a[2]}px;left:${a[0]}px;top:${a[1]}px;background:#2a3fb8"></div>
+  <div class="blob" style="width:${b[2]}px;height:${b[2]}px;left:${b[0]}px;top:${b[1]}px;background:#6a2fb0"></div>
+  <div class="blob" style="width:${c[2]}px;height:${c[2]}px;left:${c[0]}px;top:${c[1]}px;background:#0f7f9a"></div>`;
+
+if (r === '43') {
+  // 1440x1080: text column left, overview + sensors panels fanned on the right
+  Object.assign(stage.style, { width: '1440px', height: '1080px' });
+  stage.innerHTML = blobs([-250, -300, 900], [800, 450, 800], [300, 650, 650]) + `
+    <img class="shot" src="../docs/images/sensors.png" style="left:1010px;top:190px;height:760px;transform:rotate(6deg);opacity:.55;border-radius:30px">
+    <img class="shot" src="../docs/images/overview.png" style="left:770px;top:110px;height:880px;border-radius:34px">
+    <div class="abs" style="left:96px;top:120px;width:660px">
+      <div class="brand">${logo(84)}<b style="font-size:46px">MonitorX</b></div>
+      <div class="h" style="font-size:94px;margin-top:70px">谁在吃<br>你的 Mac？</div>
+      <div class="h grad" style="font-size:94px;margin-top:6px">一眼就知道。</div>
+      <div class="sub" style="font-size:30px;margin-top:36px;line-height:1.6">macOS 26 菜单栏系统监视器<br>占用最高的应用，直接写在卡片上</div>
+      <div style="margin-top:44px">${menubar}</div>
+      <div style="margin-top:40px;font-size:20px">${chips}</div>
+    </div>`;
+} else {
+  // 1080x1440: headline on top, overview panel centered below with menubar pill overlapping
+  Object.assign(stage.style, { width: '1080px', height: '1440px' });
+  stage.innerHTML = blobs([-300, -250, 900], [550, 700, 800], [100, 1000, 650]) + `
+    <div class="abs" style="left:0;top:96px;width:1080px;display:flex;flex-direction:column;align-items:center;text-align:center">
+      <div class="brand">${logo(76)}<b style="font-size:42px">MonitorX</b></div>
+      <div class="h" style="font-size:96px;margin-top:52px">谁在吃你的 Mac？</div>
+      <div class="h grad" style="font-size:96px;margin-top:4px">一眼就知道。</div>
+      <div class="sub" style="font-size:30px;margin-top:28px">macOS 26 菜单栏系统监视器 · Liquid Glass</div>
+    </div>
+    <img class="shot" src="../docs/images/network.png" style="left:-120px;top:720px;height:700px;transform:rotate(-7deg);opacity:.5;border-radius:30px">
+    <img class="shot" src="../docs/images/sensors.png" style="left:755px;top:720px;height:700px;transform:rotate(7deg);opacity:.5;border-radius:30px">
+    <img class="shot" src="../docs/images/overview.png" style="left:290px;top:600px;height:784px;border-radius:32px">
+    <div class="abs" style="left:0;width:1080px;top:520px;display:flex;justify-content:center;transform:translateX(250px)">${menubar}</div>`;
+}
+</script>
+</body>
+</html>
